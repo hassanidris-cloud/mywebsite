@@ -1,3 +1,16 @@
 {
-  "version": 2
+  "version": 2,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://www.velorastudio.design/:path*",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "velorastudio.design"
+        }
+      ]
+    }
+  ]
 }
