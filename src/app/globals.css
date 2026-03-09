@@ -1,0 +1,70 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Design tokens - Velora Studio */
+:root {
+  /* Primary gradient stops */
+  --color-primary: #7C3AED;
+  --color-accent: #A78BFA;
+  --color-secondary-blue: #38BDF8;
+  /* Backgrounds */
+  --color-dark: #0B0B0F;
+  --color-light: #F8FAFC;
+  /* Text */
+  --color-text-dark: #0F172A;
+  --color-text-light: #FFFFFF;
+  --color-text-muted: #64748B;
+  /* Border */
+  --color-border: #E5E7EB;
+  --color-border-muted: rgba(255, 255, 255, 0.08);
+  /* Typography scale */
+  --text-hero: 64px;
+  --text-section: 36px;
+  --text-subheading: 22px;
+  --text-body: 16px;
+  /* Spacing */
+  --space-section: 5rem;
+  --space-block: 2rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-dark text-text-light font-body antialiased;
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+  /* Dark dropdowns so options are visible */
+  select option {
+    background: #0B0B0F;
+    color: #ffffff;
+  }
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-accent;
+  }
+}
+
+/* Gradient text utility - subtle shift */
+.gradient-text {
+  background: linear-gradient(135deg, #7C3AED 0%, #A78BFA 50%, #38BDF8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 10s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text {
+    animation: none;
+  }
+}
