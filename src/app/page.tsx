@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { HomeStructuredData } from "@/components/StructuredData";
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
 import Portfolio from "@/components/sections/Portfolio";
@@ -16,6 +17,7 @@ import Footer from "@/components/sections/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
+      <HomeStructuredData />
       <ScrollProgress />
       <Navbar />
       <Hero />
