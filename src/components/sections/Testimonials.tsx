@@ -40,16 +40,30 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <motion.div
               key={t.author}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 28, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                delay: i * 0.1,
+                type: "spring",
+                stiffness: 200,
+                damping: 26,
+              }}
+              whileHover={{ y: -4 }}
             >
               <Card padding="large" hover>
                 <p className="text-white/80 leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
                 <p className="font-heading font-semibold text-white">{t.author}</p>
                 <p className="text-sm text-white/50 mb-2">{t.role}</p>
-                <p className="text-sm text-primary-accent font-medium">{t.outcome}</p>
+                <motion.p
+                  className="text-sm text-primary-accent font-medium"
+                  initial={{ opacity: 0, x: -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
+                >
+                  {t.outcome}
+                </motion.p>
               </Card>
             </motion.div>
           ))}

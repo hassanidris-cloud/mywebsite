@@ -57,7 +57,11 @@ export default function Pricing() {
               <Card hover={!plan.highlighted} padding={plan.highlighted ? "large" : "default"} className={plan.highlighted ? "ring-1 ring-primary-accent/30" : ""}>
                 {plan.highlighted && (
                   <>
-                    <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-primary-purple to-primary-blue z-10" />
+                    <motion.div
+                      className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-primary-purple via-primary-warm to-primary-accent z-10"
+                      animate={{ opacity: [0.8, 1, 0.8] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    />
                     <div className="absolute top-6 right-6">
                       <Badge variant="popular">Most Popular</Badge>
                     </div>
