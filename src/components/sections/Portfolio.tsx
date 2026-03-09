@@ -7,6 +7,8 @@ import Section from "@/components/ui/Section";
 import Heading from "@/components/ui/Heading";
 import Card from "@/components/ui/Card";
 
+// Use local images in public/projects/ (e.g. grocery-template.jpg, gleeb.jpg, portugal-immigration.jpg)
+// or reliable external URLs. Placeholders below use Unsplash so images always load.
 const projects = [
   {
     title: "Grocery Template",
@@ -14,7 +16,7 @@ const projects = [
     metric: "E-commerce ready",
     stack: ["HTML", "CSS", "JavaScript"],
     siteUrl: "https://bragabazaar.com",
-    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fbragabazaar.com&width=800",
+    screenshot: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
   },
   {
     title: "Gleeb",
@@ -22,7 +24,7 @@ const projects = [
     metric: "Higher engagement",
     stack: ["React", "CSS", "Vercel"],
     siteUrl: "https://gleeb.vercel.app",
-    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fgleeb.vercel.app&width=800",
+    screenshot: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
   },
   {
     title: "Portugal Immigration",
@@ -30,7 +32,7 @@ const projects = [
     metric: "Faster onboarding",
     stack: ["Next.js", "Tailwind", "Vercel"],
     siteUrl: "https://portugal-immigration-app.vercel.app",
-    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fportugal-immigration-app.vercel.app&width=800",
+    screenshot: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
   },
 ];
 
@@ -62,7 +64,6 @@ export default function Portfolio() {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                        unoptimized
                       />
                 </div>
                 <div className="p-6 lg:p-7">
