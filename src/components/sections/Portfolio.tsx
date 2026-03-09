@@ -16,6 +16,7 @@ const projects = [
     stack: ["HTML", "CSS", "JavaScript"],
     siteUrl: "https://bragabazaar.com",
     screenshot: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+    embedDisabled: true, // bragabazaar.com blocks iframe embedding
   },
   {
     title: "Gleeb",
@@ -39,10 +40,14 @@ function LivePreviewModal({
   url,
   title,
   onClose,
+  embedDisabled,
+  screenshot,
 }: {
   url: string;
   title: string;
   onClose: () => void;
+  embedDisabled?: boolean;
+  screenshot?: string;
 }) {
   return (
     <motion.div
@@ -52,14 +57,12 @@ function LivePreviewModal({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Backdrop click to close (clicking iframe/content does not close) */}
       <button
         type="button"
         className="absolute inset-0 z-0"
         onClick={onClose}
         aria-label="Close"
       />
-      {/* Header: title, open in new tab, close */}
       <div
         className="relative z-10 flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6"
         onClick={(e) => e.stopPropagation()}
@@ -68,14 +71,16 @@ function LivePreviewModal({
           {title}
         </span>
         <div className="flex items-center gap-2">
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
-          >
-            Open in new tab
-          </a>
+          {!embedDisabled && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
+            >
+              Open in new tab
+            </a>
+          )}
           <button
             type="button"
             onClick={onClose}
@@ -88,23 +93,57 @@ function LivePreviewModal({
           </button>
         </div>
       </div>
-      {/* Live site iframe - users can scroll and interact inside */}
-      <motion.div
-        className="relative z-10 flex-1 min-h-0"
-        onClick={(e) => e.stopPropagation()}
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <iframe
-          src={url}
-          title={`Live preview: ${title}`}
-          className="absolute inset-0 h-full w-full border-0 bg-white"
-          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-          allow="fullscreen"
-        />
-      </motion.div>
+
+      {embedDisabled ? (
+        <motion.div
+          className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 p-8"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="text-center text-white/70 text-sm max-w-md">
+            This site doesn’t allow embedded preview. Open it in a new tab to browse.
+          </p>
+          {screenshot && (
+            <div className="relative w-full max-w-2xl aspect-video rounded-lg overflow-hidden border border-white/10 bg-white/5">
+              <Image
+                src={screenshot}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 672px"
+              />
+            </div>
+          )}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-gradient-to-br from-primary-purple via-primary-accent to-primary-blue px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:opacity-95 hover:-translate-y-0.5"
+          >
+            Open {title} in new tab →
+          </a>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="relative z-10 flex-1 min-h-0"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <iframe
+            src={url}
+            title={`Live preview: ${title}`}
+            className="absolute inset-0 h-full w-full border-0 bg-white"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            allow="fullscreen"
+          />
+        </motion.div>
+      )}
     </motion.div>
   );
 }
@@ -116,7 +155,7 @@ function ProjectCard({
 }: {
   project: (typeof projects)[0];
   index: number;
-  onLiveView: (url: string, title: string) => void;
+  onLiveView: (project: (typeof projects)[0]) => void;
 }) {
   const cardRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -179,7 +218,7 @@ function ProjectCard({
           </div>
           <motion.button
             type="button"
-            onClick={() => onLiveView(project.siteUrl, project.title)}
+            onClick={() => onLiveView(project)}
             className="inline-flex items-center justify-center rounded-full border-2 border-white/20 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -193,7 +232,12 @@ function ProjectCard({
 }
 
 export default function Portfolio() {
-  const [livePreview, setLivePreview] = useState<{ url: string; title: string } | null>(null);
+  const [livePreview, setLivePreview] = useState<{
+    url: string;
+    title: string;
+    embedDisabled?: boolean;
+    screenshot?: string;
+  } | null>(null);
 
   return (
     <Section id="work">
@@ -209,7 +253,14 @@ export default function Portfolio() {
               key={project.title}
               project={project}
               index={i}
-              onLiveView={(url, title) => setLivePreview({ url, title })}
+              onLiveView={(project) =>
+              setLivePreview({
+                url: project.siteUrl,
+                title: project.title,
+                embedDisabled: project.embedDisabled,
+                screenshot: project.screenshot,
+              })
+            }
             />
           ))}
         </div>
@@ -221,6 +272,8 @@ export default function Portfolio() {
             url={livePreview.url}
             title={livePreview.title}
             onClose={() => setLivePreview(null)}
+            embedDisabled={livePreview.embedDisabled}
+            screenshot={livePreview.screenshot}
           />
         )}
       </AnimatePresence>
