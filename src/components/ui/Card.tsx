@@ -16,7 +16,7 @@ export default function Card({
   const paddingClass = padding === "large" ? "p-8 md:p-10" : "p-6 md:p-8";
   return (
     <motion.div
-      className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-card transition-shadow duration-250 ${paddingClass} ${className}`}
+      className={`relative rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-card transition-shadow duration-250 overflow-hidden ${paddingClass} ${className}`}
       whileHover={
         hover
           ? {
@@ -28,6 +28,8 @@ export default function Card({
       }
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
+      {/* Signature: thin warm accent line at top */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-warm/50 to-transparent opacity-80" aria-hidden />
       {children}
     </motion.div>
   );

@@ -101,7 +101,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className="block py-3 text-lg font-medium text-white hover:text-primary-accent transition-colors rounded-lg px-3 -mx-3"
+                    className="flex items-center min-h-[48px] py-3 text-lg font-medium text-white hover:text-primary-accent transition-colors rounded-lg px-4 -mx-3"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}

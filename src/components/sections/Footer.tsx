@@ -34,7 +34,7 @@ export default function Footer() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-1"
+                className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-2 min-h-[44px] flex items-center"
               >
                 {item.label}
                 <span className="absolute bottom-0 left-0 w-0 h-px bg-white/50 group-hover:w-full transition-[width] duration-300 ease-out" />
@@ -48,7 +48,7 @@ export default function Footer() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-1"
+                className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-2 min-h-[44px] flex items-center"
                 aria-label={item.label}
               >
                 {item.label}

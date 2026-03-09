@@ -83,6 +83,7 @@ export default function Pricing() {
                   href="/start-project"
                   variant={plan.highlighted ? "primary" : "secondary"}
                   size="md"
+                  className="w-full sm:w-auto"
                 >
                   Start Your Project
                 </Button>

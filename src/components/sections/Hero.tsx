@@ -4,70 +4,59 @@ import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
-const trustStatement = "Trusted by startups and growing brands.";
+const springOvershoot = { type: "spring" as const, stiffness: 260, damping: 24 };
+const line1 = "Websites That Turn";
+const line2 = "Visitors Into Customers";
 
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 pb-28"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-20 sm:pt-28 sm:pb-28 bg-grid-signature"
       aria-label="Introduction"
     >
-      {/* Radial gradient glow – soft purple behind hero text */}
+      <div className="accent-corner top-6 left-4 sm:top-10 sm:left-6 md:top-12 md:left-10 pointer-events-none" aria-hidden />
+      {/* Single soft gradient – no floating blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_35%,rgba(124,58,237,0.22),transparent_55%)]" />
-        <motion.div
-          animate={{ x: [0, 24, 0], y: [0, -16, 0], scale: [1, 1.04, 1] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-[480px] h-[480px] bg-primary-purple/25 rounded-full blur-[100px]"
-        />
-        <motion.div
-          animate={{ x: [0, -20, 0], y: [0, 12, 0], scale: [1, 1.06, 1] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/3 right-1/4 w-[360px] h-[360px] bg-primary-blue/20 rounded-full blur-[80px]"
-        />
-        <motion.div
-          animate={{ x: [0, 16, 0], y: [0, 20, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[560px] bg-primary-accent/12 rounded-full blur-[120px]"
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(124,58,237,0.12),transparent_50%)]" />
       </div>
 
       <Container className="relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-8">
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.08] tracking-[-0.04em] sm:tracking-[-0.03em] mb-6 sm:mb-8 overflow-hidden">
             <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ ...springOvershoot, delay: 0.2 }}
               className="block"
+              style={{ display: "block" }}
             >
-              Websites That Turn{" "}
+              {line1}
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ ...springOvershoot, delay: 0.35 }}
               className="block gradient-text"
+              style={{ display: "block" }}
             >
-              Visitors Into Customers
+              {line2}
             </motion.span>
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="text-lg sm:text-xl text-white/70 max-w-xl mx-auto mb-12 leading-relaxed"
+            transition={{ duration: 0.5, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-base sm:text-lg md:text-xl text-white/70 max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed"
           >
-            Velora Studio designs and builds modern high-performance websites for
-            startups and growing businesses.
+            We build one thing: sites that get you leads and sales. Fixed scope, one team, usually live in 6–8 weeks.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14"
+            transition={{ duration: 0.5, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-14 w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
           >
             <Button href="/start-project" variant="primary" size="lg">
               Start Your Project
@@ -86,18 +75,19 @@ export default function Hero() {
             </Button>
           </motion.div>
 
-          {/* Trust statement */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.45, delay: 0.35 }}
-            className="text-sm text-white/50"
+            transition={{ duration: 0.4, delay: 0.75 }}
+            className="text-sm text-white/45"
           >
-            {trustStatement}
+            Fixed price · One point of contact · No long-term contract
           </motion.p>
         </div>
       </Container>
 
+      {/* Signature corner – bottom right */}
+      <div className="accent-corner-br bottom-8 right-4 sm:bottom-10 sm:right-6 md:right-10 pointer-events-none" aria-hidden />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

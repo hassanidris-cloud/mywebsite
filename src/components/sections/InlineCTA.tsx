@@ -15,7 +15,7 @@ export default function InlineCTA() {
       className="py-8 md:py-10 border-t border-white/[0.04]"
     >
       <Container>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Button href="/start-project" variant="primary" size="md">
             Start Your Project
           </Button>

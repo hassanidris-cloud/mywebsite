@@ -88,10 +88,10 @@ function StartProjectForm() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-12 md:mb-16"
           >
-            <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
               {title}
             </h1>
-            <p className="text-white/60 text-lg max-w-xl mx-auto">
+            <p className="text-white/60 text-base sm:text-lg max-w-xl mx-auto">
               {subtitle}
             </p>
           </motion.header>

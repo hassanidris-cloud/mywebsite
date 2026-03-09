@@ -65,7 +65,7 @@ export default function Portfolio() {
                         unoptimized
                       />
                 </div>
-                <div className="p-6 lg:p-7">
+                <div className="p-4 sm:p-6 lg:p-7">
                   <h3 className="font-heading text-xl font-semibold text-white mb-2">
                     {project.title}
                   </h3>

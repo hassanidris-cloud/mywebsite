@@ -17,21 +17,21 @@ export default function CTA() {
           className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden text-center"
         >
           {/* Gradient + soft glow background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-purple/30 via-primary-accent/20 to-primary-blue/30" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-purple/25 via-primary-accent/15 to-primary-warm/20" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_55%_at_50%_50%,rgba(124,58,237,0.2),transparent_65%)]" />
           <motion.div
             animate={{ opacity: [0.35, 0.5, 0.35] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             className="absolute inset-0 bg-dark/50"
           />
-          <div className="relative z-10 p-12 md:p-20 border border-white/10 rounded-3xl shadow-glow-strong transition-shadow duration-300">
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <div className="relative z-10 p-6 sm:p-8 md:p-20 border border-white/10 rounded-3xl shadow-glow-strong transition-shadow duration-300">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
               Ready to Launch Your Website?
             </h2>
-            <p className="text-white/85 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
+            <p className="text-white/85 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
               Let’s build a website that helps your business grow.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 flex-wrap">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 flex-wrap">
               <Button href="/start-project" variant="primary" size="lg">
                 Start Your Project
               </Button>

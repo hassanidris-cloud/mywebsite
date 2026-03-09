@@ -33,7 +33,7 @@ export default function Newsletter() {
           viewport={{ once: true }}
           className="max-w-xl mx-auto text-center"
         >
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-2">
+          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
             Stay updated with Velora Studio
           </h2>
           <p className="text-white/60 mb-6">

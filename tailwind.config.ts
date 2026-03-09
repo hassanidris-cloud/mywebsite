@@ -9,12 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand primaries
+        // Brand: violet + warm accent (distinctive, not generic purple/blue)
         primary: {
           DEFAULT: "#7C3AED",
           purple: "#7C3AED",
           accent: "#A78BFA",
           blue: "#38BDF8",
+          warm: "#F59E0B",   // amber – signature highlight
         },
         // Backgrounds
         dark: "#0B0B0F",
@@ -27,8 +28,8 @@ const config: Config = {
         "border-muted": "rgba(255,255,255,0.08)",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
-        body: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "Syne", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "DM Sans", "system-ui", "sans-serif"],
       },
       fontSize: {
         hero: ["64px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
@@ -37,8 +38,8 @@ const config: Config = {
         body: ["16px", { lineHeight: "1.6" }],
       },
       backgroundImage: {
-        "gradient-brand": "linear-gradient(135deg, #7C3AED 0%, #A78BFA 50%, #38BDF8 100%)",
-        "gradient-brand-hover": "linear-gradient(135deg, #6D28D9 0%, #8B5CF6 50%, #0EA5E9 100%)",
+        "gradient-brand": "linear-gradient(135deg, #7C3AED 0%, #A78BFA 40%, #F59E0B 100%)",
+        "gradient-brand-hover": "linear-gradient(135deg, #6D28D9 0%, #8B5CF6 40%, #D97706 100%)",
       },
       boxShadow: {
         glow: "0 0 60px -15px rgba(124, 58, 237, 0.35)",
