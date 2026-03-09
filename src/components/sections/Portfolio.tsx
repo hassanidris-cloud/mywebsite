@@ -10,27 +10,27 @@ import Card from "@/components/ui/Card";
 const projects = [
   {
     title: "Grocery Template",
-    category: "E-commerce",
-    description: "A clean, responsive grocery store template—categories, products, and cart-ready layout.",
-    result: "Cart-ready layout for online grocery.",
+    description: "We built a clean, responsive grocery store template with categories, products, and a cart-ready layout for small businesses.",
+    metric: "E-commerce ready",
     stack: ["HTML", "CSS", "JavaScript"],
-    image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80",
+    siteUrl: "https://bragabazaar.com",
+    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fbragabazaar.com&width=800",
   },
   {
     title: "Gleeb",
-    category: "E-commerce",
-    description: "Clean online store designed to convert browsers into buyers.",
-    result: "Higher engagement and clearer checkout flow.",
+    description: "We designed a conversion-focused online store to turn browsers into buyers with a clear checkout flow.",
+    metric: "Higher engagement",
     stack: ["React", "CSS", "Vercel"],
-    image: "/gleeb-logo.png",
+    siteUrl: "https://gleeb.vercel.app",
+    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fgleeb.vercel.app&width=800",
   },
   {
     title: "Portugal Immigration",
-    category: "SaaS / Services",
-    description: "Visa guidance and document tracking so applicants stay on track.",
-    result: "Faster onboarding and fewer support requests.",
+    description: "We built visa guidance and document tracking so applicants stay on track and support requests drop.",
+    metric: "Faster onboarding",
     stack: ["Next.js", "Tailwind", "Vercel"],
-    image: "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?w=800&q=80",
+    siteUrl: "https://portugal-immigration-app.vercel.app",
+    screenshot: "https://pageshot.site/v1/screenshot?url=https%3A%2F%2Fportugal-immigration-app.vercel.app&width=800",
   },
 ];
 
@@ -40,50 +40,46 @@ export default function Portfolio() {
       <Container>
         <Heading
           label="Work"
-          title="Recent Projects"
-          subtitle="What we’ve built—and the results that followed."
+          title="Our Work"
+          subtitle="What we’ve built for founders and businesses—and the outcomes that followed."
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
           {projects.map((project, i) => (
             <motion.article
               key={project.title}
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="group h-full"
+              transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="group"
             >
-              <Card className="h-full overflow-hidden p-0 flex flex-col">
-                <div className="aspect-video rounded-t-2xl overflow-hidden bg-white/5 relative">
-                  <Image
-                    src={project.image}
-                    alt={`${project.title} — ${project.category} project`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                    className="object-cover"
-                    unoptimized={project.image.startsWith("/")}
-                  />
+              <Card className="overflow-hidden p-0 border border-white/10 bg-white/[0.03] hover:border-white/15 transition-colors">
+                {/* Snippet first — clean, full width (velora.studio style) */}
+                <div className="aspect-[4/3] relative overflow-hidden bg-white/5">
+                      <Image
+                        src={project.screenshot}
+                        alt={`${project.title} — project preview`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                        unoptimized
+                      />
                 </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <p className="text-xs font-medium text-primary-accent uppercase tracking-wider mb-1">
-                    {project.category}
-                  </p>
-                  <h3 className="font-heading text-lg font-semibold text-white mb-2">
+                <div className="p-6 lg:p-7">
+                  <h3 className="font-heading text-xl font-semibold text-white mb-2">
                     {project.title}
                   </h3>
-                  <p className="text-white/60 text-sm mb-3 leading-relaxed">
+                  <p className="text-white/60 text-sm leading-relaxed mb-5">
                     {project.description}
                   </p>
-                  {project.result && (
-                    <p className="text-sm font-medium text-primary-accent mb-4">
-                      Result: {project.result}
-                    </p>
-                  )}
+                  <p className="text-2xl font-bold text-primary-accent tracking-tight mb-4">
+                    {project.metric}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {project.stack.map((tech) => (
                       <span
                         key={tech}
-                        className="text-xs px-2.5 py-1 rounded-lg bg-white/10 text-white/70 border border-white/5"
+                        className="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white/60 border border-white/5"
                       >
                         {tech}
                       </span>

@@ -11,7 +11,7 @@ import Button from "@/components/ui/Button";
 const plans = [
   {
     name: "Starter",
-    price: "$5,000",
+    price: "$2,500",
     ideal: "Best for small businesses launching their first website.",
     description: "A clear, professional site that gets you online.",
     features: ["3–5 pages", "Responsive design", "Basic SEO", "1 round of revisions"],
@@ -19,7 +19,7 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "$10,000",
+    price: "$5,000",
     ideal: "Best for startups and companies that want a modern, scalable website.",
     description: "Custom design and the tools to grow.",
     features: ["Custom design", "Animations", "SEO optimization", "CMS integration", "3 rounds of revisions"],
@@ -27,7 +27,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$20,000+",
+    price: "$10,000+",
     ideal: "Best for businesses that need a fully custom website with advanced features.",
     description: "Full custom build and priority support.",
     features: ["Full custom build", "Advanced animations", "Integrations", "Priority support", "Dedicated lead"],
@@ -42,7 +42,7 @@ export default function Pricing() {
         <Heading
           label="Pricing"
           title="Transparent Pricing"
-          subtitle="Fixed scope. Clear value. Typical range $5K–$20K+."
+          subtitle="Fixed scope. Clear value. Typical range $2.5K–$10K+."
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan, i) => (
