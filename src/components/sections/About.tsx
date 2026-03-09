@@ -12,7 +12,7 @@ export default function About() {
         <Heading
           label="About"
           title="A small studio, one focus"
-          subtitle="We don't do ads, branding, or apps—we focus on websites so we do them well."
+          subtitle="We don&apos;t do ads, branding, or apps—we focus on websites so we do them well."
         />
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -22,10 +22,10 @@ export default function About() {
           className="max-w-2xl mx-auto text-center space-y-5"
         >
           <p className="text-white/80 text-base sm:text-lg leading-relaxed">
-            Velora Studio is a small web studio. You get a fixed scope, a single point of contact, and a site that's fast and straightforward to update. Most projects are live within 6–8 weeks.
+            Velora Studio is a small web studio. You get a fixed scope, a single point of contact, and a site that&apos;s fast and straightforward to update. Most projects are live within 6–8 weeks.
           </p>
           <p className="text-white/55 text-sm sm:text-base leading-relaxed">
-            No account managers, no scope creep, no retainer after launch. You own the site. We're here when you need changes.
+            No account managers, no scope creep, no retainer after launch. You own the site. We&apos;re here when you need changes.
           </p>
         </motion.div>
       </Container>

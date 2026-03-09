@@ -44,7 +44,7 @@ export default function WhyUs() {
             transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
             className="text-primary-warm font-semibold text-sm uppercase tracking-[0.2em] mb-4 text-center"
           >
-            How we're different
+            How we&apos;re different
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 12 }}
