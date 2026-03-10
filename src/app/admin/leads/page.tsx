@@ -14,7 +14,7 @@ function formatDate(iso: string) {
 
 function formatBudget(b: string | null) {
   if (!b) return "—";
-  const map: Record<string, string> = { "1k-3k": "€1k–€3k", "3k-7k": "€3k–€7k", "7k-15k": "€7k–€15k", "15k-plus": "€15k+" };
+  const map: Record<string, string> = { "1k-3k": "$1k–$3k", "3k-7k": "$3k–$7k", "7k-15k": "$7k–$15k", "15k-plus": "$15k+" };
   return map[b] ?? b;
 }
 

@@ -19,7 +19,7 @@ function getFormString(formData: FormData, key: string): string {
   return (formData.get(key) as string)?.trim() ?? "";
 }
 
-/** Budget ≥ €7k → high value lead */
+/** Budget ≥ $7k → high value lead */
 function isHighValueBudget(budget: string): boolean {
   return budget === "7k-15k" || budget === "15k-plus";
 }

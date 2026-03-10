@@ -36,10 +36,10 @@ export async function sendLeadNotification(payload: InquiryPayload): Promise<boo
 
 function formatBudget(value: string): string {
   const map: Record<string, string> = {
-    "1k-3k": "€1k – €3k",
-    "3k-7k": "€3k – €7k",
-    "7k-15k": "€7k – €15k",
-    "15k-plus": "€15k+",
+    "1k-3k": "$1k – $3k",
+    "3k-7k": "$3k – $7k",
+    "7k-15k": "$7k – $15k",
+    "15k-plus": "$15k+",
   };
   return map[value] ?? value;
 }

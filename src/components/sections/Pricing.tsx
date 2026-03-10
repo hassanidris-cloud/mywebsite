@@ -42,7 +42,7 @@ export default function Pricing() {
         <Heading
           label="Pricing"
           title="Transparent Pricing"
-          subtitle="Fixed scope. Clear value. Typical range $2.5K–$10K+."
+          subtitle="Fixed scope. Clear value. From Starter to Premium, plus backend add-ons, hosting, and maintenance."
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan, i) => (
@@ -83,14 +83,24 @@ export default function Pricing() {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  href="/start-project"
-                  variant={plan.highlighted ? "primary" : "secondary"}
-                  size="md"
-                  className="w-full sm:w-auto"
-                >
-                  Start Your Project
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button
+                    href="/start-project"
+                    variant={plan.highlighted ? "primary" : "secondary"}
+                    size="md"
+                    className="w-full sm:w-auto"
+                  >
+                    Start Your Project
+                  </Button>
+                  <Button
+                    href="/pricing"
+                    variant="ghost"
+                    size="md"
+                    className="w-full sm:w-auto text-white/70 hover:text-white"
+                  >
+                    Full pricing →
+                  </Button>
+                </div>
               </Card>
             </motion.div>
           ))}

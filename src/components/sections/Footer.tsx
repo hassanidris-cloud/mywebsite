@@ -7,7 +7,7 @@ import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal";
 const footerLinks = [
   { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];

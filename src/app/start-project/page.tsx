@@ -16,10 +16,10 @@ import { submitInquiry } from "@/app/actions/inquiry";
 
 const BUDGET_OPTIONS = [
   { value: "", label: "Select budget range…" },
-  { value: "1k-3k", label: "€1k – €3k" },
-  { value: "3k-7k", label: "€3k – €7k" },
-  { value: "7k-15k", label: "€7k – €15k" },
-  { value: "15k-plus", label: "€15k+" },
+  { value: "1k-3k", label: "$1k – $3k" },
+  { value: "3k-7k", label: "$3k – $7k" },
+  { value: "7k-15k", label: "$7k – $15k" },
+  { value: "15k-plus", label: "$15k+" },
 ];
 
 const TIMELINE_OPTIONS = [
