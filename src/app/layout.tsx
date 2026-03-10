@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     siteName: "Velora Studio",
     type: "website",
     locale: "en_US",
-    // Add public/og.png (1200×630) for rich previews on social and Google
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Velora Studio" }],
   },
   twitter: {
     card: "summary_large_image",
