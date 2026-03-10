@@ -12,7 +12,7 @@ const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PU
 
 export default function ThankYouPage() {
   return (
-    <main className="min-h-screen bg-dark" id="main-content" role="main">
+    <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
       <Navbar />
       <Section noPadding className="pt-28 pb-16 md:pt-32 md:pb-24">
         <Container className="max-w-2xl">

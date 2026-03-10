@@ -176,7 +176,8 @@ export default function PricingPage() {
           </div>
 
           {/* Feature comparison table */}
-          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02]">
+          <p className="sm:hidden text-xs text-white/50 mb-2">Swipe table to see all columns.</p>
+          <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.02] -mx-4 sm:mx-0 px-4 sm:px-0" style={{ WebkitOverflowScrolling: "touch" }}>
             <table className="w-full min-w-[640px] text-left">
               <thead>
                 <tr className="border-b border-white/10">

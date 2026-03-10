@@ -77,7 +77,7 @@ function StartProjectForm() {
   }
 
   return (
-    <main className="min-h-screen bg-dark" id="main-content" role="main">
+    <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
       <Navbar />
 
       <Section noPadding className="pt-28 pb-16 md:pt-32 md:pb-24">
@@ -192,7 +192,7 @@ function StartProjectForm() {
 export default function StartProjectPage() {
   return (
     <Suspense fallback={
-      <main className="min-h-screen bg-dark" id="main-content" role="main">
+      <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
         <Navbar />
         <Section noPadding className="pt-28 pb-16 md:pt-32 md:pb-24">
           <Container className="max-w-2xl">

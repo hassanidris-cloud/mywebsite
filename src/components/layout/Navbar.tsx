@@ -8,11 +8,11 @@ import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal";
 import Button from "@/components/ui/Button";
 
 const navItems = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#work" },
+  { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#work" },
   { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
