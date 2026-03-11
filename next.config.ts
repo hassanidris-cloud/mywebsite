@@ -4,7 +4,7 @@ import path from "path";
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(process.cwd()),
   async rewrites() {
-    return [{ source: "/favicon.ico", destination: "/icon" }];
+    return [{ source: "/favicon.ico", destination: "/icon.svg" }];
   },
   images: {
     remotePatterns: [

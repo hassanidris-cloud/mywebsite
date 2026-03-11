@@ -58,3 +58,21 @@ create policy "Service role can do anything on pricing_quotes"
   on public.pricing_quotes for all
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
+
+-- Reviews (user-submitted testimonials for social proof)
+create table if not exists public.reviews (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text,
+  review text not null,
+  role text,
+  approved boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table public.reviews enable row level security;
+
+create policy "Service role can do anything on reviews"
+  on public.reviews for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');

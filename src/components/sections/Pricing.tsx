@@ -5,14 +5,16 @@ import { Check, ChevronDown, Loader2, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { submitPricingQuote } from "@/app/actions/pricing-quote";
-import type { ModularCategoryId } from "@/data/pricing";
+import type { ModularCategoryId, WebsiteTypeId } from "@/data/pricing";
 import {
   MODULAR_ADDONS,
   MODULAR_BASE_INCLUDES,
   MODULAR_BASE_PRICE_EUR,
   MODULAR_CATEGORY_LABELS,
   MODULAR_CATEGORY_ORDER,
+  WEBSITE_TYPES,
   getModularSuggestedAddonIds,
+  getSuggestedAddonIdsForWebsiteType,
 } from "@/data/pricing";
 
 const container = {
@@ -36,6 +38,7 @@ export default function Pricing() {
   const [company, setCompany] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [selectedWebsiteType, setSelectedWebsiteType] = useState<WebsiteTypeId | null>(null);
   const [openCategories, setOpenCategories] = useState<Set<ModularCategoryId>>(
     () => new Set([MODULAR_CATEGORY_ORDER[0]])
   );
@@ -50,10 +53,11 @@ export default function Pricing() {
     });
   };
 
-  const suggestedIds = useMemo(
-    () => getModularSuggestedAddonIds(description),
-    [description]
-  );
+  const suggestedIds = useMemo(() => {
+    const fromDesc = getModularSuggestedAddonIds(description);
+    const fromType = getSuggestedAddonIdsForWebsiteType(selectedWebsiteType);
+    return Array.from(new Set([...fromType, ...fromDesc]));
+  }, [description, selectedWebsiteType]);
 
   const toggleAddon = (id: string) => {
     setSelectedIds((prev) => {
@@ -204,57 +208,99 @@ export default function Pricing() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="space-y-8"
           >
+            {/* Website type */}
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-sm">
+              <label className="block text-sm font-medium text-white/90">
+                What kind of website?
+              </label>
+              <p className="mt-1 text-sm text-white/50">
+                Choose one to see add-ons that fit this type of site.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {WEBSITE_TYPES.map((type) => {
+                  const isSelected = selectedWebsiteType === type.id;
+                  return (
+                    <motion.button
+                      key={type.id}
+                      type="button"
+                      onClick={() => setSelectedWebsiteType(isSelected ? null : type.id)}
+                      whileTap={{ scale: 0.97 }}
+                      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                        isSelected
+                          ? "bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/40"
+                          : "bg-white/10 text-white/80 hover:bg-white/15 hover:text-white"
+                      }`}
+                    >
+                      {type.label}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Project description */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-sm">
               <label htmlFor="project-description" className="block text-sm font-medium text-white/90">
                 Describe the website you want
               </label>
+              <p className="mt-1 text-sm text-white/50">
+                Write in your own words — we’ll suggest relevant add-ons and show you the price for each.
+              </p>
               <textarea
                 id="project-description"
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="I need a bakery website with menu pages, gallery, and contact form."
+                placeholder="e.g. I need a bakery site with a menu, photo gallery, and a way for customers to find us and get in touch."
                 rows={3}
                 className="mt-3 w-full resize-none rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-3 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
               />
               {suggestedIds.length > 0 && (
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <span className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-indigo-300/90">
+                <div className="mt-4">
+                  <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-indigo-300/90">
                     <Sparkles className="h-3.5 w-3.5" />
-                    Suggested for you
-                  </span>
-                  {suggestedIds.map((id) => {
-                    const addon = MODULAR_ADDONS.find((a) => a.id === id);
-                    if (!addon) return null;
-                    const isSelected = selectedIds.has(id);
-                    return (
-                      <motion.button
-                        key={id}
-                        type="button"
-                        onClick={() => toggleAddon(id)}
-                        whileTap={{ scale: 0.92 }}
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                        className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
-                          isSelected
-                            ? "bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/30"
-                            : "bg-white/10 text-white/80 hover:bg-white/15 hover:text-white"
-                        }`}
-                      >
-                        {addon.label}
-                        {isSelected && " ✓"}
-                      </motion.button>
-                    );
-                  })}
-                  <motion.button
-                    type="button"
-                    onClick={selectSuggested}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm text-indigo-300 hover:text-indigo-200"
-                  >
-                    Add all
-                  </motion.button>
+                    Suggested for you — clear, fixed prices
+                  </p>
+                  <p className="mt-1 text-sm text-white/55">
+                    Based on your description and site type. Click to add or remove; prices stay transparent.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {suggestedIds.map((id) => {
+                      const addon = MODULAR_ADDONS.find((a) => a.id === id);
+                      if (!addon) return null;
+                      const isSelected = selectedIds.has(id);
+                      const priceLabel = addon.monthly ? `€${addon.price}/mo` : `€${addon.price}`;
+                      return (
+                        <motion.button
+                          key={id}
+                          type="button"
+                          onClick={() => toggleAddon(id)}
+                          whileTap={{ scale: 0.92 }}
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                          className={`inline-flex items-center gap-2 rounded-full pl-3 pr-2 py-1.5 text-sm transition-colors ${
+                            isSelected
+                              ? "bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/30"
+                              : "bg-white/10 text-white/80 hover:bg-white/15 hover:text-white"
+                          }`}
+                        >
+                          <span>{addon.label}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${isSelected ? "bg-indigo-400/30 text-indigo-100" : "bg-white/15 text-white/70"}`}>
+                            {priceLabel}
+                          </span>
+                          {isSelected && " ✓"}
+                        </motion.button>
+                      );
+                    })}
+                    <motion.button
+                      type="button"
+                      onClick={selectSuggested}
+                      whileTap={{ scale: 0.95 }}
+                      className="rounded-full border border-dashed border-white/25 px-3 py-1.5 text-sm text-indigo-300 hover:border-indigo-400/40 hover:text-indigo-200"
+                    >
+                      Add all suggested
+                    </motion.button>
+                  </div>
                 </div>
               )}
             </div>

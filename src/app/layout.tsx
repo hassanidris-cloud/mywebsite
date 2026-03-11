@@ -56,8 +56,8 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   icons: {
-    icon: [{ url: "/icon", type: "image/svg+xml", sizes: "any" }],
-    apple: [{ url: "/icon", type: "image/svg+xml", sizes: "any" }],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
+    apple: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
   },
   openGraph: {
     title: "Velora Studio | Premium Web Design Agency",

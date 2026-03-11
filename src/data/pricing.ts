@@ -39,7 +39,7 @@ export const CATEGORY_LABELS: Record<PricingCategory, string> = {
   "content-structure": "Content & Structure",
   "marketing-setup": "Marketing & Setup",
   "business-features": "Business Features",
-  "account-features": "Account Features (Supabase)",
+  "account-features": "Account Features",
   "optimization-setup": "Optimization & Setup",
   ongoing: "Ongoing",
 };
@@ -97,7 +97,7 @@ export const PRICING_ADDONS: PricingAddOn[] = [
   { id: "faq-search-feature", label: "FAQ search feature", description: "Visitors can search your FAQs to find answers quickly.", price: 120, category: "business-features" },
   { id: "product-showcase-pages", label: "Product showcase pages", description: "Pages to present your products with images, details, and options.", price: 200, category: "business-features" },
   { id: "menu-display-system", label: "Menu display system (restaurants)", description: "A restaurant-style menu that’s easy to update and looks great on any device.", price: 180, category: "business-features" },
-  // Account Features (Supabase)
+  // Account Features
   { id: "login-signup", label: "Login / Sign up system", description: "Allows users to create accounts and sign in to access member features.", price: 250, category: "account-features" },
   { id: "user-profile", label: "User account/profile page", description: "A page where logged-in users can see their account information.", price: 220, category: "account-features" },
   { id: "protected-page", label: "Protected member-only page", description: "A private page only accessible to users who are logged in.", price: 180, category: "account-features" },
@@ -247,7 +247,7 @@ export const MODULAR_CATEGORY_LABELS: Record<ModularCategoryId, string> = {
   "content-structure": "Content & Structure",
   "marketing-setup": "Marketing & Setup",
   "business-features": "Business Features",
-  "account-features": "Account Features (Supabase)",
+  "account-features": "Account Features",
   "optimization-setup": "Optimization & Setup",
   ongoing: "Ongoing",
 };
@@ -314,7 +314,7 @@ export const MODULAR_ADDONS: ModularAddOn[] = [
   { id: "faq-search-feature", label: "FAQ search feature", description: "Visitors can search your FAQs to find answers quickly.", price: 120, category: "business-features" },
   { id: "product-showcase-pages", label: "Product showcase pages", description: "Pages to present your products with images, details, and options.", price: 200, category: "business-features" },
   { id: "menu-display-system", label: "Menu display system (restaurants)", description: "A restaurant-style menu that's easy to update and looks great on any device.", price: 180, category: "business-features" },
-  // Account Features (Supabase)
+  // Account Features
   { id: "login-signup", label: "Login / Sign up system", description: "Allows users to create accounts and sign in to access member features.", price: 250, category: "account-features" },
   { id: "user-profile", label: "User account/profile page", description: "A page where logged-in users can see their account information.", price: 220, category: "account-features" },
   { id: "protected-page", label: "Protected member-only page", description: "A private page only accessible to users who are logged in.", price: 180, category: "account-features" },
@@ -331,6 +331,44 @@ export const MODULAR_ADDONS: ModularAddOn[] = [
   // Ongoing
   { id: "maintenance", label: "Monthly maintenance", description: "Ongoing updates, security checks, and small changes so your site stays current.", price: 60, category: "ongoing", monthly: true },
 ];
+
+/** Website type options: user picks one to get relevant add-on suggestions. */
+export const WEBSITE_TYPES = [
+  { id: "restaurant-cafe", label: "Restaurant / Café" },
+  { id: "bakery-food", label: "Bakery / Food business" },
+  { id: "ecommerce", label: "E-commerce / Online store" },
+  { id: "portfolio-creative", label: "Portfolio / Creative" },
+  { id: "blog-content", label: "Blog / Content site" },
+  { id: "business-corporate", label: "Business / Corporate" },
+  { id: "immigration-visa", label: "Immigration / Visa services" },
+  { id: "salon-beauty", label: "Salon / Beauty" },
+  { id: "events", label: "Events / Venue" },
+  { id: "members-app", label: "Members area / App" },
+  { id: "other", label: "Other" },
+] as const;
+
+export type WebsiteTypeId = (typeof WEBSITE_TYPES)[number]["id"];
+
+/** Website type → addon ids to suggest for that type of site. */
+export const WEBSITE_TYPE_TO_ADDON_IDS: Record<WebsiteTypeId, string[]> = {
+  "restaurant-cafe": ["menu-display-system", "menu-services", "image-gallery", "google-maps", "social-links", "testimonials", "extra-page", "basic-seo"],
+  "bakery-food": ["menu-services", "image-gallery", "extra-page", "google-maps", "social-links", "testimonials", "basic-seo"],
+  "ecommerce": ["product-showcase-pages", "testimonials", "newsletter-form", "basic-seo", "image-gallery", "faq", "extra-page"],
+  "portfolio-creative": ["portfolio-section", "image-gallery", "testimonials", "blog-layout", "basic-animations", "basic-seo"],
+  "blog-content": ["blog-layout", "newsletter-form", "basic-seo", "extra-page", "testimonials"],
+  "business-corporate": ["services-detail-page", "menu-services", "team-section", "testimonials", "faq", "email-contact-form-integration", "basic-seo", "timeline-process-section"],
+  "immigration-visa": ["multilingual", "faq", "timeline-process-section", "email-contact-form-integration", "extra-page", "basic-seo"],
+  "salon-beauty": ["image-gallery", "menu-services", "google-maps", "instagram-feed-embed", "social-links", "testimonials", "whatsapp-contact-button"],
+  "events": ["event-listing-section", "image-gallery", "newsletter-form", "social-links", "extra-page", "basic-seo"],
+  "members-app": ["login-signup", "user-profile", "protected-page", "basic-dashboard", "user-settings-page", "member-content-library"],
+  "other": [],
+};
+
+/** Returns addon ids suggested for a website type. */
+export function getSuggestedAddonIdsForWebsiteType(typeId: WebsiteTypeId | null): string[] {
+  if (!typeId || typeId === "other") return [];
+  return WEBSITE_TYPE_TO_ADDON_IDS[typeId] ?? [];
+}
 
 /** Simple keyword → addon ids for suggesting add-ons from project description (no AI). */
 export const MODULAR_KEYWORD_TO_ADDON_IDS: Record<string, string[]> = {
@@ -407,6 +445,48 @@ export const MODULAR_KEYWORD_TO_ADDON_IDS: Record<string, string[]> = {
   accessibility: ["accessibility-improvements"],
   "image optim": ["image-optimization"],
   "faq search": ["faq-search-feature"],
+  // Natural phrases so description suggests relevant add-ons on its own
+  "show our menu": ["menu-services", "menu-display-system"],
+  "display menu": ["menu-services", "menu-display-system"],
+  "showcase my work": ["portfolio-section", "image-gallery"],
+  "show my work": ["portfolio-section", "image-gallery"],
+  "sell online": ["product-showcase-pages", "basic-seo"],
+  "sell products": ["product-showcase-pages", "newsletter-form"],
+  "find us": ["google-maps"],
+  "where we are": ["google-maps"],
+  "our location": ["google-maps"],
+  "get in touch": ["email-contact-form-integration", "whatsapp-contact-button"],
+  "contact us": ["email-contact-form-integration"],
+  "book ": ["event-listing-section"],
+  "appointment": ["event-listing-section"],
+  "sign up for": ["newsletter-form"],
+  "multiple language": ["multilingual"],
+  "two language": ["multilingual"],
+  "english and": ["multilingual"],
+  "trust": ["testimonials", "google-reviews-embed"],
+  "recommendation": ["testimonials"],
+  "our team": ["team-section"],
+  "meet the team": ["team-section"],
+  "how it works": ["timeline-process-section", "faq"],
+  "our process": ["timeline-process-section"],
+  "what we offer": ["menu-services", "services-detail-page"],
+  "our services": ["menu-services", "services-detail-page"],
+  "price list": ["pricing-table-section"],
+  "our prices": ["pricing-table-section"],
+  "promote": ["basic-seo", "social-links"],
+  "show photos": ["image-gallery"],
+  "show images": ["image-gallery"],
+  "picture": ["image-gallery"],
+  "client": ["testimonials", "case-studies-section"],
+  "customer": ["testimonials"],
+  "user account": ["login-signup", "user-profile"],
+  "member only": ["login-signup", "protected-page"],
+  "log in": ["login-signup"],
+  "my account": ["user-profile"],
+  "personal brand": ["portfolio-section", "blog-layout", "testimonials"],
+  "professional site": ["basic-seo", "testimonials", "extra-polish"],
+  "modern look": ["basic-animations", "extra-polish"],
+  "look professional": ["extra-polish", "testimonials"],
 };
 
 const modularAddonById = new Map(MODULAR_ADDONS.map((a) => [a.id, a]));
