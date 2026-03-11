@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Check, Loader2, Sparkles } from "lucide-react";
-import { useMemo, useState, useTransition } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Loader2, Sparkles, X } from "lucide-react";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { createPortal } from "react-dom";
 import { submitPricingQuote } from "@/app/actions/pricing-quote";
 import {
   MODULAR_ADDONS,
@@ -33,6 +34,7 @@ export default function Pricing() {
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const suggestedIds = useMemo(
@@ -109,6 +111,25 @@ export default function Pricing() {
       setError(result.error ?? "Something went wrong. Please try again.");
     });
   };
+
+  const openQuoteModal = () => {
+    setError(null);
+    setQuoteModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (!quoteModalOpen) return;
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setQuoteModalOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onEscape);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onEscape);
+    };
+  }, [quoteModalOpen]);
 
   return (
     <section className="bg-neutral-950 px-6 py-24">
@@ -195,11 +216,14 @@ export default function Pricing() {
                     if (!addon) return null;
                     const isSelected = selectedIds.has(id);
                     return (
-                      <button
+                      <motion.button
                         key={id}
                         type="button"
                         onClick={() => toggleAddon(id)}
-                        className={`rounded-full px-3 py-1.5 text-sm transition ${
+                        whileTap={{ scale: 0.92 }}
+                        whileHover={{ scale: 1.03 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                        className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
                           isSelected
                             ? "bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/30"
                             : "bg-white/10 text-white/80 hover:bg-white/15 hover:text-white"
@@ -207,16 +231,17 @@ export default function Pricing() {
                       >
                         {addon.label}
                         {isSelected && " ✓"}
-                      </button>
+                      </motion.button>
                     );
                   })}
-                  <button
+                  <motion.button
                     type="button"
                     onClick={selectSuggested}
+                    whileTap={{ scale: 0.95 }}
                     className="text-sm text-indigo-300 hover:text-indigo-200"
                   >
                     Add all
-                  </button>
+                  </motion.button>
                 </div>
               )}
             </div>
@@ -243,27 +268,51 @@ export default function Pricing() {
                         {addons.map((addon) => {
                           const isSelected = selectedIds.has(addon.id);
                           return (
-                            <label
+                            <motion.label
                               key={addon.id}
-                              className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl border px-3 py-2.5 transition ${
+                              htmlFor={`addon-${addon.id}`}
+                              whileTap={{ scale: 0.98 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                              className={`flex cursor-pointer items-start justify-between gap-3 rounded-xl border px-3 py-2.5 transition-colors sm:items-center ${
                                 isSelected
                                   ? "border-indigo-400/30 bg-indigo-500/10"
                                   : "border-white/10 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
                               }`}
                             >
-                              <span className="text-sm text-white/90">{addon.label}</span>
-                              <div className="flex items-center gap-2">
+                              <div className="min-w-0 flex-1">
+                                <span className="text-sm font-medium text-white/90">{addon.label}</span>
+                                {addon.description && (
+                                  <p className="mt-0.5 text-xs leading-snug text-white/55 line-clamp-2">
+                                    {addon.description}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex shrink-0 items-center gap-2">
                                 <span className="text-xs text-white/50">
                                   {addon.monthly ? `€${addon.price}/mo` : `€${addon.price}`}
                                 </span>
-                                <input
-                                  type="checkbox"
-                                  checked={isSelected}
-                                  onChange={() => toggleAddon(addon.id)}
-                                  className="h-4 w-4 rounded border-white/20 bg-neutral-900 text-indigo-500 focus:ring-indigo-400/50"
-                                />
+                                <span className="relative flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 border-white/25 bg-neutral-900/60 focus-within:ring-2 focus-within:ring-indigo-400/40 focus-within:ring-offset-0 focus-within:ring-offset-neutral-950">
+                                  <input
+                                    id={`addon-${addon.id}`}
+                                    type="checkbox"
+                                    checked={isSelected}
+                                    onChange={() => toggleAddon(addon.id)}
+                                    className="sr-only"
+                                  />
+                                  <motion.span
+                                    initial={false}
+                                    animate={{
+                                      scale: isSelected ? 1 : 0,
+                                      opacity: isSelected ? 1 : 0,
+                                    }}
+                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    className="absolute inset-0 flex items-center justify-center rounded-[4px] bg-indigo-500"
+                                  >
+                                    <Check className="h-3 w-3 text-white" strokeWidth={2.5} />
+                                  </motion.span>
+                                </span>
                               </div>
-                            </label>
+                            </motion.label>
                           );
                         })}
                       </div>
@@ -273,117 +322,237 @@ export default function Pricing() {
               </div>
             </div>
 
-            {/* Pricing summary */}
+            {/* Summary card: selected features, total, CTA */}
             <motion.div
-              key={`${oneTimeTotal}-${monthlyAddons.length > 0}`}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.25 }}
-              className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent p-6 shadow-sm"
+              key={`summary-${oneTimeTotal}-${selectedFeaturesForSubmit.length}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="rounded-2xl border border-indigo-400/20 bg-gradient-to-b from-indigo-500/10 to-white/[0.03] p-6 shadow-lg shadow-black/20"
             >
-              <p className="text-sm font-medium uppercase tracking-wider text-white/60">
-                Estimated total
+              <p className="text-xs font-medium uppercase tracking-wider text-indigo-300/90">
+                Your website plan
               </p>
-              <div className="mt-2 flex flex-wrap items-baseline gap-2">
+              <h3 className="mt-1 text-lg font-semibold text-white">
+                Summary
+              </h3>
+
+              {selectedFeaturesForSubmit.length > 0 ? (
+                <ul className="mt-4 max-h-40 space-y-1.5 overflow-y-auto pr-1 text-sm text-white/85">
+                  {selectedFeaturesForSubmit.map((f) => (
+                    <li key={f.id} className="flex items-center gap-2">
+                      <Check className="h-3.5 w-3.5 shrink-0 text-indigo-400" />
+                      <span>{f.label}</span>
+                      <span className="ml-auto text-white/50">
+                        {f.monthly ? `€${f.price}/mo` : `€${f.price}`}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-4 text-sm text-white/50">Base website only — no add-ons selected.</p>
+              )}
+
+              <div className="mt-5 flex flex-wrap items-baseline gap-2 border-t border-white/10 pt-5">
                 <span className="text-2xl font-semibold text-white">
                   €{oneTimeTotal.toLocaleString()}
                 </span>
                 {monthlyAddons.length > 0 && (
-                  <span className="text-lg text-white/80">
+                  <span className="text-base text-white/80">
                     + €{monthlyAddons[0].price}/month
                   </span>
                 )}
+                {monthlyAddons.length > 0 && (
+                  <span className="w-full text-xs text-white/50">Monthly maintenance</span>
+                )}
               </div>
-              {monthlyAddons.length > 0 && (
-                <p className="mt-1 text-xs text-white/50">Monthly maintenance shown separately.</p>
+
+              <p className="mt-5 text-sm text-white/70">
+                Your website plan is ready — send it to receive a custom quote.
+              </p>
+              <p className="mt-1 text-xs text-white/50">
+                No commitment — I&apos;ll review your request and send the best option for your business.
+              </p>
+
+              <motion.button
+                type="button"
+                onClick={openQuoteModal}
+                disabled={!description.trim()}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 font-semibold text-neutral-950 shadow-lg shadow-white/15 transition hover:shadow-indigo-500/25 disabled:opacity-50 disabled:hover:scale-100"
+              >
+                Send My Quote Request
+              </motion.button>
+              {!description.trim() && (
+                <p className="mt-2 text-center text-xs text-white/50">
+                  Add a short description of your website above to continue.
+                </p>
               )}
             </motion.div>
 
-            {/* Quote form */}
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-sm">
-                <h3 className="text-sm font-medium uppercase tracking-wider text-white/70">
-                  Get your custom quote
-                </h3>
-                <p className="mt-1 text-sm text-white/50">
-                  We&apos;ll send you a tailored estimate based on your selection.
-                </p>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <div className="sm:col-span-2">
-                    <label htmlFor="quote-name" className="block text-xs font-medium text-white/70">
-                      Name *
-                    </label>
-                    <input
-                      id="quote-name"
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="quote-email" className="block text-xs font-medium text-white/70">
-                      Email *
-                    </label>
-                    <input
-                      id="quote-email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="quote-company" className="block text-xs font-medium text-white/70">
-                      Company
-                    </label>
-                    <input
-                      id="quote-company"
-                      type="text"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
-                      placeholder="Optional"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <p className="text-xs leading-relaxed text-white/50">
-                Prices shown are starting estimates. Final pricing may vary depending on project
-                complexity, content readiness, and revisions.
-              </p>
-
-              {error && (
-                <p className="rounded-xl bg-red-500/15 px-4 py-2 text-sm text-red-300" role="alert">
-                  {error}
-                </p>
-              )}
-
-              <motion.button
-                type="submit"
-                disabled={isPending}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 font-medium text-neutral-950 shadow-lg shadow-white/10 transition hover:shadow-indigo-500/20 disabled:opacity-70 sm:w-auto sm:min-w-[220px]"
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    Sending…
-                  </>
-                ) : (
-                  "Get My Custom Quote"
-                )}
-              </motion.button>
-            </form>
+            {/* Disclaimer (always visible) */}
+            <p className="text-xs leading-relaxed text-white/50">
+              Prices shown are starting estimates. Final pricing may vary depending on project
+              complexity, content readiness, and revisions.
+            </p>
           </motion.div>
         </div>
       </div>
+
+      {/* Quote request modal: pre-filled plan + name/email/company only */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {quoteModalOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="quote-modal-title"
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+                  onClick={() => setQuoteModalOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96, y: 10 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                  className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-neutral-950 shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-neutral-950/95 px-6 py-4 backdrop-blur-sm">
+                    <h2 id="quote-modal-title" className="text-lg font-semibold text-white">
+                      Send your quote request
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => setQuoteModalOpen(false)}
+                      className="rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                      aria-label="Close"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-0">
+                    {/* Pre-filled summary (read-only) */}
+                    <div className="border-b border-white/10 px-6 py-5">
+                      <p className="text-xs font-medium uppercase tracking-wider text-white/50">
+                        Your plan (pre-filled)
+                      </p>
+                      <p className="mt-2 text-sm text-white/80">
+                        <span className="font-medium text-white/90">Project:</span>{" "}
+                        {description.trim() || "—"}
+                      </p>
+                      {selectedFeaturesForSubmit.length > 0 && (
+                        <p className="mt-2 text-sm text-white/80">
+                          <span className="font-medium text-white/90">Features:</span>{" "}
+                          {selectedFeaturesForSubmit.map((f) => f.label).join(", ")}
+                        </p>
+                      )}
+                      <p className="mt-2 text-sm text-white/80">
+                        <span className="font-medium text-white/90">Estimated total:</span>{" "}
+                        €{oneTimeTotal.toLocaleString()}
+                        {monthlyAddons.length > 0 && ` + €${monthlyAddons[0].price}/month`}
+                      </p>
+                    </div>
+
+                    {/* Contact fields only */}
+                    <div className="px-6 py-5">
+                      <p className="text-xs font-medium uppercase tracking-wider text-white/50">
+                        Your details
+                      </p>
+                      <p className="mt-1 text-sm text-white/60">
+                        We&apos;ll use this to send your custom quote.
+                      </p>
+                      <div className="mt-4 space-y-4">
+                        <div>
+                          <label htmlFor="modal-quote-name" className="block text-xs font-medium text-white/70">
+                            Name *
+                          </label>
+                          <input
+                            id="modal-quote-name"
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
+                            placeholder="Your name"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="modal-quote-email" className="block text-xs font-medium text-white/70">
+                            Email *
+                          </label>
+                          <input
+                            id="modal-quote-email"
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
+                            placeholder="you@example.com"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="modal-quote-company" className="block text-xs font-medium text-white/70">
+                            Company / business name
+                          </label>
+                          <input
+                            id="modal-quote-company"
+                            type="text"
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                            className="mt-1.5 w-full rounded-xl border border-white/10 bg-neutral-900/60 px-4 py-2.5 text-white placeholder:text-white/40 focus:border-indigo-400/40 focus:outline-none focus:ring-1 focus:ring-indigo-400/30"
+                            placeholder="Optional"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {error && (
+                      <div className="px-6 pb-2">
+                        <p className="rounded-xl bg-red-500/15 px-4 py-2 text-sm text-red-300" role="alert">
+                          {error}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="border-t border-white/10 px-6 py-5">
+                      <motion.button
+                        type="submit"
+                        disabled={isPending}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 font-semibold text-neutral-950 shadow-lg transition hover:shadow-indigo-500/20 disabled:opacity-70"
+                      >
+                        {isPending ? (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin" />
+                            Sending…
+                          </>
+                        ) : (
+                          "Send My Quote Request"
+                        )}
+                      </motion.button>
+                    </div>
+                  </form>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
+        )}
     </section>
   );
 }
