@@ -25,7 +25,7 @@ export async function sendLeadNotification(payload: InquiryPayload): Promise<boo
     <pre style="white-space:pre-wrap;font-family:sans-serif;">${escapeHtml(payload.description)}</pre>
     ${payload.source ? `<p><em>Source: ${escapeHtml(payload.source)}</em></p>` : ""}
   `;
-  const { data, error } = await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: fromEmail,
     to: inquiryToEmail,
     subject: `[Velora] New lead: ${payload.name}`,
