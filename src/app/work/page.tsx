@@ -1,27 +1,33 @@
 import Link from "next/link"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, ExternalLink, Sparkles } from "lucide-react"
 
 const projects = [
   {
-    name: "Aurelium Consulting",
-    category: "Consulting Website",
+    name: "Grocery Store Template",
+    category: "E-commerce Template",
     summary:
-      "Premium repositioning for a high-ticket consulting brand with cleaner messaging and stronger trust signals.",
-    impact: "+42% more qualified enquiries"
+      "A clean, responsive grocery store template with categories, products, and a cart-ready layout built for small businesses and local stores.",
+    impact: "E-commerce ready",
+    outcome: "Template ready for product listings, categories, and checkout.",
+    url: "https://bragabazaar.com"
   },
   {
-    name: "Noir Atelier",
-    category: "Creative Studio Website",
+    name: "Gleeb",
+    category: "E-commerce Site",
     summary:
-      "Luxury-inspired design direction with richer visuals, calmer spacing and clearer service pathways.",
-    impact: "+31% increase in average session duration"
+      "A conversion-focused online store designed to turn browsers into buyers with a clear product layout and streamlined checkout flow.",
+    impact: "Higher engagement",
+    outcome: "Clear product pages and checkout flow to drive sales.",
+    url: "https://gleeb.vercel.app"
   },
   {
-    name: "Scaleform Media",
-    category: "Agency Landing System",
+    name: "Portugal Immigration",
+    category: "Immigration & Visa Platform",
     summary:
-      "Focused landing architecture for lead generation with better CTA placement and simplified conversion flow.",
-    impact: "+38% lift in conversion rate"
+      "Visa guidance and document tracking for applicants, helping people stay on track with their immigration process and reducing support requests.",
+    impact: "Faster onboarding",
+    outcome: "Applicants can track documents and follow visa steps in one place.",
+    url: "https://portugal-immigration-app.vercel.app"
   }
 ]
 
@@ -35,12 +41,11 @@ export default function WorkPage() {
             Selected work
           </div>
           <h1 className="mt-6 text-5xl font-semibold tracking-tight md:text-7xl">
-            Premium website concepts designed to improve trust and conversion.
+            Websites I&apos;ve built.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-            A strong website balances aesthetics, clarity and performance. These
-            example case studies show the kind of outcomes a sharper site can
-            support.
+            From grocery and e-commerce templates to immigration and visa platforms—
+            here&apos;s a selection of recent work.
           </p>
         </div>
 
@@ -74,11 +79,21 @@ export default function WorkPage() {
                       {project.impact}
                     </p>
                     <p className="mt-5 leading-8 text-white/60">
-                      Improved perception, stronger content flow and better CTA
-                      structure helped transform attention into action.
+                      {project.outcome}
                     </p>
                   </div>
-                  <div className="mt-10">
+                  <div className="mt-10 flex flex-wrap gap-3">
+                    {project.url && (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/5 px-5 py-3 font-medium text-white transition hover:bg-white/10"
+                      >
+                        View live site
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    )}
                     <Link
                       href="/start-project"
                       className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/5 px-5 py-3 font-medium text-white transition hover:bg-white/10"

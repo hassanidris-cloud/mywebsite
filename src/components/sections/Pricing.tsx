@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2, Sparkles, X } from "lucide-react";
+import { Check, ChevronDown, Loader2, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { submitPricingQuote } from "@/app/actions/pricing-quote";
+import type { ModularCategoryId } from "@/data/pricing";
 import {
   MODULAR_ADDONS,
   MODULAR_BASE_INCLUDES,
@@ -35,7 +36,19 @@ export default function Pricing() {
   const [company, setCompany] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [openCategories, setOpenCategories] = useState<Set<ModularCategoryId>>(
+    () => new Set([MODULAR_CATEGORY_ORDER[0]])
+  );
   const [isPending, startTransition] = useTransition();
+
+  const toggleCategory = (categoryId: ModularCategoryId) => {
+    setOpenCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
+      return next;
+    });
+  };
 
   const suggestedIds = useMemo(
     () => getModularSuggestedAddonIds(description),
@@ -246,76 +259,110 @@ export default function Pricing() {
               )}
             </div>
 
-            {/* Add-ons by category */}
+            {/* Add-ons by category (collapsible) */}
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-sm">
               <h3 className="text-sm font-medium uppercase tracking-wider text-white/70">
                 Add-on features
               </h3>
               <p className="mt-1 text-sm text-white/50">
-                Select what you need. Suggestions above are based on your description.
+                Select what you need. Tap a category to open or close it.
               </p>
-              <div className="mt-5 space-y-5">
+              <div className="mt-4 space-y-1">
                 {MODULAR_CATEGORY_ORDER.map((categoryId) => {
                   const addons = addonsByCategory.get(categoryId) ?? [];
                   if (addons.length === 0) return null;
                   const label = MODULAR_CATEGORY_LABELS[categoryId];
+                  const isOpen = openCategories.has(categoryId);
+                  const selectedInCategory = addons.filter((a) => selectedIds.has(a.id)).length;
                   return (
-                    <div key={categoryId}>
-                      <h4 className="text-xs font-medium uppercase tracking-wider text-white/60">
-                        {label}
-                      </h4>
-                      <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                        {addons.map((addon) => {
-                          const isSelected = selectedIds.has(addon.id);
-                          return (
-                            <motion.label
-                              key={addon.id}
-                              htmlFor={`addon-${addon.id}`}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                              className={`flex cursor-pointer items-start justify-between gap-3 rounded-xl border px-3 py-2.5 transition-colors sm:items-center ${
-                                isSelected
-                                  ? "border-indigo-400/30 bg-indigo-500/10"
-                                  : "border-white/10 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
-                              }`}
-                            >
-                              <div className="min-w-0 flex-1">
-                                <span className="text-sm font-medium text-white/90">{addon.label}</span>
-                                {addon.description && (
-                                  <p className="mt-0.5 text-xs leading-snug text-white/55 line-clamp-2">
-                                    {addon.description}
-                                  </p>
-                                )}
-                              </div>
-                              <div className="flex shrink-0 items-center gap-2">
-                                <span className="text-xs text-white/50">
-                                  {addon.monthly ? `€${addon.price}/mo` : `€${addon.price}`}
-                                </span>
-                                <span className="relative flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 border-white/25 bg-neutral-900/60 focus-within:ring-2 focus-within:ring-indigo-400/40 focus-within:ring-offset-0 focus-within:ring-offset-neutral-950">
-                                  <input
-                                    id={`addon-${addon.id}`}
-                                    type="checkbox"
-                                    checked={isSelected}
-                                    onChange={() => toggleAddon(addon.id)}
-                                    className="sr-only"
-                                  />
-                                  <motion.span
-                                    initial={false}
-                                    animate={{
-                                      scale: isSelected ? 1 : 0,
-                                      opacity: isSelected ? 1 : 0,
-                                    }}
-                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    className="absolute inset-0 flex items-center justify-center rounded-[4px] bg-indigo-500"
+                    <div
+                      key={categoryId}
+                      className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggleCategory(categoryId)}
+                        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                      >
+                        <span className="text-sm font-medium text-white/85">{label}</span>
+                        <span className="flex items-center gap-2">
+                          {selectedInCategory > 0 && (
+                            <span className="rounded-full bg-indigo-500/30 px-2 py-0.5 text-xs text-indigo-200">
+                              {selectedInCategory}
+                            </span>
+                          )}
+                          <motion.span
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ChevronDown className="h-4 w-4 text-white/50" />
+                          </motion.span>
+                        </span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="grid gap-2 border-t border-white/10 p-3 sm:grid-cols-2">
+                              {addons.map((addon) => {
+                                const isSelected = selectedIds.has(addon.id);
+                                return (
+                                  <motion.label
+                                    key={addon.id}
+                                    htmlFor={`addon-${addon.id}`}
+                                    whileTap={{ scale: 0.98 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                                    className={`flex cursor-pointer items-start justify-between gap-3 rounded-lg border px-3 py-2.5 transition-colors sm:items-center ${
+                                      isSelected
+                                        ? "border-indigo-400/30 bg-indigo-500/10"
+                                        : "border-white/10 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
+                                    }`}
                                   >
-                                    <Check className="h-3 w-3 text-white" strokeWidth={2.5} />
-                                  </motion.span>
-                                </span>
-                              </div>
-                            </motion.label>
-                          );
-                        })}
-                      </div>
+                                    <div className="min-w-0 flex-1">
+                                      <span className="text-sm font-medium text-white/90">{addon.label}</span>
+                                      {addon.description && (
+                                        <p className="mt-0.5 text-xs leading-snug text-white/55 line-clamp-2">
+                                          {addon.description}
+                                        </p>
+                                      )}
+                                    </div>
+                                    <div className="flex shrink-0 items-center gap-2">
+                                      <span className="text-xs text-white/50">
+                                        {addon.monthly ? `€${addon.price}/mo` : `€${addon.price}`}
+                                      </span>
+                                      <span className="relative flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 border-white/25 bg-neutral-900/60 focus-within:ring-2 focus-within:ring-indigo-400/40 focus-within:ring-offset-0 focus-within:ring-offset-neutral-950">
+                                        <input
+                                          id={`addon-${addon.id}`}
+                                          type="checkbox"
+                                          checked={isSelected}
+                                          onChange={() => toggleAddon(addon.id)}
+                                          className="sr-only"
+                                        />
+                                        <motion.span
+                                          initial={false}
+                                          animate={{
+                                            scale: isSelected ? 1 : 0,
+                                            opacity: isSelected ? 1 : 0,
+                                          }}
+                                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                          className="absolute inset-0 flex items-center justify-center rounded-[4px] bg-indigo-500"
+                                        >
+                                          <Check className="h-3 w-3 text-white" strokeWidth={2.5} />
+                                        </motion.span>
+                                      </span>
+                                    </div>
+                                  </motion.label>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
