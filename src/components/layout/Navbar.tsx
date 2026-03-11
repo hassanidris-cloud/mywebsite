@@ -4,6 +4,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Menu } from "lucide-react"
 import { useState } from "react"
+import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal"
 
 const links = [
   { href: "/", label: "Home" },
@@ -24,9 +25,7 @@ export default function Navbar() {
       className="fixed inset-x-0 top-0 z-50 px-4 py-4"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-neutral-950/75 px-5 py-3 backdrop-blur-xl">
-        <Link href="/" className="text-lg font-semibold tracking-tight text-white">
-          Velora Studio
-        </Link>
+        <VeloraLogoHorizontal variant="dark" showWordmark={true} wordmarkInline={true} iconSize={32} className="shrink-0" />
 
         <nav className="hidden items-center gap-7 md:flex">
           {links.map((link) => (

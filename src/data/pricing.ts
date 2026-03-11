@@ -216,3 +216,213 @@ export function getSuggestedAddonIds(description: string): AddOnId[] {
 
   return Array.from(suggested);
 }
+
+// ---------------------------------------------------------------------------
+// Modular pricing (beginner-friendly, €750 base + simple add-ons)
+// Used by the pricing section with keyword-based suggestions.
+// ---------------------------------------------------------------------------
+
+export const MODULAR_BASE_PRICE_EUR = 750;
+
+export const MODULAR_BASE_INCLUDES = [
+  "Responsive website",
+  "Clean professional design",
+  "Homepage or landing page",
+  "Contact form",
+  "Deployment",
+  "Basic optimization",
+] as const;
+
+export type ModularCategoryId =
+  | "pages-design"
+  | "content-structure"
+  | "marketing-setup"
+  | "business-features"
+  | "account-features"
+  | "optimization-setup"
+  | "ongoing";
+
+export const MODULAR_CATEGORY_LABELS: Record<ModularCategoryId, string> = {
+  "pages-design": "Pages & Design",
+  "content-structure": "Content & Structure",
+  "marketing-setup": "Marketing & Setup",
+  "business-features": "Business Features",
+  "account-features": "Account Features (Supabase)",
+  "optimization-setup": "Optimization & Setup",
+  ongoing: "Ongoing",
+};
+
+export const MODULAR_CATEGORY_ORDER: ModularCategoryId[] = [
+  "pages-design",
+  "content-structure",
+  "marketing-setup",
+  "business-features",
+  "account-features",
+  "optimization-setup",
+  "ongoing",
+];
+
+export interface ModularAddOn {
+  id: string;
+  label: string;
+  price: number;
+  category: ModularCategoryId;
+  monthly?: boolean;
+}
+
+export const MODULAR_ADDONS: ModularAddOn[] = [
+  // Pages & Design
+  { id: "extra-page", label: "Extra page", price: 150, category: "pages-design" },
+  { id: "premium-section", label: "Premium custom section", price: 120, category: "pages-design" },
+  { id: "image-gallery", label: "Image gallery section", price: 100, category: "pages-design" },
+  { id: "testimonials", label: "Testimonials section", price: 70, category: "pages-design" },
+  { id: "faq", label: "FAQ section", price: 60, category: "pages-design" },
+  { id: "basic-animations", label: "Basic animations", price: 120, category: "pages-design" },
+  { id: "extra-polish", label: "Extra design polish", price: 150, category: "pages-design" },
+  { id: "landing-page-section", label: "Landing page section", price: 120, category: "pages-design" },
+  { id: "hero-banner-section", label: "Hero banner section", price: 80, category: "pages-design" },
+  { id: "image-slider", label: "Image slider/carousel", price: 120, category: "pages-design" },
+  { id: "custom-icons-graphics", label: "Custom icons & graphics", price: 100, category: "pages-design" },
+  { id: "additional-layout-styling", label: "Additional layout styling", price: 120, category: "pages-design" },
+  { id: "section-background-effects", label: "Section background effects", price: 90, category: "pages-design" },
+  // Content & Structure
+  { id: "copy-formatting", label: "Copy placement / content formatting", price: 80, category: "content-structure" },
+  { id: "blog-layout", label: "Blog layout setup", price: 180, category: "content-structure" },
+  { id: "portfolio-section", label: "Portfolio/project section", price: 120, category: "content-structure" },
+  { id: "menu-services", label: "Menu/services section", price: 100, category: "content-structure" },
+  { id: "team-section", label: "Team section", price: 90, category: "content-structure" },
+  { id: "pricing-table-section", label: "Pricing table section", price: 90, category: "content-structure" },
+  { id: "services-detail-page", label: "Services detail page", price: 150, category: "content-structure" },
+  { id: "case-studies-section", label: "Case studies section", price: 120, category: "content-structure" },
+  { id: "timeline-process-section", label: "Timeline / process section", price: 100, category: "content-structure" },
+  // Marketing & Setup
+  { id: "basic-seo", label: "Basic SEO setup", price: 120, category: "marketing-setup" },
+  { id: "google-maps", label: "Google Maps embed", price: 40, category: "marketing-setup" },
+  { id: "social-links", label: "Social media links integration", price: 40, category: "marketing-setup" },
+  { id: "newsletter-form", label: "Newsletter form integration", price: 80, category: "marketing-setup" },
+  { id: "multilingual", label: "Multilingual layout setup", price: 180, category: "marketing-setup" },
+  { id: "domain-email", label: "Domain/email setup help", price: 80, category: "marketing-setup" },
+  { id: "google-reviews-embed", label: "Google Reviews embed", price: 80, category: "marketing-setup" },
+  { id: "instagram-feed-embed", label: "Instagram feed embed", price: 90, category: "marketing-setup" },
+  { id: "facebook-page-embed", label: "Facebook page embed", price: 80, category: "marketing-setup" },
+  { id: "whatsapp-contact-button", label: "WhatsApp contact button", price: 50, category: "marketing-setup" },
+  { id: "cta-popup", label: "Call-to-action popup", price: 120, category: "marketing-setup" },
+  { id: "email-contact-form-integration", label: "Email contact form integration", price: 100, category: "marketing-setup" },
+  // Business Features
+  { id: "event-listing-section", label: "Event listing section", price: 150, category: "business-features" },
+  { id: "faq-search-feature", label: "FAQ search feature", price: 120, category: "business-features" },
+  { id: "product-showcase-pages", label: "Product showcase pages", price: 200, category: "business-features" },
+  { id: "menu-display-system", label: "Menu display system (restaurants)", price: 180, category: "business-features" },
+  // Account Features (Supabase)
+  { id: "login-signup", label: "Login / Sign up system", price: 250, category: "account-features" },
+  { id: "user-profile", label: "User account/profile page", price: 220, category: "account-features" },
+  { id: "protected-page", label: "Protected member-only page", price: 180, category: "account-features" },
+  { id: "basic-dashboard", label: "Basic dashboard for signed-in users", price: 300, category: "account-features" },
+  { id: "saved-favorites-feature", label: "Saved favorites feature", price: 220, category: "account-features" },
+  { id: "user-settings-page", label: "User settings page", price: 200, category: "account-features" },
+  { id: "user-profile-editing", label: "User profile editing", price: 180, category: "account-features" },
+  { id: "member-content-library", label: "Member content library", price: 250, category: "account-features" },
+  // Optimization & Setup
+  { id: "mobile-ux-optimization", label: "Mobile UX optimization", price: 120, category: "optimization-setup" },
+  { id: "accessibility-improvements", label: "Accessibility improvements", price: 100, category: "optimization-setup" },
+  { id: "image-optimization", label: "Image optimization", price: 80, category: "optimization-setup" },
+  { id: "seo-page-structure-improvements", label: "SEO page structure improvements", price: 120, category: "optimization-setup" },
+  // Ongoing
+  { id: "maintenance", label: "Monthly maintenance", price: 60, category: "ongoing", monthly: true },
+];
+
+/** Simple keyword → addon ids for suggesting add-ons from project description (no AI). */
+export const MODULAR_KEYWORD_TO_ADDON_IDS: Record<string, string[]> = {
+  gallery: ["image-gallery"],
+  photos: ["image-gallery"],
+  menu: ["menu-services", "menu-display-system"],
+  services: ["menu-services"],
+  restaurant: ["menu-services", "menu-display-system", "image-gallery", "extra-page"],
+  bakery: ["menu-services", "image-gallery", "extra-page"],
+  testimonials: ["testimonials"],
+  reviews: ["testimonials", "google-reviews-embed"],
+  faq: ["faq"],
+  blog: ["blog-layout"],
+  articles: ["blog-layout"],
+  portfolio: ["portfolio-section"],
+  projects: ["portfolio-section"],
+  seo: ["basic-seo"],
+  google: ["basic-seo", "google-reviews-embed", "google-maps"],
+  map: ["google-maps"],
+  maps: ["google-maps"],
+  location: ["google-maps"],
+  instagram: ["social-links", "instagram-feed-embed"],
+  facebook: ["social-links", "facebook-page-embed"],
+  social: ["social-links"],
+  newsletter: ["newsletter-form"],
+  "email list": ["newsletter-form"],
+  languages: ["multilingual"],
+  multilingual: ["multilingual"],
+  translation: ["multilingual"],
+  login: ["login-signup"],
+  "sign in": ["login-signup"],
+  "sign up": ["login-signup"],
+  signup: ["login-signup"],
+  register: ["login-signup"],
+  account: ["login-signup", "user-profile"],
+  profile: ["user-profile"],
+  members: ["login-signup", "protected-page"],
+  "members area": ["login-signup", "protected-page", "basic-dashboard"],
+  private: ["protected-page"],
+  dashboard: ["basic-dashboard"],
+  portal: ["basic-dashboard"],
+  "extra page": ["extra-page"],
+  page: ["extra-page"],
+  // New feature keywords
+  slider: ["image-slider"],
+  carousel: ["image-slider"],
+  icons: ["custom-icons-graphics"],
+  graphics: ["custom-icons-graphics"],
+  team: ["team-section"],
+  staff: ["team-section"],
+  pricing: ["pricing-table-section"],
+  whatsapp: ["whatsapp-contact-button"],
+  events: ["event-listing-section"],
+  favorites: ["saved-favorites-feature"],
+  "profile edit": ["user-profile-editing"],
+  "profile editing": ["user-profile-editing"],
+  settings: ["user-settings-page"],
+  landing: ["landing-page-section"],
+  hero: ["hero-banner-section"],
+  banner: ["hero-banner-section"],
+  "case stud": ["case-studies-section"],
+  "case studies": ["case-studies-section"],
+  timeline: ["timeline-process-section"],
+  process: ["timeline-process-section"],
+  "contact form": ["email-contact-form-integration"],
+  popup: ["cta-popup"],
+  "call to action": ["cta-popup"],
+  cta: ["cta-popup"],
+  products: ["product-showcase-pages"],
+  "product showcase": ["product-showcase-pages"],
+  "content library": ["member-content-library"],
+  library: ["member-content-library"],
+  mobile: ["mobile-ux-optimization"],
+  accessibility: ["accessibility-improvements"],
+  "image optim": ["image-optimization"],
+  "faq search": ["faq-search-feature"],
+};
+
+const modularAddonById = new Map(MODULAR_ADDONS.map((a) => [a.id, a]));
+
+export function getModularAddon(id: string): ModularAddOn | undefined {
+  return modularAddonById.get(id);
+}
+
+/** Returns addon ids suggested from description using simple keyword matching only. */
+export function getModularSuggestedAddonIds(description: string): string[] {
+  const normalized = description.toLowerCase().trim();
+  if (!normalized) return [];
+  const suggested = new Set<string>();
+  for (const [phrase, ids] of Object.entries(MODULAR_KEYWORD_TO_ADDON_IDS)) {
+    if (normalized.includes(phrase)) {
+      ids.forEach((id) => suggested.add(id));
+    }
+  }
+  return Array.from(suggested);
+}

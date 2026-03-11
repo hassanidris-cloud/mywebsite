@@ -6,10 +6,15 @@ import VeloraIcon from "./VeloraIcon";
 export default function VeloraLogoHorizontal({
   variant = "dark",
   showWordmark = true,
+  wordmarkInline = false,
+  iconSize = 40,
   className = "",
 }: {
   variant?: "dark" | "light";
   showWordmark?: boolean;
+  /** Show "Velora Studio" on one line instead of stacked */
+  wordmarkInline?: boolean;
+  iconSize?: number;
   className?: string;
 }) {
   const textVelora = variant === "dark" ? "text-cream" : "text-text-dark";
@@ -21,8 +26,13 @@ export default function VeloraLogoHorizontal({
       className={`inline-flex items-center gap-3 no-underline ${className}`}
       aria-label="Velora Studio - Home"
     >
-      <VeloraIcon size={40} animated={true} />
-      {showWordmark && (
+      <VeloraIcon size={iconSize} animated={true} />
+      {showWordmark && wordmarkInline && (
+        <span className={`font-heading text-lg font-semibold tracking-tight ${textVelora}`}>
+          Velora <span className={textStudio}>Studio</span>
+        </span>
+      )}
+      {showWordmark && !wordmarkInline && (
         <span className="flex flex-col leading-tight">
           <span
             className={`font-heading text-xl font-bold tracking-tight ${textVelora}`}

@@ -10,12 +10,11 @@ export default function PricingPage() {
             Velora Pricing
           </p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-white md:text-6xl">
-            Clear packages for modern premium websites.
+            Transparent pricing that grows with you.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/65">
-            Whether you need a fast launch, a stronger growth asset or a full
-            flagship experience, each package is designed to elevate your
-            positioning and improve conversion.
+            Start with a base website at €750, then add only what you need.
+            Describe your project and we&apos;ll suggest the best add-ons—no surprises.
           </p>
         </div>
       </section>
