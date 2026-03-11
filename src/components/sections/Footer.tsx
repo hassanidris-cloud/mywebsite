@@ -13,10 +13,10 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-  { label: "Twitter", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "GitHub", href: "#" },
-];
+  { label: "Twitter", href: process.env.NEXT_PUBLIC_TWITTER_URL || "" },
+  { label: "LinkedIn", href: process.env.NEXT_PUBLIC_LINKEDIN_URL || "" },
+  { label: "GitHub", href: process.env.NEXT_PUBLIC_GITHUB_URL || "" },
+].filter((item) => item.href);
 
 export default function Footer() {
   return (
@@ -41,21 +41,23 @@ export default function Footer() {
               </Link>
             ))}
           </nav>
-          <div className="flex gap-8">
-            {socialLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-2 min-h-[44px] flex items-center"
-                aria-label={item.label}
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-px bg-white/50 group-hover:w-full transition-[width] duration-300 ease-out" />
-              </a>
-            ))}
-          </div>
+          {socialLinks.length > 0 && (
+            <div className="flex gap-8">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative text-sm text-white/55 hover:text-white transition-colors duration-200 group py-2 min-h-[44px] flex items-center"
+                  aria-label={item.label}
+                >
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-white/50 group-hover:w-full transition-[width] duration-300 ease-out" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
         <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p className="text-sm text-white/45">

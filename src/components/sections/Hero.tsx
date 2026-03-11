@@ -61,7 +61,7 @@ export default function Hero() {
             <Button href="/start-project" variant="primary" size="lg">
               Start Your Project
             </Button>
-            <Button href="#work" variant="secondary" size="lg">
+            <Button href="/#work" variant="secondary" size="lg">
               View Our Work
             </Button>
             <Button
