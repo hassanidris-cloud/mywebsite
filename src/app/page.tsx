@@ -1,38 +1,19 @@
-import Navbar from "@/components/layout/Navbar";
-import ScrollProgress from "@/components/ui/ScrollProgress";
-import { HomeStructuredData } from "@/components/StructuredData";
-import Hero from "@/components/sections/Hero";
-import Services from "@/components/sections/Services";
-import Portfolio from "@/components/sections/Portfolio";
-import Process from "@/components/sections/Process";
-import WhyUs from "@/components/sections/WhyUs";
-import About from "@/components/sections/About";
-import Pricing from "@/components/sections/Pricing";
-import Testimonials from "@/components/sections/Testimonials";
-import InlineCTA from "@/components/sections/InlineCTA";
-import CTA from "@/components/sections/CTA";
-import Newsletter from "@/components/sections/Newsletter";
-import Footer from "@/components/sections/Footer";
+import Hero from "@/components/sections/Hero"
+import FeatureGrid from "@/components/sections/FeatureGrid"
+import Results from "@/components/sections/Results"
+import Pricing from "@/components/sections/Pricing"
+import Testimonials from "@/components/sections/Testimonials"
+import CTA from "@/components/sections/CTA"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
-      <HomeStructuredData />
-      <ScrollProgress />
-      <Navbar />
+    <main className="bg-neutral-950">
       <Hero />
-      <Services />
-      <InlineCTA />
-      <Portfolio />
-      <InlineCTA />
-      <Process />
-      <WhyUs />
-      <About />
+      <FeatureGrid />
+      <Results />
       <Pricing />
       <Testimonials />
       <CTA />
-      <Newsletter />
-      <Footer />
     </main>
-  );
+  )
 }

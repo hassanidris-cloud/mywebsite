@@ -1,56 +1,50 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import Container from "@/components/ui/Container";
-import Section from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ArrowRight } from "lucide-react"
 
 export default function CTA() {
   return (
-    <Section id="contact" className="py-20 md:py-28">
-      <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden text-center"
-        >
-          {/* Gradient + soft glow background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-purple/25 via-primary-accent/15 to-primary-warm/20" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_55%_at_50%_50%,rgba(124,58,237,0.2),transparent_65%)]" />
-          <motion.div
-            animate={{ opacity: [0.35, 0.5, 0.35] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 bg-dark/50"
-          />
-          <div className="relative z-10 p-6 sm:p-8 md:p-20 border border-white/10 rounded-3xl shadow-glow-strong transition-shadow duration-300">
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
-              Ready to Launch Your Website?
-            </h2>
-            <p className="text-white/85 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
-              Let’s build a website that helps your business grow.
+    <section className="bg-neutral-950 px-6 pb-24">
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55 }}
+        className="mx-auto max-w-7xl overflow-hidden rounded-[2.25rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_25%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.14),transparent_25%),linear-gradient(to_bottom_right,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-8 md:p-12"
+      >
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">
+              Ready to launch
             </p>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 flex-wrap">
-              <Button href="/start-project" variant="primary" size="lg">
-                Start Your Project
-              </Button>
-              <Button href="/start-project?intent=quote" variant="secondary" size="lg">
-                Get a Custom Quote
-              </Button>
-              <Button
-                href={process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_CAL_COM_URL || "/start-project?intent=call"}
-                variant="ghost"
-                size="lg"
-                className="text-white/90 hover:text-white"
-                external={Boolean(process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_CAL_COM_URL)}
-              >
-                Book a Free Strategy Call
-              </Button>
-            </div>
+            <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-white md:text-5xl">
+              Let&apos;s build a website that feels premium and performs like it should.
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+              Better first impressions. Better trust. Better enquiries. Built
+              around your offer, your positioning and your next stage of growth.
+            </p>
           </div>
-        </motion.div>
-      </Container>
-    </Section>
-  );
+
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/start-project"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-medium text-neutral-950 transition hover:scale-[1.02]"
+            >
+              Start your project
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/5 px-6 py-3.5 font-medium text-white hover:bg-white/10"
+            >
+              View packages
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  )
 }

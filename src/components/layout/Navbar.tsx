@@ -1,127 +1,86 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import Container from "@/components/ui/Container";
-import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal";
-import Button from "@/components/ui/Button";
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { Menu } from "lucide-react"
+import { useState } from "react"
 
-const navItems = [
-  { label: "Services", href: "/#services" },
-  { label: "Work", href: "/#work" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "/#contact" },
-];
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/work", label: "Work" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/about", label: "About" }
+]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const [open, setOpen] = useState(false)
 
   return (
-    <>
-      <motion.header
-        initial={{ y: -16, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
-          scrolled
-            ? "bg-dark/80 backdrop-blur-xl shadow-nav-bar border-b border-white/[0.06]"
-            : "bg-transparent"
-        }`}
-      >
-        <Container>
-          <nav className="flex items-center justify-between h-16" aria-label="Main navigation">
-            <VeloraLogoHorizontal variant="dark" />
+    <motion.header
+      initial={{ opacity: 0, y: -18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-x-0 top-0 z-50 px-4 py-4"
+    >
+      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-neutral-950/75 px-5 py-3 backdrop-blur-xl">
+        <Link href="/" className="text-lg font-semibold tracking-tight text-white">
+          Velora Studio
+        </Link>
 
-            <ul className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="relative text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 group py-2"
-                  >
-                    {item.label}
-                    <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-primary-accent to-primary-blue group-hover:w-full transition-[width] duration-300 ease-out" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <div className="hidden md:block">
-              <Button href="/start-project" variant="primary" size="sm">
-                Start Your Project
-              </Button>
-            </div>
-
-            <button
-              type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-              className="md:hidden p-3 -m-3 text-white hover:bg-white/5 rounded-xl transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-              onClick={() => setMobileOpen(!mobileOpen)}
+        <nav className="hidden items-center gap-7 md:flex">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm text-white/70 transition hover:text-white"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                {mobileOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </nav>
-        </Container>
-      </motion.header>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-dark/95 backdrop-blur-xl md:hidden pt-24 px-6 pb-8"
-            aria-hidden={!mobileOpen}
+        <div className="hidden md:block">
+          <Link
+            href="/start-project"
+            className="inline-flex items-center rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-neutral-950 transition hover:scale-[1.02]"
           >
-            <ul className="flex flex-col gap-1">
-              {navItems.map((item, i) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ delay: 0.05 * i }}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center min-h-[48px] py-3 text-lg font-medium text-white hover:text-primary-accent transition-colors rounded-lg px-4 -mx-3"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </motion.li>
-              ))}
-              <motion.li
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.05 * navItems.length }}
-                className="mt-6"
+            Start Project
+          </Link>
+        </div>
+
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="rounded-xl border border-white/10 bg-white/5 p-2 text-white md:hidden"
+          aria-label="Toggle menu"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+
+      {open && (
+        <div className="mx-auto mt-3 max-w-7xl rounded-2xl border border-white/10 bg-neutral-950/95 p-4 backdrop-blur-xl md:hidden">
+          <div className="flex flex-col gap-3">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-2 text-white/75 transition hover:bg-white/5 hover:text-white"
               >
-                <Button href="/start-project" variant="primary" size="lg">
-                  Start Your Project
-                </Button>
-              </motion.li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/start-project"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center rounded-xl bg-white px-4 py-3 text-sm font-medium text-neutral-950"
+            >
+              Start Project
+            </Link>
+          </div>
+        </div>
+      )}
+    </motion.header>
+  )
 }

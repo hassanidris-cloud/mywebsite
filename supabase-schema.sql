@@ -38,3 +38,23 @@ create policy "Service role can do anything on subscribers"
   on public.subscribers for all
   using (auth.role() = 'service_role')
   with check (auth.role() = 'service_role');
+
+-- Pricing estimator quote requests (from "Get My Custom Quote" on pricing section)
+create table if not exists public.pricing_quotes (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  company text,
+  project_description text not null,
+  selected_features jsonb not null default '[]',
+  estimated_total integer not null,
+  maintenance_selected boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table public.pricing_quotes enable row level security;
+
+create policy "Service role can do anything on pricing_quotes"
+  on public.pricing_quotes for all
+  using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');

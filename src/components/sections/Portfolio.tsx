@@ -167,6 +167,8 @@ function ProjectCard({
   const y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [24, 0, 0, -12]);
   const scale = useTransform(scrollYProgress, [0, 0.25], [0.96, 1]);
   const imageScale = useTransform(scrollYProgress, [0, 0.35], [1.08, 1]);
+  const imageReveal = useTransform(scrollYProgress, [0, 0.2], [0.97, 1]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.15], [0.7, 1]);
 
   return (
     <motion.article
@@ -176,31 +178,44 @@ function ProjectCard({
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
-        delay: index * 0.12,
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 200,
+        damping: 28,
       }}
       className="group"
     >
-      <Card className="overflow-hidden p-0 border border-white/10 bg-white/[0.03] hover:border-white/15 transition-colors">
+      <Card className="overflow-hidden p-0 border bg-surface-card/80 hover:border-cream/15 transition-colors duration-300 hover:shadow-card-hover">
         <motion.div
           ref={imageRef}
-          className="aspect-[4/3] relative overflow-hidden bg-white/5"
+          className="aspect-[4/3] relative overflow-hidden bg-white/5 transition-transform duration-500 ease-out group-hover:scale-[1.02]"
           style={{ scale: imageScale }}
         >
-          <Image
-            src={project.screenshot}
-            alt={`${project.title} — project preview`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              scale: imageReveal,
+              opacity: imageOpacity,
+            }}
+          >
+            <Image
+              src={project.screenshot}
+              alt={`${project.title} — project preview`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover object-top"
+            />
+          </motion.div>
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+            aria-hidden
           />
         </motion.div>
         <div className="p-6 lg:p-7">
-          <h3 className="font-heading text-xl font-semibold text-white mb-2">
+          <h3 className="font-heading text-xl font-semibold text-cream mb-2">
             {project.title}
           </h3>
-          <p className="text-white/60 text-sm leading-relaxed mb-5">
+          <p className="text-cream/65 text-sm leading-relaxed mb-5">
             {project.description}
           </p>
           <p className="text-2xl font-bold text-primary-accent tracking-tight mb-4">
@@ -210,7 +225,7 @@ function ProjectCard({
             {project.stack.map((tech) => (
               <span
                 key={tech}
-                className="text-xs px-2.5 py-1 rounded-md bg-white/10 text-white/60 border border-white/5"
+                className="text-xs px-2.5 py-1 rounded-md bg-cream/10 text-cream/65 border border"
               >
                 {tech}
               </span>
@@ -219,7 +234,7 @@ function ProjectCard({
           <motion.button
             type="button"
             onClick={() => onLiveView(project)}
-            className="inline-flex items-center justify-center rounded-full border-2 border-white/20 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10 hover:border-white/40 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center rounded-full border-2 border-cream/20 px-6 py-3 text-base font-semibold text-cream transition hover:bg-cream/10 hover:border-cream/40 hover:-translate-y-0.5"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -240,7 +255,7 @@ export default function Portfolio() {
   } | null>(null);
 
   return (
-    <Section id="work">
+    <Section id="work" variant="elevated">
       <Container>
         <Heading
           label="Work"

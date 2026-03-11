@@ -5,6 +5,8 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Heading from "@/components/ui/Heading";
 import Card from "@/components/ui/Card";
+import { useTilt } from "@/hooks/useTilt";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const services = [
   {
@@ -63,9 +65,57 @@ const item = {
   },
 };
 
+function ServiceCard({
+  title,
+  description,
+  icon,
+  variants,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  variants: typeof item;
+}) {
+  const reduceMotion = useReducedMotion();
+  const { ref, tiltStyle, onMouseMove, onMouseLeave } = useTilt(reduceMotion ? 0 : 6);
+
+  return (
+    <motion.div variants={variants} className="h-full [perspective:800px]">
+      <motion.div
+        ref={ref}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
+        style={tiltStyle}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="h-full"
+      >
+        <Card hover={false} className="h-full border hover:border-primary-accent/25 hover:shadow-card-hover transition-all duration-300 group">
+          <div className="flex gap-5">
+            <motion.div
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-purple/30 via-primary-accent/20 to-warm/20 flex items-center justify-center text-primary-accent border border group-hover:border-primary-accent/30 transition-colors duration-300"
+            >
+              {icon}
+            </motion.div>
+            <div>
+              <h3 className="font-heading text-xl font-semibold text-cream mb-2">
+                {title}
+              </h3>
+              <p className="text-cream/70 text-[15px] leading-relaxed">
+                {description}
+              </p>
+            </div>
+          </div>
+        </Card>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Services() {
   return (
-    <Section id="services">
+    <Section id="services" variant="surface">
       <Container>
         <Heading
           label="Services"
@@ -80,27 +130,13 @@ export default function Services() {
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {services.map((s) => (
-            <motion.div key={s.title} variants={item}>
-              <Card>
-                  <div className="flex gap-5">
-                  <motion.div
-                    whileHover={{ scale: 1.04 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-purple/25 to-primary-blue/25 flex items-center justify-center text-primary-accent border border-white/5"
-                  >
-                    {s.icon}
-                  </motion.div>
-                  <div>
-                    <h3 className="font-heading text-xl font-semibold text-white mb-2">
-                      {s.title}
-                    </h3>
-                    <p className="text-white/60 text-[15px] leading-relaxed">
-                      {s.description}
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
+            <ServiceCard
+              key={s.title}
+              title={s.title}
+              description={s.description}
+              icon={s.icon}
+              variants={item}
+            />
           ))}
         </motion.div>
       </Container>

@@ -12,7 +12,7 @@ export default function VeloraLogoHorizontal({
   showWordmark?: boolean;
   className?: string;
 }) {
-  const textVelora = variant === "dark" ? "text-white" : "text-text-dark";
+  const textVelora = variant === "dark" ? "text-cream" : "text-text-dark";
   const textStudio = variant === "dark" ? "text-slate-400" : "text-slate-500";
 
   return (

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
+import { LogoColorProvider } from "@/contexts/LogoColorContext";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/sections/Footer";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -21,7 +24,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0a0a0f",
+  themeColor: "#06060a",
 };
 
 const siteUrl = "https://velorastudio.design";
@@ -53,8 +56,8 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
-    apple: "/icon.svg",
+    icon: [{ url: "/icon", type: "image/svg+xml", sizes: "any" }],
+    apple: [{ url: "/icon", type: "image/svg+xml", sizes: "any" }],
   },
   openGraph: {
     title: "Velora Studio | Premium Web Design Agency",
@@ -107,7 +110,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${syne.variable} ${dmSans.variable} font-sans antialiased overflow-x-hidden`}>
+      <body className={`${syne.variable} ${dmSans.variable} min-h-screen bg-neutral-950 text-white font-sans antialiased overflow-x-hidden`}>
+        <LogoColorProvider>
+        <Navbar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
@@ -123,7 +128,9 @@ export default function RootLayout({
           Skip to main content
         </a>
         {children}
+        <Footer />
         <Analytics />
+        </LogoColorProvider>
       </body>
     </html>
   );

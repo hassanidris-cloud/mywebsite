@@ -34,7 +34,7 @@ export default function WhyUs() {
   }, [inView]);
 
   return (
-    <Section id="why-us" className="border-t border-white/[0.06]">
+    <Section id="why-us" variant="halo">
       <Container>
         <div ref={ref} className="max-w-3xl mx-auto">
           <motion.p
@@ -42,7 +42,7 @@ export default function WhyUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-            className="text-primary-warm font-semibold text-sm uppercase tracking-[0.2em] mb-4 text-center"
+            className="text-warm font-semibold text-sm uppercase tracking-[0.2em] mb-4 text-center"
           >
             How we&apos;re different
           </motion.p>
@@ -51,7 +51,7 @@ export default function WhyUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.05, ease: [0.34, 1.56, 0.64, 1] }}
-            className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight text-center mb-12"
+            className="font-heading text-2xl sm:text-3xl font-bold text-cream tracking-tight text-center mb-12"
           >
             No agencies. No runaround.
           </motion.h2>
@@ -73,13 +73,13 @@ export default function WhyUs() {
                   initial={{ scale: 0 }}
                   animate={inView && shown > i ? { scale: 1 } : {}}
                   transition={{ type: "spring", stiffness: 400, damping: 20, delay: i * 0.1 }}
-                  className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-warm/20 text-primary-warm border border-primary-warm/40 shrink-0 mt-0.5"
+                  className="flex items-center justify-center w-8 h-8 rounded-full bg-warm/20 text-warm border border-warm/40 shrink-0 mt-0.5"
                 >
                   <TickIcon />
                 </motion.span>
                 <div>
-                  <h3 className="font-heading font-semibold text-white mb-1">{item.title}</h3>
-                  <p className="text-white/60 text-sm sm:text-base leading-relaxed">{item.detail}</p>
+                  <h3 className="font-heading font-semibold text-cream mb-1">{item.title}</h3>
+                  <p className="text-cream/65 text-sm sm:text-base leading-relaxed">{item.detail}</p>
                 </div>
               </motion.li>
             ))}

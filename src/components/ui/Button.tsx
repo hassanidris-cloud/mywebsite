@@ -26,15 +26,15 @@ export default function Button({
   type = "button",
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center font-semibold rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-accent focus:ring-offset-2 focus:ring-offset-dark";
+    "inline-flex items-center justify-center font-semibold rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-accent focus:ring-offset-2 focus:ring-offset-dark";
 
   const variants = {
     primary:
-      "bg-gradient-to-br from-primary-purple via-primary-accent to-primary-warm text-white shadow-lg hover:shadow-button-glow active:scale-[0.98]",
+      "bg-gradient-to-br from-primary-purple via-primary-accent to-warm text-cream shadow-lg hover:shadow-button-glow hover:shadow-glow-accent active:scale-[0.98]",
     secondary:
-      "border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/40 active:scale-[0.98]",
+      "border-2 border-cream/20 text-cream hover:bg-cream/10 hover:border-cream/40 active:scale-[0.98]",
     ghost:
-      "text-white/90 hover:text-white hover:bg-white/5 active:scale-[0.98]",
+      "text-cream/90 hover:text-cream hover:bg-cream/5 active:scale-[0.98]",
   };
 
   const sizes = {
@@ -50,9 +50,9 @@ export default function Button({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (variant !== "primary" || !ref.current) return;
     const el = ref.current.getBoundingClientRect();
-    const x = (e.clientX - el.left - el.width / 2) * 0.12;
-    const y = (e.clientY - el.top - el.height / 2) * 0.12;
-    setXy({ x: Math.max(-4, Math.min(4, x)), y: Math.max(-4, Math.min(4, y)) });
+    const x = (e.clientX - el.left - el.width / 2) * 0.18;
+    const y = (e.clientY - el.top - el.height / 2) * 0.18;
+    setXy({ x: Math.max(-6, Math.min(6, x)), y: Math.max(-6, Math.min(6, y)) });
   };
   const handleMouseLeave = () => setXy({ x: 0, y: 0 });
 

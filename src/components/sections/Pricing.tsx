@@ -1,111 +1,161 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import Container from "@/components/ui/Container";
-import Section from "@/components/ui/Section";
-import Heading from "@/components/ui/Heading";
-import Card from "@/components/ui/Card";
-import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { Check, Sparkles } from "lucide-react"
 
-const plans = [
+const tiers = [
   {
-    name: "Starter",
-    price: "$2,500",
-    ideal: "Best for small businesses launching their first website.",
-    description: "A clear, professional site that gets you online.",
-    features: ["3–5 pages", "Responsive design", "Basic SEO", "1 round of revisions"],
-    highlighted: false,
+    name: "Launch",
+    price: "£1,500",
+    desc: "For smaller businesses that need a clean, high-converting online presence.",
+    features: [
+      "Up to 5 pages",
+      "Premium responsive design",
+      "Core SEO setup",
+      "Contact / lead form",
+      "Basic animations",
+      "Launch support"
+    ]
   },
   {
     name: "Growth",
-    price: "$5,000",
-    ideal: "Best for startups and companies that want a modern, scalable website.",
-    description: "Custom design and the tools to grow.",
-    features: ["Custom design", "Animations", "SEO optimization", "CMS integration", "3 rounds of revisions"],
-    highlighted: true,
+    price: "£3,500",
+    desc: "For brands ready to level up trust, messaging and lead generation.",
+    featured: true,
+    features: [
+      "Up to 10 pages",
+      "Conversion-focused wireframes",
+      "Enhanced SEO structure",
+      "Custom sections and CMS",
+      "Higher-end interactions",
+      "Analytics + tracking",
+      "Priority revisions"
+    ]
   },
   {
-    name: "Premium",
-    price: "$10,000+",
-    ideal: "Best for businesses that need a fully custom website with advanced features.",
-    description: "Full custom build and priority support.",
-    features: ["Full custom build", "Advanced animations", "Integrations", "Priority support", "Dedicated lead"],
-    highlighted: false,
-  },
-];
+    name: "Signature",
+    price: "£6,000+",
+    desc: "For ambitious companies that want a flagship website experience.",
+    features: [
+      "Custom strategy workshop",
+      "Advanced premium UI system",
+      "Complex animations",
+      "Custom landing pages",
+      "Performance optimisation",
+      "Deeper SEO structure",
+      "Priority build process"
+    ]
+  }
+]
+
+const addons = [
+  "Monthly support retainers",
+  "Landing page funnels",
+  "Booking / enquiry systems",
+  "Copy refinement",
+  "SEO content pages",
+  "Email capture flows"
+]
 
 export default function Pricing() {
   return (
-    <Section id="pricing">
-      <Container>
-        <Heading
-          label="Pricing"
-          title="Transparent Pricing"
-          subtitle="Fixed scope. Clear value. From Starter to Premium, plus backend add-ons, hosting, and maintenance."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {plans.map((plan, i) => (
+    <section className="bg-neutral-950 px-6 py-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-medium uppercase tracking-[0.18em] text-fuchsia-300/80">
+            Pricing
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
+            Premium packages built around growth.
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-white/65">
+            Clear packages for different stages of business, from fast launches
+            to custom flagship builds.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          {tiers.map((tier, i) => (
             <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 20 }}
+              key={tier.name}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: i * 0.08, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative ${plan.highlighted ? "md:-mt-2 md:mb-2" : ""}`}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.55, delay: i * 0.08 }}
+              whileHover={{ y: -6 }}
+              className={`relative rounded-[2rem] border p-8 ${
+                tier.featured
+                  ? "border-indigo-400/30 bg-gradient-to-b from-indigo-500/12 to-white/[0.04] shadow-[0_0_0_1px_rgba(255,255,255,0.04)]"
+                  : "border-white/10 bg-white/[0.04]"
+              }`}
             >
-              <Card hover={!plan.highlighted} padding={plan.highlighted ? "large" : "default"} className={plan.highlighted ? "ring-1 ring-primary-accent/30" : ""}>
-                {plan.highlighted && (
-                  <>
-                    <motion.div
-                      className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl bg-gradient-to-r from-primary-purple via-primary-warm to-primary-accent z-10"
-                      animate={{ opacity: [0.8, 1, 0.8] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <div className="absolute top-6 right-6">
-                      <Badge variant="popular">Most Popular</Badge>
+              {tier.featured && (
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-indigo-300/20 bg-indigo-400/10 px-3 py-1 text-xs font-medium text-indigo-200">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Most popular
+                </div>
+              )}
+
+              <h3 className="text-2xl font-semibold text-white">{tier.name}</h3>
+              <p className="mt-3 text-4xl font-semibold tracking-tight text-white">
+                {tier.price}
+              </p>
+              <p className="mt-4 min-h-[72px] leading-7 text-white/60">{tier.desc}</p>
+
+              <div className="mt-8 space-y-3">
+                {tier.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-full bg-white/8 p-1">
+                      <Check className="h-3.5 w-3.5 text-indigo-300" />
                     </div>
-                  </>
-                )}
-                <div className="mb-6">
-                  <p className="text-sm text-white/50 mb-1">{plan.ideal}</p>
-                  <h3 className="font-heading text-xl font-semibold text-white mb-1">
-                    {plan.name}
-                  </h3>
-                  <p className="text-3xl font-bold text-white">{plan.price}</p>
-                  <p className="text-white/60 text-sm mt-2">{plan.description}</p>
-                </div>
-                <ul className="space-y-2.5 mb-8">
-                  {plan.features.map((f) => (
-                    <li key={f} className="text-sm text-white/80 flex items-center gap-2.5">
-                      <span className="text-primary-accent shrink-0">✓</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button
-                    href="/start-project"
-                    variant={plan.highlighted ? "primary" : "secondary"}
-                    size="md"
-                    className="w-full sm:w-auto"
-                  >
-                    Start Your Project
-                  </Button>
-                  <Button
-                    href="/pricing"
-                    variant="ghost"
-                    size="md"
-                    className="w-full sm:w-auto text-white/70 hover:text-white"
-                  >
-                    Full pricing →
-                  </Button>
-                </div>
-              </Card>
+                    <p className="text-white/75">{feature}</p>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/start-project"
+                className={`mt-8 inline-flex w-full items-center justify-center rounded-xl px-5 py-3.5 font-medium transition ${
+                  tier.featured
+                    ? "bg-white text-neutral-950 hover:scale-[1.01]"
+                    : "border border-white/12 bg-white/5 text-white hover:bg-white/10"
+                }`}
+              >
+                Choose {tier.name}
+              </Link>
             </motion.div>
           ))}
         </div>
-      </Container>
-    </Section>
-  );
+
+        <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8">
+          <div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr]">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
+                Add-ons
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold text-white">
+                Expand your website as you grow.
+              </h3>
+              <p className="mt-4 max-w-xl leading-7 text-white/60">
+                Need more than the base package? We can extend the project with
+                growth-focused extras and ongoing support.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {addons.map((addon) => (
+                <div
+                  key={addon}
+                  className="rounded-2xl border border-white/10 bg-neutral-900/60 px-4 py-4 text-white/75"
+                >
+                  {addon}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }

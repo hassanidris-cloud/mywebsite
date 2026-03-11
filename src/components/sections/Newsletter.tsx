@@ -33,10 +33,10 @@ export default function Newsletter() {
           viewport={{ once: true }}
           className="max-w-xl mx-auto text-center"
         >
-          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
+          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold text-cream mb-2 tracking-tight">
             Stay updated with Velora Studio
           </h2>
-          <p className="text-white/60 mb-6">
+          <p className="text-cream/70 mb-6">
             Tips and project updates. No spam.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">

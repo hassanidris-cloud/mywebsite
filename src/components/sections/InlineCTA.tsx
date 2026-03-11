@@ -12,7 +12,7 @@ export default function InlineCTA() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      className="py-8 md:py-10 border-t border-white/[0.04]"
+      className="py-8 md:py-10"
     >
       <Container>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
@@ -26,7 +26,7 @@ export default function InlineCTA() {
             href={calendlyUrl || "/start-project?intent=call"}
             variant="ghost"
             size="md"
-            className="text-white/70 hover:text-white"
+            className="text-cream/75 hover:text-cream"
             external={Boolean(calendlyUrl)}
           >
             Book a Free Strategy Call

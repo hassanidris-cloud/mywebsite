@@ -21,10 +21,10 @@ export default function About() {
           transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
           className="max-w-2xl mx-auto text-center space-y-5"
         >
-          <p className="text-white/80 text-base sm:text-lg leading-relaxed">
+          <p className="text-cream/85 text-base sm:text-lg leading-relaxed">
             Velora Studio is a small web studio. You get a fixed scope, a single point of contact, and a site that&apos;s fast and straightforward to update. Most projects are live within 6–8 weeks.
           </p>
-          <p className="text-white/55 text-sm sm:text-base leading-relaxed">
+          <p className="text-cream/65 text-sm sm:text-base leading-relaxed">
             No account managers, no scope creep, no retainer after launch. You own the site. We&apos;re here when you need changes.
           </p>
         </motion.div>
