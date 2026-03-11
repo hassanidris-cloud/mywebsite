@@ -3,7 +3,7 @@ import type { InquiryPayload } from "@/app/actions/inquiry";
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const inquiryToEmail = process.env.INQUIRY_NOTIFY_EMAIL;
-const fromEmail = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+const fromEmail = process.env.RESEND_FROM_EMAIL ?? "Velora Studio <onboarding@resend.dev>";
 
 export function isResendConfigured() {
   return Boolean(resendApiKey && inquiryToEmail);
@@ -25,13 +25,17 @@ export async function sendLeadNotification(payload: InquiryPayload): Promise<boo
     <pre style="white-space:pre-wrap;font-family:sans-serif;">${escapeHtml(payload.description)}</pre>
     ${payload.source ? `<p><em>Source: ${escapeHtml(payload.source)}</em></p>` : ""}
   `;
-  const { error } = await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: fromEmail,
     to: inquiryToEmail,
     subject: `[Velora] New lead: ${payload.name}`,
     html,
   });
-  return !error;
+  if (error) {
+    console.error("[Velora Resend] Failed to send inquiry email:", error);
+    return false;
+  }
+  return true;
 }
 
 function formatBudget(value: string): string {

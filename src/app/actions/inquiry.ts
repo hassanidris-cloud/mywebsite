@@ -78,7 +78,10 @@ export async function submitInquiry(formData: FormData): Promise<{ ok: boolean; 
   }
 
   if (isResendConfigured()) {
-    await sendLeadNotification(payload);
+    const sent = await sendLeadNotification(payload);
+    if (!sent && process.env.NODE_ENV === "production") {
+      console.error("[Velora Inquiry] Resend did not send. Check RESEND_API_KEY, INQUIRY_NOTIFY_EMAIL, and Vercel logs.");
+    }
   }
 
   return { ok: true, redirect: "/thank-you" };

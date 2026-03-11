@@ -24,7 +24,7 @@ You can receive every **Start Your Project** submission in your inbox without us
 Resend requires a verified domain or their test domain:
 
 - **Option A – Resend test domain**  
-  You can send from `onboarding@resend.dev` for testing. No extra setup.
+  You can send from `onboarding@resend.dev`, but on the free tier you can **only send to the same email you used to sign up for Resend**. Set `INQUIRY_NOTIFY_EMAIL` to that address.
 
 - **Option B – Your own domain**  
   In Resend, add your domain (e.g. `velorastudio.design`) and add the DNS records they show. Then you can use e.g. `noreply@velorastudio.design` as the sender.
