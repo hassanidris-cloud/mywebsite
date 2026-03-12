@@ -72,7 +72,7 @@ export default function ContactPage() {
 
               <div className="pt-4 border-t border-white/[0.08]">
                 <p className="text-white/65 text-sm mb-4">
-                  Prefer to send a project brief? Use the form below and we'll get back with a tailored proposal.
+                  Prefer to send a project brief? Use the form below and we&apos;ll get back with a tailored proposal.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button href="/start-project" variant="primary" size="md">
