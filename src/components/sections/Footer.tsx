@@ -1,4 +1,5 @@
 import Link from "next/link"
+import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal"
 
 const navigation = {
   Pages: [
@@ -22,9 +23,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr]">
           <div className="max-w-xl">
-            <Link href="/" className="text-xl font-semibold tracking-tight">
-              Velora Studio
-            </Link>
+            <VeloraLogoHorizontal variant="dark" showWordmark={true} wordmarkInline={true} iconSize={28} className="inline-flex" />
             <p className="mt-5 text-white/60 leading-7">
               Premium websites for modern brands that want stronger trust,
               sharper positioning and better conversion.

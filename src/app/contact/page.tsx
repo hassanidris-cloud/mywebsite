@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/sections/Footer";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import Card from "@/components/ui/Card";
@@ -20,7 +18,6 @@ const socialLinks = [
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-dark overflow-x-hidden" id="main-content" role="main">
-      <Navbar />
       <Section noPadding className="pt-28 pb-16 md:pt-32 md:pb-24">
         <Container className="max-w-2xl">
           <motion.div
@@ -89,7 +86,6 @@ export default function ContactPage() {
           </motion.div>
         </Container>
       </Section>
-      <Footer />
     </main>
   );
 }

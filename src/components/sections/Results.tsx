@@ -11,8 +11,9 @@ const stats = [
 
 export default function Results() {
   return (
-    <section className="bg-neutral-950 px-6 pb-24">
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 md:p-10">
+    <section className="relative bg-neutral-950 px-6 pb-24">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" aria-hidden />
+      <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 shadow-[0_0_60px_-20px_rgba(6,182,212,0.08)] md:p-10">
         <div className="grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">

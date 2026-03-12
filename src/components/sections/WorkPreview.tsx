@@ -8,9 +8,13 @@ import { projects } from "@/data/work";
 export default function WorkPreview() {
   return (
     <section className="relative overflow-hidden bg-neutral-950 px-6 py-24">
+      {/* Decorative top glow */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/30 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-[600px] -translate-x-1/2 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(99,102,241,0.12),transparent_70%)]" aria-hidden />
+
       <div className="mx-auto max-w-7xl">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 backdrop-blur-sm">
             <Sparkles className="h-4 w-4 text-indigo-300" />
             Selected work
           </div>
@@ -30,7 +34,7 @@ export default function WorkPreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.08 }}
-              className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 transition hover:border-white/15 hover:bg-white/[0.06]"
+              className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6 transition hover:border-white/15 hover:bg-white/[0.06] hover:shadow-[0_0_40px_-12px_rgba(99,102,241,0.2)]"
             >
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-cyan-300/80">
                 {project.category}

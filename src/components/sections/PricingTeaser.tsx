@@ -13,7 +13,7 @@ export default function PricingTeaser() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center md:p-10"
+        className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center shadow-[0_0_50px_-15px_rgba(99,102,241,0.12)] md:p-10"
       >
         <p className="text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
           Pricing
