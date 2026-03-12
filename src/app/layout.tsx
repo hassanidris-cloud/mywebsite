@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans } from "next/font/google";
+import { Outfit, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/components/Analytics";
 import { LogoColorProvider } from "@/contexts/LogoColorContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/sections/Footer";
 
-const syne = Syne({
+const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
   weight: ["500", "600", "700", "800"],
 });
 
-const dmSans = DM_Sans({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -110,7 +110,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${syne.variable} ${dmSans.variable} min-h-screen bg-neutral-950 text-white font-sans antialiased overflow-x-hidden`}>
+      <body className={`${outfit.variable} ${sourceSans.variable} min-h-screen bg-neutral-950 text-white font-body antialiased overflow-x-hidden`}>
         <LogoColorProvider>
         <Navbar />
         <script

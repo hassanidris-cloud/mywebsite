@@ -27,14 +27,14 @@ export default function FAQPage() {
 
       <section className="mx-auto mt-16 max-w-7xl overflow-hidden rounded-[2.25rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.16),transparent_28%),linear-gradient(to_bottom_right,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-8 md:p-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
+          <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
               Still deciding
             </p>
-            <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
               Let&apos;s talk about the right website direction for your brand.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
               Whether you need a redesign, a fresh launch or something more
               premium than your current site, the next step starts here.
             </p>

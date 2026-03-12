@@ -25,7 +25,7 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.03),transparent,rgba(255,255,255,0.02))]" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_.9fr]">
-        <div>
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -42,7 +42,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={1}
-            className="mt-6 max-w-4xl text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.02]"
+            className="mt-6 text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.02]"
           >
             We design websites that feel expensive and convert like sales teams.
           </motion.h1>
@@ -52,7 +52,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={2}
-            className="mt-6 max-w-2xl text-lg leading-8 text-white/70 md:text-xl"
+            className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/70 md:text-xl"
           >
             Velora Studio builds premium, high-performance websites for
             service businesses, personal brands and modern companies that want
@@ -64,7 +64,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={3}
-            className="mt-10 flex flex-col gap-4 sm:flex-row"
+            className="mt-10 flex flex-col gap-4 sm:flex-row justify-center"
           >
             <Link
               href="/start-project"
@@ -87,7 +87,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={4}
-            className="mt-12 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3"
+            className="mt-12 grid max-w-2xl mx-auto grid-cols-1 gap-4 sm:grid-cols-3"
           >
             {[
               { label: "Avg. launch time", value: "2–4 weeks" },

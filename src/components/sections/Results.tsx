@@ -14,14 +14,14 @@ export default function Results() {
     <section className="bg-neutral-950 px-6 pb-24">
       <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 md:p-10">
         <div className="grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
-          <div>
+          <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">
               Results-driven
             </p>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
               Designed to improve clarity, trust and conversion.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
               Premium websites are not just aesthetics. They reduce confusion,
               elevate perception and help more visitors become enquiries,
               clients and customers.

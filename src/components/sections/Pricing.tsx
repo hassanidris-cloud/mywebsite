@@ -161,7 +161,7 @@ export default function Pricing() {
             viewport={{ once: true, margin: "-60px" }}
             className="flex flex-col gap-10"
           >
-            <div>
+            <div className="max-w-3xl mx-auto text-center">
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-fuchsia-300/80">
                 Pricing
               </p>

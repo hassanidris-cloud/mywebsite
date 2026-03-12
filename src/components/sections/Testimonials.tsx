@@ -69,7 +69,7 @@ export default function Testimonials({ reviews = [] }: TestimonialsProps) {
   return (
     <section className="bg-neutral-950 px-6 py-24">
       <div className="mx-auto max-w-7xl">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
             Social proof
           </p>

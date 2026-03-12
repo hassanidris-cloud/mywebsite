@@ -35,7 +35,7 @@ export default function WorkPage() {
   return (
     <main className="bg-neutral-950 px-6 pb-24 pt-32 text-white">
       <section className="mx-auto max-w-7xl">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75">
             <Sparkles className="h-4 w-4 text-indigo-300" />
             Selected work
@@ -43,7 +43,7 @@ export default function WorkPage() {
           <h1 className="mt-6 text-5xl font-semibold tracking-tight md:text-7xl">
             Websites I&apos;ve built.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          <p className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/65">
             From grocery and e-commerce templates to immigration and visa platforms—
             here&apos;s a selection of recent work.
           </p>
@@ -111,14 +111,14 @@ export default function WorkPage() {
 
       <section className="mx-auto mt-16 max-w-7xl overflow-hidden rounded-[2.25rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(6,182,212,0.14),transparent_28%),linear-gradient(to_bottom_right,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-8 md:p-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
+          <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">
               Your project
             </p>
-            <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
               Your website can become your strongest sales asset.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
               Let&apos;s turn your current site into something sharper, clearer
               and significantly more persuasive.
             </p>

@@ -44,8 +44,8 @@ const config: Config = {
         "border-muted": "rgba(255,255,255,0.06)",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Syne", "system-ui", "sans-serif"],
-        body: ["var(--font-body)", "DM Sans", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "Outfit", "system-ui", "sans-serif"],
+        body: ["var(--font-body)", "Source Sans 3", "system-ui", "sans-serif"],
       },
       fontSize: {
         hero: ["var(--text-hero)", { lineHeight: "1.02", letterSpacing: "-0.04em" }],

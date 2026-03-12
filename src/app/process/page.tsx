@@ -38,7 +38,7 @@ export default function ProcessPage() {
   return (
     <main className="bg-neutral-950 px-6 pb-24 pt-32 text-white">
       <section className="mx-auto max-w-7xl">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75">
             <Sparkles className="h-4 w-4 text-indigo-300" />
             Our process
@@ -46,7 +46,7 @@ export default function ProcessPage() {
           <h1 className="mt-6 text-5xl font-semibold tracking-tight md:text-7xl">
             A premium website process built around clarity and growth.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          <p className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/65">
             Good websites do not happen by accident. A clear process creates a
             stronger result, smoother collaboration and a more intentional final
             product.
@@ -71,14 +71,14 @@ export default function ProcessPage() {
 
       <section className="mx-auto mt-16 max-w-7xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 md:p-10">
         <div className="grid gap-10 lg:grid-cols-[1fr_.9fr]">
-          <div>
+          <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">
               Why it works
             </p>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
               Better structure leads to better performance.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
               When messaging, design and development are connected from the
               beginning, the final website feels sharper, more trustworthy and
               much easier for visitors to act on.
@@ -106,14 +106,14 @@ export default function ProcessPage() {
 
       <section className="mx-auto mt-16 max-w-7xl overflow-hidden rounded-[2.25rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_28%),linear-gradient(to_bottom_right,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-8 md:p-12">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
+          <div className="max-w-3xl mx-auto text-center">
             <p className="text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
               Ready to begin
             </p>
-            <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
               Let&apos;s turn your next website into a serious business asset.
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
+            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
               Strategy first. Premium execution. Better outcomes.
             </p>
           </div>

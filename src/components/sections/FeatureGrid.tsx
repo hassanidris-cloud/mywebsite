@@ -115,7 +115,7 @@ export default function FeatureGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="relative max-w-3xl"
+          className="relative max-w-3xl mx-auto text-center"
         >
           <div className="absolute -left-4 top-0 h-24 w-24 rounded-full bg-indigo-500/10 blur-3xl" />
           <p className="relative text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
