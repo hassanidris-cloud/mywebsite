@@ -6,27 +6,6 @@ import { useState, useTransition } from "react";
 import { submitReview } from "@/app/actions/review";
 import type { ReviewRow } from "@/lib/reviews";
 
-const fallbackTestimonials = [
-  {
-    quote:
-      "Velora completely changed how our brand felt online. The new site looks premium, explains our offer clearly and gets far better enquiries.",
-    name: "Sophie M.",
-    role: "Creative Founder",
-  },
-  {
-    quote:
-      "The site feels sharper, faster and far more trustworthy. Visitors spend longer on the page and our leads are noticeably better.",
-    name: "Daniel R.",
-    role: "Consulting Business Owner",
-  },
-  {
-    quote:
-      "We wanted something that looked high-end without feeling generic. The final result felt custom, polished and built to sell.",
-    name: "Aisha K.",
-    role: "Service Brand Director",
-  },
-];
-
 type TestimonialsProps = {
   reviews?: ReviewRow[];
 };
@@ -36,14 +15,11 @@ export default function Testimonials({ reviews = [] }: TestimonialsProps) {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const displayItems =
-    reviews.length > 0
-      ? reviews.map((r) => ({
-          quote: r.review,
-          name: r.name,
-          role: r.role ?? undefined,
-        }))
-      : fallbackTestimonials;
+  const displayItems = reviews.map((r) => ({
+    quote: r.review,
+    name: r.name,
+    role: r.role ?? undefined,
+  }));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,29 +57,31 @@ export default function Testimonials({ reviews = [] }: TestimonialsProps) {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
-          {displayItems.map((item, i) => (
-            <motion.div
-              key={item.name + i}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-7"
-            >
-              <div className="mb-4 flex gap-0.5 text-amber-400/80">
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <Star key={n} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="text-lg leading-8 text-white/75">&ldquo;{item.quote}&rdquo;</p>
-              <div className="mt-8">
-                <p className="font-medium text-white">{item.name}</p>
-                {item.role && <p className="text-sm text-white/50">{item.role}</p>}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {displayItems.length > 0 && (
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            {displayItems.map((item, i) => (
+              <motion.div
+                key={item.name + i}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-7"
+              >
+                <div className="mb-4 flex gap-0.5 text-amber-400/80">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Star key={n} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+                <p className="text-lg leading-8 text-white/75">&ldquo;{item.quote}&rdquo;</p>
+                <div className="mt-8">
+                  <p className="font-medium text-white">{item.name}</p>
+                  {item.role && <p className="text-sm text-white/50">{item.role}</p>}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Write a review */}
         <motion.div

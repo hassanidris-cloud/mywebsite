@@ -464,7 +464,7 @@ export default function Pricing() {
                 Your website plan is ready — send it to receive a custom quote.
               </p>
               <p className="mt-1 text-xs text-white/50">
-                No commitment — I&apos;ll review your request and send the best option for your business.
+                No commitment — we&apos;ll review your request and send the best option for your business.
               </p>
 
               <motion.button
