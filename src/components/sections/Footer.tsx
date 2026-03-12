@@ -19,7 +19,8 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-neutral-950 px-6 pb-10 pt-16 text-white">
+    <footer className="relative border-t border-white/10 bg-neutral-950 px-6 pb-10 pt-16 text-white">
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr]">
           <div className="max-w-xl">
@@ -43,7 +44,7 @@ export default function Footer() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-white/65 transition hover:text-white"
+                      className="text-white/65 transition hover:text-white hover:underline underline-offset-2"
                     >
                       {link.label}
                     </Link>
