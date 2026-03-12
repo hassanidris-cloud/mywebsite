@@ -38,14 +38,19 @@ export default function VideoBackground() {
           src={VIDEO_SRC}
         />
       </motion.div>
-      {/* Dark overlay so content stays readable */}
+      {/* Warm, soft overlay — readable and welcoming */}
       <div
-        className="absolute inset-0 bg-neutral-950/70"
+        className="absolute inset-0 bg-neutral-950/60"
         aria-hidden
       />
-      {/* Subtle gradient for depth */}
+      {/* Mesmerizing gradient: soft violet → warm amber at bottom */}
       <div
-        className="absolute inset-0 bg-gradient-to-b from-neutral-950/50 via-transparent to-neutral-950/80"
+        className="absolute inset-0 bg-gradient-to-b from-indigo-950/40 via-transparent to-amber-950/30"
+        aria-hidden
+      />
+      {/* Depth: darker at edges, lighter in center */}
+      <div
+        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_0%,rgba(10,10,20,0.4)_100%)]"
         aria-hidden
       />
     </div>

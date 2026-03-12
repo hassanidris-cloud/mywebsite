@@ -5,13 +5,13 @@ import { motion } from "framer-motion"
 import { ArrowRight, Sparkles, Zap, LineChart } from "lucide-react"
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   show: (i = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      delay: i * 0.08,
+      duration: 0.75,
+      delay: i * 0.1,
       ease: [0.22, 1, 0.36, 1]
     }
   })
@@ -20,8 +20,30 @@ const fadeUp = {
 export default function Hero() {
   return (
     <section className="relative overflow-hidden px-6 pb-20 pt-28 md:pb-28 md:pt-36 min-h-[100vh]">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_28%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.12),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.08),transparent_28%)]" />
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.03),transparent,rgba(255,255,255,0.02))]" />
+      {/* Mesmerizing ambient orbs — slow, soft movement */}
+      <motion.div
+        className="absolute -z-10 h-[600px] w-[600px] rounded-full bg-indigo-500/20 blur-[120px]"
+        style={{ left: "10%", top: "20%" }}
+        animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.05, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+      <motion.div
+        className="absolute -z-10 h-[500px] w-[500px] rounded-full bg-fuchsia-500/15 blur-[100px]"
+        style={{ right: "5%", top: "40%" }}
+        animate={{ x: [0, -25, 0], y: [0, 15, 0], scale: [1, 1.08, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+      <motion.div
+        className="absolute -z-10 h-[400px] w-[400px] rounded-full bg-amber-500/10 blur-[90px]"
+        style={{ left: "50%", bottom: "10%", transform: "translateX(-50%)" }}
+        animate={{ y: [0, 25, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.08),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.06),transparent_30%)]" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent,rgba(255,255,255,0.03))]" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_.9fr]">
         <div className="max-w-4xl mx-auto text-center">
@@ -30,10 +52,10 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={0}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md shadow-lg shadow-black/10"
           >
-            <Sparkles className="h-4 w-4 text-indigo-300" />
-            Premium websites for ambitious brands
+            <Sparkles className="h-4 w-4 text-amber-300" />
+            Welcome — we&apos;re glad you&apos;re here
           </motion.div>
 
           <motion.h1
@@ -41,9 +63,9 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={1}
-            className="mt-6 text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.02]"
+            className="mt-8 text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.02]"
           >
-            We design websites that feel expensive and convert like sales teams.
+            Websites that feel like home for your brand.
           </motion.h1>
 
           <motion.p
@@ -51,11 +73,9 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={2}
-            className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/70 md:text-xl"
+            className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/75 md:text-xl"
           >
-            Velora Studio builds premium, high-performance websites for
-            service businesses, personal brands and modern companies that want
-            stronger positioning, better trust and more qualified leads.
+            We design and build sites that are a joy to use — clear, fast, and built to turn visitors into believers. Let&apos;s create something you&apos;ll love.
           </motion.p>
 
           <motion.div
@@ -67,15 +87,15 @@ export default function Hero() {
           >
             <Link
               href="/start-project"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-medium text-neutral-950 transition hover:scale-[1.02]"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-medium text-neutral-950 shadow-lg shadow-white/10 transition hover:scale-[1.02] hover:shadow-xl hover:shadow-white/15"
             >
               Start your project
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
 
             <Link
               href="/pricing"
-              className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 font-medium text-white transition hover:bg-white/10"
+              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 font-medium text-white/90 transition hover:bg-white/10 hover:border-white/30"
             >
               Explore pricing
             </Link>
@@ -86,31 +106,33 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             custom={4}
-            className="mt-12 grid max-w-2xl mx-auto grid-cols-1 gap-4 sm:grid-cols-3"
+            className="mt-14 grid max-w-2xl mx-auto grid-cols-1 gap-4 sm:grid-cols-3"
           >
             {[
-              { label: "Avg. launch time", value: "2–4 weeks" },
-              { label: "Conversion-focused", value: "Every section" },
-              { label: "Built for growth", value: "SEO + speed" }
+              { label: "Friendly timeline", value: "2–4 weeks" },
+              { label: "Built for you", value: "Every detail" },
+              { label: "Grow with you", value: "SEO + speed" }
             ].map((item) => (
-              <div
+              <motion.div
                 key={item.label}
-                className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur"
+                className="rounded-2xl border border-white/15 bg-white/5 p-4 backdrop-blur-md"
+                whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.2)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <p className="text-sm text-white/50">{item.label}</p>
+                <p className="text-sm text-white/55">{item.label}</p>
                 <p className="mt-2 text-lg font-semibold text-white">{item.value}</p>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          initial={{ opacity: 0, y: 40, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
           className="relative"
         >
-          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-indigo-500/30 via-fuchsia-500/10 to-cyan-400/20 blur-3xl" />
+          <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-indigo-500/25 via-fuchsia-500/10 to-amber-500/15 blur-3xl" />
 
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/30 backdrop-blur-xl">
             <div className="rounded-[1.5rem] border border-white/10 bg-neutral-900/90 p-5">
