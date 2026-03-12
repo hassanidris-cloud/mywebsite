@@ -1,0 +1,10 @@
+{
+  "name": "winit-solutions",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel"
+  }
+}
