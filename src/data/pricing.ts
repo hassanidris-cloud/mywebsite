@@ -332,18 +332,20 @@ export const MODULAR_ADDONS: ModularAddOn[] = [
   { id: "maintenance", label: "Monthly maintenance", description: "Ongoing updates, security checks, and small changes so your site stays current.", price: 60, category: "ongoing", monthly: true },
 ];
 
-/** Website type options: user picks one to get relevant add-on suggestions. */
+/** Website type options: common types users can pick for relevant add-on suggestions. */
 export const WEBSITE_TYPES = [
-  { id: "restaurant-cafe", label: "Restaurant / Café" },
-  { id: "bakery-food", label: "Bakery / Food business" },
-  { id: "ecommerce", label: "E-commerce / Online store" },
-  { id: "portfolio-creative", label: "Portfolio / Creative" },
-  { id: "blog-content", label: "Blog / Content site" },
+  { id: "ecommerce", label: "E-commerce" },
   { id: "business-corporate", label: "Business / Corporate" },
-  { id: "immigration-visa", label: "Immigration / Visa services" },
-  { id: "salon-beauty", label: "Salon / Beauty" },
-  { id: "events", label: "Events / Venue" },
-  { id: "members-app", label: "Members area / App" },
+  { id: "portfolio", label: "Portfolio" },
+  { id: "blog-news", label: "Blog & News" },
+  { id: "educational", label: "Educational (EdTech)" },
+  { id: "social-communication", label: "Social / Communication" },
+  { id: "landing-page", label: "Landing Page" },
+  { id: "directory-listing", label: "Directory & Listing" },
+  { id: "forum-community", label: "Forum & Community" },
+  { id: "membership-subscription", label: "Membership / Subscription" },
+  { id: "event", label: "Event" },
+  { id: "personal", label: "Personal" },
   { id: "other", label: "Other" },
 ] as const;
 
@@ -351,16 +353,18 @@ export type WebsiteTypeId = (typeof WEBSITE_TYPES)[number]["id"];
 
 /** Website type → addon ids to suggest for that type of site. */
 export const WEBSITE_TYPE_TO_ADDON_IDS: Record<WebsiteTypeId, string[]> = {
-  "restaurant-cafe": ["menu-display-system", "menu-services", "image-gallery", "google-maps", "social-links", "testimonials", "extra-page", "basic-seo"],
-  "bakery-food": ["menu-services", "image-gallery", "extra-page", "google-maps", "social-links", "testimonials", "basic-seo"],
-  "ecommerce": ["product-showcase-pages", "testimonials", "newsletter-form", "basic-seo", "image-gallery", "faq", "extra-page"],
-  "portfolio-creative": ["portfolio-section", "image-gallery", "testimonials", "blog-layout", "basic-animations", "basic-seo"],
-  "blog-content": ["blog-layout", "newsletter-form", "basic-seo", "extra-page", "testimonials"],
-  "business-corporate": ["services-detail-page", "menu-services", "team-section", "testimonials", "faq", "email-contact-form-integration", "basic-seo", "timeline-process-section"],
-  "immigration-visa": ["multilingual", "faq", "timeline-process-section", "email-contact-form-integration", "extra-page", "basic-seo"],
-  "salon-beauty": ["image-gallery", "menu-services", "google-maps", "instagram-feed-embed", "social-links", "testimonials", "whatsapp-contact-button"],
-  "events": ["event-listing-section", "image-gallery", "newsletter-form", "social-links", "extra-page", "basic-seo"],
-  "members-app": ["login-signup", "user-profile", "protected-page", "basic-dashboard", "user-settings-page", "member-content-library"],
+  "ecommerce": ["product-showcase-pages", "testimonials", "newsletter-form", "basic-seo", "image-gallery", "faq", "extra-page", "email-contact-form-integration"],
+  "business-corporate": ["services-detail-page", "menu-services", "team-section", "testimonials", "faq", "email-contact-form-integration", "basic-seo", "timeline-process-section", "extra-page"],
+  "portfolio": ["portfolio-section", "image-gallery", "testimonials", "blog-layout", "basic-animations", "basic-seo", "extra-page"],
+  "blog-news": ["blog-layout", "newsletter-form", "basic-seo", "extra-page", "image-gallery", "cta-popup"],
+  "educational": ["login-signup", "member-content-library", "protected-page", "user-profile", "faq", "blog-layout", "basic-seo", "extra-page"],
+  "social-communication": ["social-links", "newsletter-form", "blog-layout", "user-profile", "basic-seo", "cta-popup"],
+  "landing-page": ["landing-page-section", "hero-banner-section", "cta-popup", "basic-seo", "newsletter-form", "email-contact-form-integration"],
+  "directory-listing": ["extra-page", "menu-services", "pricing-table-section", "basic-seo", "google-maps", "email-contact-form-integration"],
+  "forum-community": ["login-signup", "user-profile", "protected-page", "faq", "newsletter-form", "basic-seo"],
+  "membership-subscription": ["login-signup", "user-profile", "protected-page", "basic-dashboard", "member-content-library", "user-settings-page"],
+  "event": ["event-listing-section", "image-gallery", "newsletter-form", "social-links", "extra-page", "basic-seo", "email-contact-form-integration"],
+  "personal": ["portfolio-section", "blog-layout", "testimonials", "extra-page", "basic-seo", "social-links"],
   "other": [],
 };
 

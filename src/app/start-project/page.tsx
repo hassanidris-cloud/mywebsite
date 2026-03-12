@@ -88,22 +88,22 @@ function StartProjectForm() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-12 md:mb-16"
           >
-            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+            <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-cream mb-3 tracking-tight">
               {title}
             </h1>
-            <p className="text-white/60 text-base sm:text-lg max-w-xl mx-auto">
+            <p className="text-cream/70 text-base sm:text-lg max-w-xl mx-auto">
               {subtitle}
             </p>
           </motion.header>
 
-          <motion.form
+            <motion.form
               ref={formRef}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
               onSubmit={handleSubmit}
             >
-              <Card padding="large" hover={false} className="space-y-5">
+              <Card padding="large" hover={false} className="space-y-5 !bg-neutral-900/90 border border-white/10 text-white">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <Input label="Name" name="name" placeholder="Your name" required />
                   <Input label="Email" name="email" type="email" placeholder="you@company.com" required />
@@ -159,7 +159,7 @@ function StartProjectForm() {
             <Card
               padding="large"
               hover={false}
-              className="border-primary-accent/20 bg-primary-purple/5"
+              className="!bg-neutral-900/80 border border-white/10 border-primary-accent/20"
             >
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary-accent/20 flex items-center justify-center text-primary-accent" aria-hidden>
@@ -168,13 +168,13 @@ function StartProjectForm() {
                   </svg>
                 </div>
                 <div>
-                  <h2 id="ai-layout-heading" className="font-heading text-lg font-semibold text-white mb-2">
+                  <h2 id="ai-layout-heading" className="font-heading text-lg font-semibold text-cream mb-2">
                     AI-assisted website layout ideas (coming soon)
                   </h2>
-                  <p className="text-white/60 text-sm leading-relaxed mb-4">
+                  <p className="text-cream/70 text-sm leading-relaxed mb-4">
                     We’re building a tool that helps you explore layout and structure ideas with AI—describe your business and goals, and get suggested page structures, section ideas, and content flow. Great for kicking off a project or clarifying what you want before we start designing.
                   </p>
-                  <p className="text-white/40 text-sm">
+                  <p className="text-cream/50 text-sm">
                     Interested? Mention “AI layout ideas” in your message above and we’ll prioritise you when we launch it.
                   </p>
                 </div>
