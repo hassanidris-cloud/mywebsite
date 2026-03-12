@@ -1,0 +1,297 @@
+"use client";
+
+import { useState, useRef } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
+import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
+import Heading from "@/components/ui/Heading";
+import Card from "@/components/ui/Card";
+
+const projects = [
+  {
+    title: "Grocery Template",
+    description: "We built a clean, responsive grocery store template with categories, products, and a cart-ready layout for small businesses.",
+    metric: "E-commerce ready",
+    stack: ["HTML", "CSS", "JavaScript"],
+    siteUrl: "https://bragabazaar.com",
+    screenshot: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+    embedDisabled: true, // bragabazaar.com blocks iframe embedding
+  },
+  {
+    title: "Gleeb",
+    description: "We designed a conversion-focused online store to turn browsers into buyers with a clear checkout flow.",
+    metric: "Higher engagement",
+    stack: ["React", "CSS", "Vercel"],
+    siteUrl: "https://gleeb.vercel.app",
+    screenshot: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+  },
+  {
+    title: "Portugal Immigration",
+    description: "We built visa guidance and document tracking so applicants stay on track and support requests drop.",
+    metric: "Faster onboarding",
+    stack: ["Next.js", "Tailwind", "Vercel"],
+    siteUrl: "https://portugal-immigration-app.vercel.app",
+    screenshot: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
+  },
+];
+
+function LivePreviewModal({
+  url,
+  title,
+  onClose,
+  embedDisabled,
+  screenshot,
+}: {
+  url: string;
+  title: string;
+  onClose: () => void;
+  embedDisabled?: boolean;
+  screenshot?: string;
+}) {
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex flex-col bg-black/95 backdrop-blur-sm"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <button
+        type="button"
+        className="absolute inset-0 z-0"
+        onClick={onClose}
+        aria-label="Close"
+      />
+      <div
+        className="relative z-10 flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <span className="truncate font-heading text-lg font-semibold text-white">
+          {title}
+        </span>
+        <div className="flex items-center gap-2">
+          {!embedDisabled && (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
+            >
+              Open in new tab
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white/80 transition hover:bg-white/10 hover:text-white"
+            aria-label="Close preview"
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {embedDisabled ? (
+        <motion.div
+          className="relative z-10 flex flex-1 flex-col items-center justify-center gap-6 p-8"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="text-center text-white/70 text-sm max-w-md">
+            This site doesn’t allow embedded preview. Open it in a new tab to browse.
+          </p>
+          {screenshot && (
+            <div className="relative w-full max-w-2xl aspect-video rounded-lg overflow-hidden border border-white/10 bg-white/5">
+              <Image
+                src={screenshot}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 672px"
+              />
+            </div>
+          )}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-gradient-to-br from-primary-purple via-primary-accent to-primary-blue px-8 py-4 text-base font-semibold text-white shadow-lg transition hover:opacity-95 hover:-translate-y-0.5"
+          >
+            Open {title} in new tab →
+          </a>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="relative z-10 flex-1 min-h-0"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <iframe
+            src={url}
+            title={`Live preview: ${title}`}
+            className="absolute inset-0 h-full w-full border-0 bg-white"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            allow="fullscreen"
+          />
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+  onLiveView,
+}: {
+  project: (typeof projects)[0];
+  index: number;
+  onLiveView: (project: (typeof projects)[0]) => void;
+}) {
+  const cardRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-80px" });
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [24, 0, 0, -12]);
+  const scale = useTransform(scrollYProgress, [0, 0.25], [0.96, 1]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.35], [1.08, 1]);
+  const imageReveal = useTransform(scrollYProgress, [0, 0.2], [0.97, 1]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.15], [0.7, 1]);
+
+  return (
+    <motion.article
+      ref={cardRef}
+      key={project.title}
+      style={{ y, scale }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 200,
+        damping: 28,
+      }}
+      className="group"
+    >
+      <Card className="overflow-hidden p-0 border bg-surface-card/80 hover:border-cream/15 transition-colors duration-300 hover:shadow-card-hover">
+        <motion.div
+          ref={imageRef}
+          className="aspect-[4/3] relative overflow-hidden bg-white/5 transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          style={{ scale: imageScale }}
+        >
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              scale: imageReveal,
+              opacity: imageOpacity,
+            }}
+          >
+            <Image
+              src={project.screenshot}
+              alt={`${project.title} — project preview`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover object-top"
+            />
+          </motion.div>
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+            aria-hidden
+          />
+        </motion.div>
+        <div className="p-6 lg:p-7">
+          <h3 className="font-heading text-xl font-semibold text-cream mb-2">
+            {project.title}
+          </h3>
+          <p className="text-cream/65 text-sm leading-relaxed mb-5">
+            {project.description}
+          </p>
+          <p className="text-2xl font-bold text-primary-accent tracking-tight mb-4">
+            {project.metric}
+          </p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.stack.map((tech) => (
+              <span
+                key={tech}
+                className="text-xs px-2.5 py-1 rounded-md bg-cream/10 text-cream/65 border border"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <motion.button
+            type="button"
+            onClick={() => onLiveView(project)}
+            className="inline-flex items-center justify-center rounded-full border-2 border-cream/20 px-6 py-3 text-base font-semibold text-cream transition hover:bg-cream/10 hover:border-cream/40 hover:-translate-y-0.5"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Live view →
+          </motion.button>
+        </div>
+      </Card>
+    </motion.article>
+  );
+}
+
+export default function Portfolio() {
+  const [livePreview, setLivePreview] = useState<{
+    url: string;
+    title: string;
+    embedDisabled?: boolean;
+    screenshot?: string;
+  } | null>(null);
+
+  return (
+    <Section id="work" variant="elevated">
+      <Container>
+        <Heading
+          label="Work"
+          title="Our Work"
+          subtitle="What we’ve built for founders and businesses—and the outcomes that followed."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+          {projects.map((project, i) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={i}
+              onLiveView={(p) =>
+                setLivePreview({
+                  url: p.siteUrl,
+                  title: p.title,
+                  embedDisabled: p.embedDisabled,
+                  screenshot: p.screenshot,
+                })
+              }
+            />
+          ))}
+        </div>
+      </Container>
+
+      <AnimatePresence>
+        {livePreview && (
+          <LivePreviewModal
+            url={livePreview.url}
+            title={livePreview.title}
+            onClose={() => setLivePreview(null)}
+            embedDisabled={livePreview.embedDisabled}
+            screenshot={livePreview.screenshot}
+          />
+        )}
+      </AnimatePresence>
+    </Section>
+  );
+}

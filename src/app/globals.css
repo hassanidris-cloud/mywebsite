@@ -1,0 +1,287 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* ==========================================================================
+   Velora Studio – editorial creative system
+   Smoky dark + cream + signature accent. Handcrafted, premium, memorable.
+   ========================================================================== */
+:root {
+  /* Brand (LogoColorProvider can override primary) */
+  --color-primary: #7C3AED;
+  --color-primary-accent: #A78BFA;
+  --color-primary-pale: #EDE9FE;
+  --color-primary-darker: #6D28D9;
+  --color-primary-lighter: #C4B5FD;
+  --color-primary-cool: #38BDF8;
+  --color-primary-rgb: 124, 58, 237;
+  --color-primary-accent-rgb: 167, 139, 250;
+
+  /* Editorial palette – ownable identity */
+  --color-warm: #e8a54b;
+  --color-warm-rgb: 232, 165, 75;
+  --color-cool: #7dd3fc;
+  --color-cool-rgb: 125, 211, 252;
+  --color-rose: #f9a8d4;
+  --color-rose-rgb: 249, 168, 212;
+
+  /* Base – smoky dark (not flat black) */
+  --color-base: #0a0912;
+  --color-base-elevated: #100f18;
+  --color-surface: #12101a;
+  --color-surface-elevated: #1c1926;
+  --color-surface-card: rgba(255, 255, 255, 0.02);
+
+  /* Cream & ink – editorial contrast */
+  --color-cream: #f5f3ef;
+  --color-cream-muted: #e0ddd6;
+  --color-ink: #1a1724;
+  --color-ink-light: #2a2638;
+
+  /* Text */
+  --color-text-light: #f5f3ef;
+  --color-text-muted: rgba(245, 243, 239, 0.75);
+  --color-text-dim: rgba(245, 243, 239, 0.5);
+  --color-text-dark: #0f172a;
+
+  /* Borders */
+  --color-border: rgba(245, 243, 239, 0.06);
+  --color-border-strong: rgba(245, 243, 239, 0.12);
+  --color-border-glow: rgba(167, 139, 250, 0.3);
+
+  /* Typography – editorial scale */
+  --text-hero: clamp(3.25rem, 9vw + 2rem, 110px);
+  --text-display: clamp(2.75rem, 6vw + 1rem, 80px);
+  --text-section: clamp(2.25rem, 4vw + 0.5rem, 52px);
+  --text-subheading: 22px;
+  --text-body: clamp(17px, 1.5vw, 19px);
+  --space-section: 6rem;
+  --space-block: 2.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--color-base);
+    color: var(--color-text-light);
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: var(--text-body);
+    line-height: 1.7;
+    min-width: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  select option {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+  *:focus-visible {
+    outline: 2px solid var(--color-primary-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ==========================================================================
+   Gradient text – expressive, animated
+   ========================================================================== */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-accent) 0%,
+    var(--color-warm) 35%,
+    var(--color-primary-lighter) 70%,
+    var(--color-primary-accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease-in-out infinite;
+  padding-bottom: 0.4em;
+  display: inline-block;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.gradient-text-cool {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-accent) 0%,
+    var(--color-cool) 50%,
+    var(--color-primary-accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-text,
+  .gradient-text-cool {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Animated background system – alive, atmospheric
+   ========================================================================== */
+
+.bg-mesh {
+  background:
+    radial-gradient(ellipse 90% 55% at 15% 35%, rgba(var(--color-primary-rgb), 0.12), transparent 52%),
+    radial-gradient(ellipse 65% 75% at 88% 15%, rgba(var(--color-warm-rgb), 0.06), transparent 50%),
+    radial-gradient(ellipse 55% 55% at 50% 85%, rgba(var(--color-primary-accent-rgb), 0.08), transparent 50%);
+  background-size: 100% 100%;
+}
+
+.bg-grid-signature {
+  background-image:
+    linear-gradient(rgba(245, 243, 239, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 243, 239, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.bg-grid-animated {
+  background-image:
+    linear-gradient(rgba(245, 243, 239, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 243, 239, 0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: grid-pulse 16s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-grid-animated {
+    animation: none;
+  }
+}
+
+.bg-noise {
+  position: relative;
+}
+
+.bg-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  animation: grain-move 8s steps(10) infinite;
+}
+
+@keyframes grain-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-5%, -5%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-noise::before {
+    animation: none;
+  }
+}
+
+.bg-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-orbs::before,
+.bg-orbs::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: float-orb 28s ease-in-out infinite;
+}
+
+.bg-orbs::before {
+  width: min(55vw, 480px);
+  height: min(55vw, 480px);
+  top: -15%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.22) 0%, transparent 70%);
+}
+
+.bg-orbs::after {
+  width: min(45vw, 380px);
+  height: min(45vw, 380px);
+  bottom: -15%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(var(--color-warm-rgb), 0.12) 0%, transparent 70%);
+  animation-delay: -14s;
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, 8%) scale(1.04); }
+  66% { transform: translate(-6%, -4%) scale(0.96); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-orbs::before,
+  .bg-orbs::after {
+    animation: none;
+  }
+}
+
+.bg-halo-top {
+  background-image: radial-gradient(
+    ellipse 90% 50% at 50% 0%,
+    rgba(var(--color-primary-rgb), 0.1),
+    transparent 58%
+  );
+}
+
+.bg-halo-bottom {
+  background-image: radial-gradient(
+    ellipse 75% 40% at 50% 100%,
+    rgba(var(--color-primary-accent-rgb), 0.07),
+    transparent 52%
+  );
+}
+
+.bg-halo-center {
+  background-image: radial-gradient(
+    ellipse 65% 55% at 50% 50%,
+    rgba(var(--color-primary-accent-rgb), 0.05),
+    transparent 62%
+  );
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-surface-elevated {
+  background-color: var(--color-surface-elevated);
+  box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 243, 239, 0.04);
+}
+
+.bg-glass {
+  background: rgba(18, 16, 26, 0.75);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--color-border);
+}
+
+/* Editorial utility – max width for readable copy */
+.prose-width {
+  max-width: 65ch;
+}
