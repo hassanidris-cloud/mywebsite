@@ -5,6 +5,8 @@ import Analytics from "@/components/Analytics";
 import { LogoColorProvider } from "@/contexts/LogoColorContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/sections/Footer";
+import CustomCursor from "@/components/ui/CustomCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -27,7 +29,7 @@ export const viewport = {
   themeColor: "#06060a",
 };
 
-const siteUrl = "https://velorastudio.design";
+const siteUrl = "https://velorastudio.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -112,6 +114,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${outfit.variable} ${sourceSans.variable} min-h-screen bg-neutral-950 text-white font-body antialiased overflow-x-hidden`}>
         <LogoColorProvider>
+        {/* Film grain overlay */}
+        <div aria-hidden className="noise-overlay" />
+        {/* Custom cursor (pointer:fine only) */}
+        <CustomCursor />
+        {/* Scroll progress bar */}
+        <ScrollProgress />
         <Navbar />
         <script
           type="application/ld+json"
