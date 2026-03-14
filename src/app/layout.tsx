@@ -29,7 +29,7 @@ export const viewport = {
   themeColor: "#06060a",
 };
 
-const siteUrl = "https://velorastudio.vercel.app";
+const siteUrl = "https://velorastudio.design";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const VIDEO_SRC = "/hero-bg.mp4";
@@ -9,12 +9,27 @@ type Props = { contained?: boolean };
 
 export default function VideoBackground({ contained = false }: Props) {
   const [mounted, setMounted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800, 2000], [0, -80, -200]);
   const scale = useTransform(scrollY, [0, 600, 1200], [1, 1.05, 1.12]);
 
   useEffect(() => setMounted(true), []);
+
+  // Safari/macOS often ignores autoPlay; start playback programmatically
+  useEffect(() => {
+    if (!mounted || !videoRef.current) return;
+    const video = videoRef.current;
+    const play = () => {
+      video.muted = true;
+      video.play().catch(() => {});
+    };
+    play();
+    // If loaded after mount, play when can play
+    video.addEventListener("loadeddata", play);
+    return () => video.removeEventListener("loadeddata", play);
+  }, [mounted]);
 
   const positionClass = contained ? "absolute inset-0" : "fixed inset-0";
 
@@ -34,12 +49,16 @@ export default function VideoBackground({ contained = false }: Props) {
         className="absolute inset-0 flex items-center justify-center"
       >
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          disablePictureInPicture
+          disableRemotePlayback
           className="h-full w-full object-cover min-h-[100%] min-w-[100%]"
           src={VIDEO_SRC}
+          style={{ pointerEvents: "none" }}
         />
       </motion.div>
       {/* Warm, soft overlay — readable and welcoming */}

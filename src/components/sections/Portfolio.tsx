@@ -15,16 +15,8 @@ const projects = [
     metric: "E-commerce ready",
     stack: ["HTML", "CSS", "JavaScript"],
     siteUrl: "https://bragabazaar.com",
-    screenshot: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+    screenshot: "/grocery-store-preview.png",
     embedDisabled: true, // bragabazaar.com blocks iframe embedding
-  },
-  {
-    title: "Gleeb",
-    description: "We designed a conversion-focused online store to turn browsers into buyers with a clear checkout flow.",
-    metric: "Higher engagement",
-    stack: ["React", "CSS", "Vercel"],
-    siteUrl: "https://gleeb.vercel.app",
-    screenshot: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
   },
   {
     title: "Portugal Immigration",
@@ -32,7 +24,7 @@ const projects = [
     metric: "Faster onboarding",
     stack: ["Next.js", "Tailwind", "Vercel"],
     siteUrl: "https://portugal-immigration-app.vercel.app",
-    screenshot: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&q=80",
+    screenshot: "/portugal-immigration-preview.png",
   },
 ];
 
@@ -114,6 +106,7 @@ function LivePreviewModal({
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 672px"
+                unoptimized
               />
             </div>
           )}
@@ -204,6 +197,7 @@ function ProjectCard({
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover object-top"
+              unoptimized
             />
           </motion.div>
           <div

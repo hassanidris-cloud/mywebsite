@@ -1,189 +1,172 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 import {
   LayoutTemplate,
   Rocket,
-  Search,
-  Smartphone,
-  PenSquare,
   BarChart3,
-} from "lucide-react";
+  Sparkles,
+} from "lucide-react"
 
-const items = [
+const features = [
   {
     icon: LayoutTemplate,
-    title: "Premium design systems",
-    desc: "A cleaner visual identity with stronger hierarchy, spacing, typography and trust-building layouts.",
+    eyebrow: "Design",
+    title: "Premium design systems — built on our own templates.",
+    body: "We design and maintain our own high-quality templates, then tailor them to your brand — strong hierarchy, editorial spacing, and trust-building layouts that put your brand in the right light.",
+    stat: { value: "100%", label: "Custom-designed" },
+    gradient: "from-violet-500/20 via-fuchsia-500/10 to-transparent",
+    iconColor: "var(--color-primary-accent)",
+    iconBg: "rgba(124,58,237,0.15)",
+    align: "left",
   },
   {
     icon: Rocket,
-    title: "Fast modern builds",
-    desc: "Built with a modern stack for speed, responsiveness and a smoother user experience across devices.",
-  },
-  {
-    icon: Search,
-    title: "SEO-ready structure",
-    desc: "Clear page architecture, semantic content and on-page foundations that support discoverability.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile-first UX",
-    desc: "Designed to feel sharp, fast and intuitive on mobile where most first impressions happen.",
-  },
-  {
-    icon: PenSquare,
-    title: "Messaging that sells",
-    desc: "Sharper copy layout and section flow that makes your offer easier to understand and trust.",
+    eyebrow: "Performance",
+    title: "Fast builds that go live in 2–4 weeks.",
+    body: "Modern stack, optimised assets, clean code. Your site ships fast, loads faster, and scales as your business grows — without the agency bloat.",
+    stat: { value: "2–4w", label: "Avg. delivery" },
+    gradient: "from-sky-500/20 via-cyan-500/10 to-transparent",
+    iconColor: "var(--color-cool)",
+    iconBg: "rgba(125,211,252,0.12)",
+    align: "right",
   },
   {
     icon: BarChart3,
-    title: "Built for conversion",
-    desc: "Every section has a purpose: attract attention, increase credibility, reduce friction and drive action.",
+    eyebrow: "Conversion",
+    title: "Every section is built to convert.",
+    body: "Attract attention, build credibility, reduce friction, drive action. Every section earns its place by guiding visitors toward your goal — not ours.",
+    stat: { value: "+38%", label: "Avg. lead uplift" },
+    gradient: "from-amber-500/20 via-orange-500/10 to-transparent",
+    iconColor: "var(--color-warm)",
+    iconBg: "rgba(232,165,75,0.12)",
+    align: "left",
   },
-];
+]
 
 export default function FeatureGrid() {
   return (
-    <section className="relative overflow-hidden bg-neutral-950 px-6 py-24">
-      {/* Decorative background art */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-[20%] top-[10%] h-[500px] w-[500px] rounded-full bg-indigo-500/8 blur-[100px]" />
-        <div className="absolute -right-[15%] top-[40%] h-[400px] w-[400px] rounded-full bg-cyan-500/6 blur-[80px]" />
-        <div className="absolute bottom-[5%] left-1/2 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-violet-500/5 blur-[90px]" />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
+    <section
+      className="relative overflow-hidden px-6 py-24"
+      style={{ backgroundColor: "var(--color-base)" }}
+    >
+      {/* Top separator */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(to right, transparent, rgba(245,243,239,0.07), transparent)" }}
+        aria-hidden
+      />
 
-      {/* Floating decorative shapes */}
-      <div className="pointer-events-none absolute inset-0">
-        <motion.div
-          animate={{
-            y: [0, -12, 0],
-            opacity: [0.4, 0.7, 0.4],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-[12%] top-[20%] h-2 w-2 rounded-full bg-indigo-400/50"
-        />
-        <motion.div
-          animate={{
-            y: [0, 15, 0],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          className="absolute bottom-[25%] left-[15%] h-3 w-3 rounded-full border border-indigo-400/40"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute right-[25%] bottom-[15%] h-4 w-4 rounded-full bg-cyan-400/30"
-        />
-        {/* Soft arc */}
-        <svg
-          className="absolute right-0 top-1/2 w-64 -translate-y-1/2 opacity-[0.06]"
-          viewBox="0 0 200 400"
-          fill="none"
-        >
-          <path
-            d="M0 200 Q100 50 200 200 Q100 350 0 200"
-            stroke="url(#featureArc)"
-            strokeWidth="1"
-          />
-          <defs>
-            <linearGradient id="featureArc" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#A78BFA" />
-              <stop offset="100%" stopColor="#38BDF8" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
-      <div className="relative mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative max-w-3xl mx-auto text-center"
+          className="mb-20 max-w-3xl"
         >
-          <div className="absolute -left-4 top-0 h-24 w-24 rounded-full bg-indigo-500/10 blur-3xl" />
-          <p className="relative text-sm font-medium uppercase tracking-[0.18em] text-indigo-300/80">
-            Features
-          </p>
-          <h2 className="relative mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-            A premium website should do more than look good.
+          <div className="inline-flex items-center gap-2 mb-5">
+            <Sparkles className="w-3.5 h-3.5" style={{ color: "var(--color-primary-accent)" }} />
+            <p className="text-xs font-semibold uppercase tracking-[0.28em]" style={{ color: "var(--color-primary-accent)" }}>
+              Why Velora
+            </p>
+          </div>
+          <h2
+            className="font-heading font-bold leading-[0.92] tracking-tight"
+            style={{ fontSize: "var(--text-section)", color: "var(--color-text-light)" }}
+          >
+            A premium website does more than look good.
           </h2>
-          <p className="relative mt-5 text-lg leading-8 text-white/65">
-            It should position your brand, communicate value instantly and
-            guide people toward the next step without friction.
-          </p>
         </motion.div>
 
-        {/* Feature cards */}
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {items.map((item, i) => {
-            const Icon = item.icon;
+        {/* Alternating feature rows */}
+        <div className="space-y-8">
+          {features.map((feat, i) => {
+            const Icon = feat.icon
+            const isRight = feat.align === "right"
             return (
               <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 24 }}
+                key={feat.title}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{
-                  duration: 0.5,
-                  delay: i * 0.08,
-                  ease: [0.22, 0.61, 0.36, 1],
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative rounded-3xl overflow-hidden"
+                style={{
+                  border: "1px solid var(--color-border)",
+                  backgroundColor: "var(--color-surface)",
                 }}
-                whileHover={{ y: -8 }}
-                className="group relative"
               >
-                <div className="absolute -inset-px rounded-[1.5rem] bg-gradient-to-b from-indigo-400/20 via-transparent to-cyan-400/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm transition-colors group-hover:border-white/15">
-                  {/* Card glow */}
-                  <div className="absolute -right-12 -top-12 h-24 w-24 rounded-full bg-indigo-400/10 blur-2xl transition-opacity duration-300 group-hover:bg-indigo-400/20" />
+                {/* Hover gradient overlay */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${feat.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+                  style={{ ...(isRight ? { backgroundOrigin: "right" } : {}) }}
+                  aria-hidden
+                />
 
-                  <motion.div
-                    className="relative inline-flex rounded-2xl bg-gradient-to-br from-indigo-500/20 to-cyan-500/10 p-3 ring-1 ring-white/5"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                <div
+                  className={`relative flex flex-col ${isRight ? "lg:flex-row-reverse" : "lg:flex-row"} items-center gap-0`}
+                >
+                  {/* Visual panel */}
+                  <div
+                    className={`w-full lg:w-[360px] xl:w-[420px] shrink-0 flex items-center justify-center p-12 lg:p-16 bg-gradient-to-br ${feat.gradient} min-h-[220px] lg:min-h-[260px] border-b lg:border-b-0 ${isRight ? "lg:border-l" : "lg:border-r"}`}
+                    style={{ borderColor: "var(--color-border)" }}
                   >
-                    <Icon className="h-6 w-6 text-indigo-300 transition-colors group-hover:text-indigo-200" />
-                  </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.08, rotate: 4 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      className="relative"
+                    >
+                      {/* Icon container */}
+                      <div
+                        className="flex items-center justify-center w-24 h-24 rounded-3xl shadow-2xl"
+                        style={{ backgroundColor: feat.iconBg, border: `1px solid ${feat.iconBg.replace("0.12", "0.25").replace("0.15", "0.3")}` }}
+                      >
+                        <Icon className="w-12 h-12" style={{ color: feat.iconColor }} />
+                      </div>
+                      {/* Stat badge */}
+                      <div
+                        className="absolute -bottom-4 -right-6 rounded-2xl px-4 py-2 shadow-xl border backdrop-blur-md"
+                        style={{ backgroundColor: "var(--color-surface-elevated)", borderColor: "var(--color-border-strong)" }}
+                      >
+                        <p className="font-heading font-bold text-2xl" style={{ color: "var(--color-text-light)" }}>
+                          {feat.stat.value}
+                        </p>
+                        <p className="text-[10px] uppercase tracking-widest" style={{ color: "var(--color-text-dim)" }}>
+                          {feat.stat.label}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </div>
 
-                  <h3 className="relative mt-5 text-xl font-semibold text-white">
-                    {item.title}
-                  </h3>
-
-                  <p className="relative mt-3 leading-7 text-white/60">
-                    {item.desc}
-                  </p>
-
-                  {/* Bottom accent line */}
-                  <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 rounded-full bg-gradient-to-r from-indigo-400/0 via-indigo-400/50 to-indigo-400/0"
-                    initial={{ width: 0, opacity: 0 }}
-                    whileInView={{ width: "100%", opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.08 + 0.2 }}
-                    style={{ originX: 0 }}
-                  />
+                  {/* Text panel */}
+                  <div className="flex-1 p-8 lg:p-12 xl:p-16">
+                    <p
+                      className="text-xs font-semibold uppercase tracking-[0.25em] mb-4"
+                      style={{ color: feat.iconColor }}
+                    >
+                      {feat.eyebrow}
+                    </p>
+                    <h3
+                      className="font-heading font-bold leading-tight tracking-tight"
+                      style={{ fontSize: "clamp(1.25rem, 2vw, 1.6rem)", color: "var(--color-text-light)" }}
+                    >
+                      {feat.title}
+                    </h3>
+                    <p
+                      className="mt-5 leading-relaxed max-w-lg"
+                      style={{ color: "var(--color-text-muted)", fontSize: "var(--text-body)" }}
+                    >
+                      {feat.body}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
-            );
+            )
           })}
         </div>
       </div>
     </section>
-  );
+  )
 }

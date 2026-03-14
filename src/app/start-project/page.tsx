@@ -37,6 +37,14 @@ const PROJECT_TYPE_OPTIONS = [
   { value: "custom-project", label: "Custom Project" },
 ];
 
+const DEPOSIT_OPTIONS = [
+  { value: "", label: "No deposit — just inquire" },
+  { value: "150", label: "€150 (20% of ~€750)" },
+  { value: "200", label: "€200 (20% of ~€1,000)" },
+  { value: "300", label: "€300 (20% of ~€1,500)" },
+  { value: "400", label: "€400 (20% of ~€2,000)" },
+];
+
 function getHeadingByIntent(intent: string | null) {
   switch (intent) {
     case "quote":
@@ -52,11 +60,16 @@ function StartProjectForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const intent = searchParams.get("intent"); // "quote" | "call" | null
+  const templateSlug = searchParams.get("template");
+  const templateTotal = searchParams.get("total");
+  const templateAddons = searchParams.get("addons"); // comma-separated
   const { title, subtitle } = getHeadingByIntent(intent);
 
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const fromCustomize = Boolean(templateSlug && templateTotal);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -65,13 +78,20 @@ function StartProjectForm() {
     setPending(true);
     const formData = new FormData(formRef.current);
     if (intent) formData.set("source", intent);
+    if (templateSlug) formData.set("template_slug", templateSlug);
+    if (templateTotal) formData.set("template_total", templateTotal);
+    if (templateAddons) formData.set("template_addons", templateAddons);
     const result = await submitInquiry(formData);
     setPending(false);
+    if (result.ok && result.checkoutUrl) {
+      window.location.href = result.checkoutUrl;
+      return;
+    }
     if (result.ok && result.redirect) {
       router.push(result.redirect);
       return;
     }
-    if (!result.ok) setError(result.error ?? "Something went wrong. Please try again.");
+    setError(result.error ?? "Something went wrong. Please try again.");
   }
 
   return (
@@ -99,6 +119,14 @@ function StartProjectForm() {
               transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
               onSubmit={handleSubmit}
             >
+              {fromCustomize && (
+                <div className="mb-6 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-5 py-4 text-cream/90 text-sm">
+                  <p className="font-medium">Template request</p>
+                  <p className="mt-1 text-cream/70">
+                    You selected a template with estimated total €{templateTotal}. Your choices will be included in your inquiry.
+                  </p>
+                </div>
+              )}
               <Card padding="large" hover={false} className="space-y-5 !bg-neutral-900/90 border border-white/10 text-white">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <Input label="Name" name="name" placeholder="Your name" required />
@@ -120,6 +148,11 @@ function StartProjectForm() {
                 </div>
                 <Select label="Project type" name="project_type">
                   {PROJECT_TYPE_OPTIONS.map((o) => (
+                    <option key={o.value || "empty"} value={o.value}>{o.label}</option>
+                  ))}
+                </Select>
+                <Select label="Pay 20% deposit to start (optional)" name="deposit_eur">
+                  {DEPOSIT_OPTIONS.map((o) => (
                     <option key={o.value || "empty"} value={o.value}>{o.label}</option>
                   ))}
                 </Select>

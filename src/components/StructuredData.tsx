@@ -1,4 +1,4 @@
-const SITE_URL = "https://velorastudio.vercel.app";
+const SITE_URL = "https://velorastudio.design";
 
 export function HomeStructuredData() {
   const webPage = {

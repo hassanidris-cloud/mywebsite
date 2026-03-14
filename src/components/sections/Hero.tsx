@@ -1,269 +1,398 @@
 "use client"
 
+import { useRef, useEffect, useState } from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight, Sparkles, Zap, LineChart } from "lucide-react"
+import Image from "next/image"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { ArrowRight, ArrowDown } from "lucide-react"
+import { websites, templates } from "@/data/work"
+import Button from "@/components/ui/Button"
 import VideoBackground from "@/components/VideoBackground"
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  show: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.75,
-      delay: i * 0.1,
-      ease: [0.22, 1, 0.36, 1]
-    }
-  })
-}
+// ── Rotating headline words ────────────────────────────────────────────────
+const WORDS = ["websites", "experiences", "stories", "platforms", "products"]
+
+// ── Preview cards for the floating mosaic ─────────────────────────────────
+const previewCards = [
+  { name: websites[0].name, category: websites[0].category, gradient: websites[0].gradient, url: websites[0].url, previewImage: websites[0].previewImage, x: "5%",  top: "2%",  rotate: -2.5, delay: 0.55, parallaxSpeed: 0.4 },
+  { name: templates[0].name, category: templates[0].category, gradient: templates[0].gradient, url: templates[0].url, previewImage: templates[0].previewImage, x: "42%", top: "10%", rotate: 2.8,  delay: 0.7,  parallaxSpeed: 0.7 },
+  { name: templates[1].name, category: templates[1].category, gradient: templates[1].gradient, url: "#templates",    previewImage: templates[1].previewImage, x: "18%", top: "56%", rotate: -1.5, delay: 0.85, parallaxSpeed: 0.55 },
+  { name: templates[2].name, category: templates[2].category, gradient: templates[2].gradient, url: "#templates",    previewImage: templates[2].previewImage, x: "54%", top: "62%", rotate: 3.2,  delay: 1.0,  parallaxSpeed: 0.65 },
+]
+
+// ── Shared easing ──────────────────────────────────────────────────────────
+const EASE = [0.22, 1, 0.36, 1] as const
 
 export default function Hero() {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
+  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const textY   = useTransform(scrollYProgress, [0, 1], [0, -80])
+
+  // ── Word rotation ──────────────────────────────────────────────────────
+  const [wordIndex, setWordIndex] = useState(0)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      intervalRef.current = setInterval(() => {
+        setWordIndex((i) => (i + 1) % WORDS.length)
+      }, 2800)
+    }, 2000) // wait for initial reveal to complete
+
+    return () => {
+      clearTimeout(timeout)
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [])
+
   return (
-    <section className="relative overflow-hidden px-6 pb-20 pt-28 md:pb-28 md:pt-36 min-h-[100vh]">
+    <section
+      ref={ref}
+      className="relative min-h-screen overflow-hidden flex items-center pt-24 pb-20"
+    >
+      {/* ── Background: video (with overlay) + subtle mesh ────────────── */}
       <VideoBackground contained />
-      {/* Mesmerizing ambient orbs — slow, soft movement */}
-      <motion.div
-        className="absolute -z-10 h-[600px] w-[600px] rounded-full bg-indigo-500/20 blur-[120px]"
-        style={{ left: "10%", top: "20%" }}
-        animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.05, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        className="absolute inset-0 bg-mesh bg-grid-animated pointer-events-none opacity-40"
         aria-hidden
       />
-      <motion.div
-        className="absolute -z-10 h-[500px] w-[500px] rounded-full bg-fuchsia-500/15 blur-[100px]"
-        style={{ right: "5%", top: "40%" }}
-        animate={{ x: [0, -25, 0], y: [0, 15, 0], scale: [1, 1.08, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden
-      />
-      <motion.div
-        className="absolute -z-10 h-[400px] w-[400px] rounded-full bg-amber-500/10 blur-[90px]"
-        style={{ left: "50%", bottom: "10%", transform: "translateX(-50%)" }}
-        animate={{ y: [0, 25, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden
-      />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.08),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.06),transparent_30%)]" />
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent,rgba(255,255,255,0.03))]" />
+      <div className="bg-orbs absolute inset-0 pointer-events-none" aria-hidden />
 
-      {/* Decorative curve under headline area */}
-      <svg className="absolute left-1/2 top-[42%] -z-10 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 opacity-30" viewBox="0 0 400 80" fill="none" aria-hidden>
-        <defs>
-          <linearGradient id="heroCurve" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="20%" stopColor="rgba(167,139,250,0.4)" />
-            <stop offset="50%" stopColor="rgba(251,191,36,0.35)" />
-            <stop offset="80%" stopColor="rgba(167,139,250,0.4)" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-        </defs>
-        <path d="M0 40 Q100 10 200 40 T400 40" stroke="url(#heroCurve)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-      </svg>
+      {/* Extra bottom-left halo */}
+      <div
+        aria-hidden
+        className="absolute -bottom-40 -left-40 w-[700px] h-[700px] rounded-full blur-[160px] pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(124,58,237,0.14) 0%, transparent 70%)",
+        }}
+      />
 
-      {/* Floating particles — gentle art */}
-      {[
-        { x: "15%", y: "25%", size: 2, delay: 0, dur: 8 },
-        { x: "88%", y: "30%", size: 1.5, delay: 1, dur: 10 },
-        { x: "72%", y: "75%", size: 2.5, delay: 2, dur: 9 },
-        { x: "8%", y: "70%", size: 1, delay: 0.5, dur: 11 },
-        { x: "50%", y: "15%", size: 1.5, delay: 1.5, dur: 7 },
-      ].map((p, i) => (
+      {/* ── Decorative "V" monogram ───────────────────────────────────── */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none select-none hidden lg:block"
+        style={{
+          right: "-6%",
+          top: "50%",
+          transform: "translateY(-52%)",
+          fontSize: "min(60vw, 720px)",
+          fontFamily: "var(--font-heading), sans-serif",
+          fontWeight: 800,
+          color: "rgba(124,58,237,0.028)",
+          lineHeight: 1,
+          letterSpacing: "-0.06em",
+          zIndex: 0,
+        }}
+      >
+        V
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-6 w-full grid lg:grid-cols-[1.05fr_0.95fr] gap-12 xl:gap-20 items-center">
+
+        {/* ── Vertical editorial label ─────────────────────────────────── */}
         <motion.div
-          key={i}
-          className="absolute -z-10 rounded-full bg-white/20"
-          style={{ left: p.x, top: p.y, width: p.size * 4, height: p.size * 4 }}
-          animate={{
-            y: [0, -15, 0],
-            x: [0, 8, 0],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
           aria-hidden
-        />
-      ))}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.2, duration: 0.8 }}
+          className="absolute left-0 top-1/2 hidden xl:block pointer-events-none select-none"
+          style={{
+            writingMode: "vertical-rl",
+            transform: "translateY(-50%) rotate(180deg)",
+            fontSize: "10px",
+            letterSpacing: "0.38em",
+            color: "var(--color-text-dim)",
+            textTransform: "uppercase",
+            whiteSpace: "nowrap",
+            opacity: 0.55,
+          }}
+        >
+          Est. 2024 · Velora Studio
+        </motion.div>
 
-      <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_.9fr]">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0}
-            className="mt-8 text-5xl font-semibold tracking-tight text-white md:text-7xl md:leading-[1.02] drop-shadow-[0_2px_20px_rgba(0,0,0,0.15)]"
-          >
-            Websites that feel like home for your brand.
-          </motion.h1>
-
+        {/* ── Left: text content ──────────────────────────────────────── */}
+        <motion.div
+          style={{ opacity, y: textY }}
+          initial="hidden"
+          animate="show"
+          className="z-10 max-w-2xl"
+        >
+          {/* Label */}
           <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={1}
-            className="mt-6 max-w-2xl mx-auto text-lg leading-8 text-white/75 md:text-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
+            className="text-xs font-semibold uppercase tracking-[0.28em] mb-6"
+            style={{ color: "var(--color-warm)" }}
           >
-            We design and build sites that are a joy to use — clear, fast, and built to turn visitors into believers. Let&apos;s create something you&apos;ll love.
+            Velora Studio · Web Design
           </motion.p>
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={2}
-            className="mt-10 flex flex-col gap-4 sm:flex-row justify-center"
+          {/* ── Headline with split-word reveal ── */}
+          <h1
+            className="font-heading font-bold tracking-tight"
+            style={{ fontSize: "var(--text-hero)", lineHeight: "0.92" }}
           >
-            <Link
-              href="/start-project"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-medium text-neutral-950 shadow-lg shadow-white/10 transition hover:scale-[1.02] hover:shadow-xl hover:shadow-white/15"
-            >
-              Start your project
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            {/* Line 1: "We build" */}
+            <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.06em" }}>
+              <motion.span
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+                style={{ display: "block", color: "var(--color-text-light)" }}
+              >
+                We build
+              </motion.span>
+            </span>
 
-            <Link
-              href="/pricing"
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 font-medium text-white/90 transition hover:bg-white/10 hover:border-white/30"
+            {/* Line 2: rotating gradient word */}
+            <span
+              style={{
+                display: "block",
+                overflow: "hidden",
+                paddingBottom: "0.1em",
+                minHeight: "1.05em",
+              }}
             >
-              Explore pricing
-            </Link>
+              <AnimatePresence mode="wait" initial>
+                <motion.span
+                  key={WORDS[wordIndex]}
+                  className="gradient-text"
+                  initial={{ y: "110%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-110%", opacity: 0 }}
+                  transition={{ duration: wordIndex === 0 ? 0.9 : 0.55, delay: wordIndex === 0 ? 0.43 : 0, ease: EASE }}
+                  style={{ display: "block" }}
+                >
+                  {WORDS[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+
+            {/* Line 3: "that feel" */}
+            <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.06em" }}>
+              <motion.span
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.9, delay: 0.56, ease: EASE }}
+                style={{ display: "block", color: "var(--color-text-light)" }}
+              >
+                that feel
+              </motion.span>
+            </span>
+
+            {/* Line 4: "different." */}
+            <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.06em" }}>
+              <motion.span
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.9, delay: 0.69, ease: EASE }}
+                style={{ display: "block", color: "var(--color-text-light)" }}
+              >
+                different.
+              </motion.span>
+            </span>
+          </h1>
+
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.0, ease: EASE }}
+            className="mt-8 max-w-md leading-relaxed"
+            style={{ fontSize: "var(--text-body)", color: "var(--color-text-muted)" }}
+          >
+            Premium, conversion-focused design.{" "}
+            <span style={{ color: "var(--color-cream)", fontWeight: 600 }}>Starting from €750</span>
+            {" "}— built around your brand, your audience, and your growth goals.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.15, ease: EASE }}
+            className="mt-10 flex flex-wrap gap-4"
+          >
+            <Button href="/start-project" size="lg">
+              Start your project <ArrowRight className="w-4 h-4 ml-1.5 inline" />
+            </Button>
+            <Button href="#work" variant="secondary" size="lg">
+              See our work
+            </Button>
           </motion.div>
 
+          {/* Stats row */}
           <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={3}
-            className="mt-14 grid max-w-2xl mx-auto grid-cols-1 gap-4 sm:grid-cols-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.3, ease: EASE }}
+            className="mt-14 flex flex-wrap gap-x-10 gap-y-4"
           >
             {[
-              { label: "Friendly timeline", value: "2–4 weeks" },
-              { label: "Built for you", value: "Every detail" },
-              { label: "Grow with you", value: "SEO + speed" }
-            ].map((item) => (
-              <motion.div
-                key={item.label}
-                className="rounded-2xl border border-white/15 bg-white/5 p-4 backdrop-blur-md"
-                whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.2)" }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <p className="text-sm text-white/55">{item.label}</p>
-                <p className="mt-2 text-lg font-semibold text-white">{item.value}</p>
-              </motion.div>
+              { value: "2–4w",  label: "Avg. delivery" },
+              { value: "€750",  label: "Starting from" },
+              { value: "100%",  label: "Custom design" },
+            ].map((s) => (
+              <div key={s.label}>
+                <p
+                  className="font-heading font-bold text-2xl"
+                  style={{ color: "var(--color-text-light)" }}
+                >
+                  {s.value}
+                </p>
+                <p
+                  className="text-xs uppercase tracking-widest mt-0.5"
+                  style={{ color: "var(--color-text-dim)" }}
+                >
+                  {s.label}
+                </p>
+              </div>
             ))}
           </motion.div>
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-          className="relative"
-        >
-          <div className="absolute -inset-8 rounded-[2.25rem] bg-gradient-to-br from-indigo-500/30 via-fuchsia-500/15 to-cyan-500/20 blur-3xl opacity-90" />
-          <div className="absolute inset-0 rounded-[2.25rem] bg-gradient-to-br from-white/[0.08] via-transparent to-transparent pointer-events-none" aria-hidden />
-
-          <div className="relative overflow-hidden rounded-[2.25rem] border border-white/20 bg-white/[0.08] p-[1px] shadow-2xl shadow-black/40 backdrop-blur-xl">
-            <div className="rounded-[2rem] border border-white/10 bg-neutral-900/95 p-6">
-              <div className="flex items-center justify-between gap-4 pb-5 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-fuchsia-500/20 ring-1 ring-white/10">
-                    <LineChart className="h-5 w-5 text-white/90" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wider text-white/40">Preview</p>
-                    <h3 className="mt-0.5 text-lg font-semibold tracking-tight text-white">
-                      Premium Growth Website
-                    </h3>
-                  </div>
-                </div>
-                <span className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-400/15 px-3 py-1.5 text-xs font-medium text-emerald-300 shadow-[0_0_20px_-5px_rgba(52,211,153,0.3)]">
-                  Live-ready
-                </span>
-              </div>
-
-              <div className="mt-6 grid gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.4 }}
-                  className="rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-500/10 via-white/5 to-fuchsia-500/5 p-5 ring-1 ring-white/5"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-xs font-medium uppercase tracking-wider text-white/45">Conversion uplift</p>
-                      <p className="mt-2 bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-4xl font-bold tracking-tight text-transparent">
-                        +38%
-                      </p>
-                    </div>
-                    <div className="rounded-xl bg-indigo-500/20 p-3 ring-1 ring-indigo-400/20">
-                      <LineChart className="h-5 w-5 text-indigo-300" />
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm leading-6 text-white/55">
-                    Stronger messaging, cleaner user journey and clearer calls to action built into every page.
-                  </p>
-                </motion.div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6, duration: 0.4 }}
-                    className="group rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:border-white/15 hover:bg-white/[0.06]"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-fuchsia-500/20 p-2.5 ring-1 ring-fuchsia-400/20 transition group-hover:bg-fuchsia-500/25">
-                        <Zap className="h-5 w-5 text-fuchsia-300" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">Fast by default</p>
-                        <p className="text-xs text-white/50">Modern stack, lighter pages</p>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.4 }}
-                    className="group rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:border-white/15 hover:bg-white/[0.06]"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-cyan-500/20 p-2.5 ring-1 ring-cyan-400/20 transition group-hover:bg-cyan-500/25">
-                        <Sparkles className="h-5 w-5 text-cyan-300" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-white">Premium UI</p>
-                        <p className="text-xs text-white/50">Motion, depth and polish</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.85, duration: 0.4 }}
-                  className="rounded-2xl border border-white/10 bg-white/[0.04] p-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-white/60">Launch system</p>
-                    <p className="text-xs font-medium text-white/80">Strategy → Design → Build</p>
-                  </div>
-                  <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: "78%" }}
-                      transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                      className="h-full rounded-full bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-cyan-400 shadow-[0_0_12px_-2px_rgba(167,139,250,0.5)]"
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </div>
+          {/* Scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
+            className="mt-14 flex items-center gap-3"
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ArrowDown className="w-4 h-4" style={{ color: "var(--color-text-dim)" }} />
+            </motion.div>
+            <span
+              className="text-xs uppercase tracking-[0.22em]"
+              style={{ color: "var(--color-text-dim)" }}
+            >
+              Scroll to explore
+            </span>
+          </motion.div>
         </motion.div>
+
+        {/* ── Right: floating card mosaic ─────────────────────────────── */}
+        <div className="relative h-[560px] hidden lg:block">
+          {/* Ambient glow */}
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-3xl blur-3xl -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(124,58,237,0.07), transparent)",
+            }}
+          />
+
+          {previewCards.map((card, i) => (
+            <ParallaxCard key={card.name} card={card} scrollY={scrollYProgress} index={i} />
+          ))}
+        </div>
       </div>
     </section>
+  )
+}
+
+// ── Floating parallax card ─────────────────────────────────────────────────
+function ParallaxCard({
+  card,
+  scrollY,
+  index,
+}: {
+  card: (typeof previewCards)[number]
+  scrollY: ReturnType<typeof useScroll>["scrollYProgress"]
+  index: number
+}) {
+  const yRange = useTransform(
+    scrollY,
+    [0, 1],
+    [0, -(60 + index * 20) * card.parallaxSpeed]
+  )
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.9, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: "absolute",
+        left: card.x,
+        top: card.top,
+        width: 220,
+        rotate: card.rotate,
+        y: yRange,
+      }}
+      whileHover={{ scale: 1.04, rotate: 0, zIndex: 10 }}
+    >
+      <Link
+        href={card.url}
+        className="block rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border"
+        style={{
+          borderColor: "var(--color-border)",
+          backgroundColor: "var(--color-surface)",
+        }}
+      >
+        {/* Browser chrome */}
+        <div
+          className="flex items-center gap-1.5 px-3 py-2.5 border-b"
+          style={{
+            backgroundColor: "var(--color-surface-elevated)",
+            borderColor: "var(--color-border)",
+          }}
+        >
+          <div className="w-2 h-2 rounded-full bg-red-400/60" />
+          <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
+          <div className="w-2 h-2 rounded-full bg-green-400/60" />
+          <div
+            className="flex-1 mx-2 h-3 rounded-full"
+            style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
+          >
+            <div
+              className="h-full w-3/4 rounded-full"
+              style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+            />
+          </div>
+        </div>
+
+        {/* Preview image or gradient fallback */}
+        <div className={`h-36 relative overflow-hidden ${!card.previewImage ? `bg-gradient-to-br ${card.gradient}` : ""}`}>
+          {card.previewImage ? (
+            <Image
+              src={card.previewImage}
+              alt={`${card.name} — preview`}
+              fill
+              sizes="220px"
+              className="object-cover object-top"
+              unoptimized={card.previewImage.startsWith("http")}
+            />
+          ) : (
+            <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} p-3 space-y-2 opacity-60`}>
+              <div className="h-2 w-3/4 rounded-full bg-white/20" />
+              <div className="h-1.5 w-1/2 rounded-full bg-white/12" />
+              <div className="h-1.5 w-2/3 rounded-full bg-white/12" />
+              <div className="mt-3 h-14 w-full rounded-xl bg-white/8" />
+            </div>
+          )}
+        </div>
+
+        {/* Card footer */}
+        <div className="px-4 py-3">
+          <p
+            className="text-[9px] uppercase tracking-[0.22em]"
+            style={{ color: "var(--color-text-dim)" }}
+          >
+            {card.category}
+          </p>
+          <p
+            className="text-xs font-semibold mt-0.5"
+            style={{ color: "var(--color-text-light)" }}
+          >
+            {card.name}
+          </p>
+        </div>
+      </Link>
+    </motion.div>
   )
 }

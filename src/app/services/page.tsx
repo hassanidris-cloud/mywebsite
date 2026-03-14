@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "What we offer: premium website design and development, responsive builds, SEO-ready structure, and conversion-focused pages. One clear package, fixed scope.",
-  alternates: { canonical: "https://velorastudio.vercel.app/services" },
+  alternates: { canonical: "https://velorastudio.design/services" },
 };
 
 export default function ServicesPage() {

@@ -1,53 +1,168 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useRef, useEffect } from "react"
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion"
 
-const stats = [
-  { value: "+38%", label: "Average lift in lead quality" },
-  { value: "2–4w", label: "Typical launch timeline" },
-  { value: "90+", label: "Performance-focused approach" },
-  { value: "24/7", label: "Your website selling for you" }
+interface StatItem {
+  countTo?: number
+  prefix?: string
+  suffix?: string
+  display?: string
+  label: string
+  note: string
+  color: string
+}
+
+const stats: StatItem[] = [
+  {
+    prefix: "+",
+    countTo: 38,
+    suffix: "%",
+    label: "Average uplift in lead quality",
+    note: "Across client projects",
+    color: "var(--color-warm)",
+  },
+  {
+    display: "2–4w",
+    label: "Typical launch timeline",
+    note: "Strategy to live",
+    color: "var(--color-cool)",
+  },
+  {
+    prefix: "",
+    countTo: 90,
+    suffix: "+",
+    label: "Lighthouse performance score",
+    note: "Fast by default",
+    color: "var(--color-primary-accent)",
+  },
+  {
+    prefix: "€",
+    countTo: 750,
+    suffix: "",
+    label: "Starting price — no surprises",
+    note: "Fully transparent pricing",
+    color: "var(--color-rose)",
+  },
 ]
+
+function StatCard({ stat, index }: { stat: StatItem; index: number }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(containerRef, { once: true, margin: "-60px" })
+  const count = useMotionValue(0)
+  const displayVal = useTransform(
+    count,
+    (v) => `${stat.prefix ?? ""}${Math.round(v)}${stat.suffix ?? ""}`
+  )
+
+  useEffect(() => {
+    if (!inView || stat.countTo == null) return
+    const controls = animate(count, stat.countTo, {
+      duration: 1.9,
+      ease: [0.22, 1, 0.36, 1],
+    })
+    return controls.stop
+  }, [inView, count, stat.countTo])
+
+  return (
+    <div
+      ref={containerRef}
+      className="group relative overflow-hidden"
+      style={{ borderColor: "var(--color-border)" }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+        className="px-8 py-12 text-center relative"
+      >
+        {/* Hover accent glow */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${stat.color}18, transparent 70%)`,
+          }}
+        />
+
+        {/* Value */}
+        <p
+          className="font-heading font-bold tracking-tight"
+          style={{ fontSize: "clamp(2.25rem, 4vw, 3.5rem)", color: stat.color }}
+        >
+          {stat.countTo != null ? (
+            <motion.span>{displayVal}</motion.span>
+          ) : (
+            <motion.span
+              whileInView={{ scale: [0.88, 1.03, 1] }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.1 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {stat.display}
+            </motion.span>
+          )}
+        </p>
+
+        <p
+          className="mt-3 text-sm font-medium leading-snug"
+          style={{ color: "var(--color-text-light)" }}
+        >
+          {stat.label}
+        </p>
+        <p
+          className="mt-1.5 text-xs uppercase tracking-widest"
+          style={{ color: "var(--color-text-dim)" }}
+        >
+          {stat.note}
+        </p>
+      </motion.div>
+    </div>
+  )
+}
 
 export default function Results() {
   return (
-    <section className="relative bg-neutral-950 px-6 pb-24">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" aria-hidden />
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 shadow-[0_0_60px_-20px_rgba(6,182,212,0.08)] md:p-10">
-        <div className="grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.18em] text-cyan-300/80">
-              Results-driven
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-              Designed to improve clarity, trust and conversion.
-            </h2>
-            <p className="mt-5 max-w-2xl mx-auto text-lg leading-8 text-white/65">
-              Premium websites are not just aesthetics. They reduce confusion,
-              elevate perception and help more visitors become enquiries,
-              clients and customers.
-            </p>
-          </div>
+    <section
+      className="relative overflow-hidden"
+      style={{ backgroundColor: "var(--color-surface-elevated)" }}
+    >
+      {/* Top/bottom separators */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-px pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, transparent, rgba(245,243,239,0.08), transparent)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, transparent, rgba(245,243,239,0.08), transparent)",
+        }}
+      />
 
-          <div className="grid grid-cols-2 gap-4">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.96 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.08 }}
-                className="rounded-3xl border border-white/10 bg-neutral-900/70 p-6"
-              >
-                <p className="text-3xl font-semibold text-white md:text-4xl">
-                  {stat.value}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-white/55">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+      {/* Ambient glow center */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(124,58,237,0.06), transparent 65%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-7xl px-6">
+        <div
+          className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0"
+          style={{ borderColor: "var(--color-border)" }}
+        >
+          {stats.map((stat, i) => (
+            <StatCard key={stat.label} stat={stat} index={i} />
+          ))}
         </div>
       </div>
     </section>

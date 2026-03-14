@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, ExternalLink, Sparkles } from "lucide-react"
 import { projects } from "@/data/work"
 
@@ -26,6 +27,19 @@ export default function WorkPage() {
               key={project.name}
               className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04]"
             >
+              {project.previewImage && (
+                <div className="relative h-44 sm:h-52 w-full bg-white/5">
+                  <Image
+                    src={project.previewImage}
+                    alt={`${project.name} — preview`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    className="object-cover object-top"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 via-transparent to-transparent pointer-events-none" />
+                </div>
+              )}
               <div className="grid gap-0 lg:grid-cols-[1.15fr_.85fr]">
                 <div className="min-h-[280px] bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.18),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(168,85,247,0.14),transparent_26%),linear-gradient(to_bottom_right,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 md:p-10">
                   <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">

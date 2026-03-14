@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://velorastudio.vercel.app";
+const baseUrl = "https://velorastudio.design";
 
 export default function robots(): MetadataRoute.Robots {
   return {
