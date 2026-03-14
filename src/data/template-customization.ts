@@ -5,26 +5,22 @@
 
 export const TEMPLATE_BASE_PRICE_EUR = 600;
 
-/** Promo until end of day April 15th (UTC): 40% off base + 20% off full template total. */
+/** Promo until end of day April 15th (UTC): 20% off full template total. */
 const PROMO_END_DATE = new Date("2026-04-15T23:59:59.999Z");
-const PROMO_BASE_DISCOUNT_PERCENT = 40;
-/** 20% off entire template total (base + add-ons) when promo active. */
-const PROMO_TOTAL_DISCOUNT_PERCENT = 20;
+const PROMO_TEMPLATE_DISCOUNT_PERCENT = 20;
 
 export function isPromoActive(): boolean {
   return new Date() <= PROMO_END_DATE;
 }
 
-/** Base price after 40% off. Only applies when isPromoActive(). */
+/** Template base price (no discount on base; templates use 20% off total only). */
 export function getEffectiveBasePriceEur(): number {
-  if (!isPromoActive()) return TEMPLATE_BASE_PRICE_EUR;
-  const discounted = TEMPLATE_BASE_PRICE_EUR * (1 - PROMO_BASE_DISCOUNT_PERCENT / 100);
-  return Math.round(discounted);
+  return TEMPLATE_BASE_PRICE_EUR;
 }
 
-/** Subtotal before the 20% template discount (effective base + add-ons). */
+/** Subtotal before the 20% template discount (base + add-ons). */
 export function getSubtotalFromSelected(selectedIds: string[]): number {
-  const base = getEffectiveBasePriceEur();
+  const base = TEMPLATE_BASE_PRICE_EUR;
   const addons = selectedIds.reduce((sum, id) => {
     const section = getSectionById(id);
     return sum + (section?.price ?? 0);
@@ -35,10 +31,10 @@ export function getSubtotalFromSelected(selectedIds: string[]): number {
 export function getTotalFromSelected(selectedIds: string[]): number {
   const subtotal = getSubtotalFromSelected(selectedIds);
   if (!isPromoActive()) return subtotal;
-  return Math.round(subtotal * (1 - PROMO_TOTAL_DISCOUNT_PERCENT / 100));
+  return Math.round(subtotal * (1 - PROMO_TEMPLATE_DISCOUNT_PERCENT / 100));
 }
 
-export const PROMO_LABEL = `40% off base + 20% off all templates until April 15th`;
+export const PROMO_LABEL = `20% off all templates until April 15th`;
 
 export interface TemplateSectionOption {
   id: string;

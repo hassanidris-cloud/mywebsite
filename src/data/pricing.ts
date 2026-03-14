@@ -3,7 +3,15 @@
  * Base €750 + add-ons by category. Keyword matching suggests add-ons from project description.
  */
 
+import { isPromoActive } from "@/data/template-customization";
+
 export const BASE_PRICE_EUR = 750;
+
+/** 40% off custom base when promo active (same as template promo until April 15th). */
+export function getEffectiveCustomBasePriceEur(): number {
+  if (!isPromoActive()) return BASE_PRICE_EUR;
+  return Math.round(BASE_PRICE_EUR * 0.6); // 450
+}
 
 export const BASE_INCLUDES = [
   "Responsive website",

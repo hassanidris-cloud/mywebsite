@@ -14,7 +14,6 @@ import {
   getSubtotalFromSelected,
   getSectionById,
   isPromoActive,
-  getEffectiveBasePriceEur,
   PROMO_LABEL,
 } from "@/data/template-customization";
 import { submitTemplateRequest } from "@/app/actions/template-request";
@@ -105,7 +104,6 @@ export default function CustomizeTemplatePage() {
   );
   const addonsTotal = selectedList.reduce((sum, s) => sum + s.price, 0);
   const promoActive = isPromoActive();
-  const effectiveBase = getEffectiveBasePriceEur();
   const show20Off = promoActive && subtotal > 0 && total < subtotal;
 
   return (
@@ -307,22 +305,9 @@ export default function CustomizeTemplatePage() {
                     one-time
                   </span>
                 </p>
-                {addonsTotal > 0 && (
-                  <p className="mt-1 text-sm text-white/50">
-                    {promoActive ? (
-                      <>
-                        Base <span className="line-through text-white/40">€{TEMPLATE_BASE_PRICE_EUR}</span> €{effectiveBase} + €{addonsTotal} add-ons
-                      </>
-                    ) : (
-                      <>Base €{TEMPLATE_BASE_PRICE_EUR} + €{addonsTotal} add-ons</>
-                    )}
-                  </p>
-                )}
-                {promoActive && addonsTotal === 0 && (
-                  <p className="mt-1 text-sm text-white/50">
-                    Base <span className="line-through text-white/40">€{TEMPLATE_BASE_PRICE_EUR}</span> €{effectiveBase} (40% off)
-                  </p>
-                )}
+                <p className="mt-1 text-sm text-white/50">
+                  Base €{TEMPLATE_BASE_PRICE_EUR}{addonsTotal > 0 ? ` + €${addonsTotal} add-ons` : ""}
+                </p>
                 {show20Off && (
                   <p className="mt-1 text-sm text-indigo-300/90">
                     20% off template: €{subtotal} → €{total}

@@ -1,10 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { getEffectiveCustomBasePriceEur } from "@/data/pricing"
 
-const row1 = [
+const getRow1 = () => [
   { text: "Bespoke Design", accent: "warm" as const },
-  { text: "€750 Starting", accent: "dim" as const },
+  { text: `€${getEffectiveCustomBasePriceEur()} Starting`, accent: "dim" as const },
   { text: "100% Custom", accent: "purple" as const },
   { text: "2–4 Week Delivery", accent: "dim" as const },
   { text: "Built to Convert", accent: "warm" as const },
@@ -12,6 +13,8 @@ const row1 = [
   { text: "Framer Motion", accent: "purple" as const },
   { text: "Performance First", accent: "dim" as const },
 ]
+
+const row1 = getRow1()
 
 const row2 = [
   { text: "Next.js 15", accent: "dim" as const },

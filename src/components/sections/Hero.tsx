@@ -8,6 +8,7 @@ import { ArrowRight, ArrowDown } from "lucide-react"
 import { websites, templates } from "@/data/work"
 import Button from "@/components/ui/Button"
 import VideoBackground from "@/components/VideoBackground"
+import { getEffectiveCustomBasePriceEur } from "@/data/pricing"
 
 // ── Rotating headline words ────────────────────────────────────────────────
 const WORDS = ["websites", "experiences", "stories", "platforms", "products"]
@@ -204,7 +205,7 @@ export default function Hero() {
             style={{ fontSize: "var(--text-body)", color: "var(--color-text-muted)" }}
           >
             Premium, conversion-focused design.{" "}
-            <span style={{ color: "var(--color-cream)", fontWeight: 600 }}>Starting from €750</span>
+            <span style={{ color: "var(--color-cream)", fontWeight: 600 }}>Starting from €{getEffectiveCustomBasePriceEur()}</span>
             {" "}— built around your brand, your audience, and your growth goals.
           </motion.p>
 
@@ -232,7 +233,7 @@ export default function Hero() {
           >
             {[
               { value: "2–4w",  label: "Avg. delivery" },
-              { value: "€750",  label: "Starting from" },
+              { value: `€${getEffectiveCustomBasePriceEur()}`,  label: "Starting from" },
               { value: "100%",  label: "Custom design" },
             ].map((s) => (
               <div key={s.label}>

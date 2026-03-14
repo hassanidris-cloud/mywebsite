@@ -11,6 +11,7 @@ import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import { submitInquiry } from "@/app/actions/inquiry";
+import { getEffectiveCustomBasePriceEur } from "@/data/pricing";
 
 const BUDGET_OPTIONS = [
   { value: "", label: "Select budget range…" },
@@ -152,9 +153,10 @@ function StartProjectForm() {
                   ))}
                 </Select>
                 <Select label="Pay 20% deposit to start (optional)" name="deposit_eur">
-                  {DEPOSIT_OPTIONS.map((o) => (
-                    <option key={o.value || "empty"} value={o.value}>{o.label}</option>
-                  ))}
+                  {DEPOSIT_OPTIONS.map((o) => {
+                    const label = o.value === "150" ? `€150 (20% of ~€${getEffectiveCustomBasePriceEur()})` : o.label;
+                    return <option key={o.value || "empty"} value={o.value}>{label}</option>;
+                  })}
                 </Select>
                 <Textarea
                   label="Project description"

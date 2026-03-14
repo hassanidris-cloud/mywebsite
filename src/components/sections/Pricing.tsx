@@ -10,6 +10,7 @@ import {
   MODULAR_ADDONS,
   MODULAR_BASE_INCLUDES,
   MODULAR_BASE_PRICE_EUR,
+  getEffectiveCustomBasePriceEur,
   MODULAR_CATEGORY_LABELS,
   MODULAR_CATEGORY_ORDER,
   WEBSITE_TYPES,
@@ -77,7 +78,7 @@ export default function Pricing() {
   };
 
   const { oneTimeTotal, monthlyAddons, selectedFeaturesForSubmit } = useMemo(() => {
-    let oneTime = MODULAR_BASE_PRICE_EUR;
+    let oneTime = getEffectiveCustomBasePriceEur();
     const monthly: typeof MODULAR_ADDONS = [];
     const features: { id: string; label: string; price: number; monthly?: boolean }[] = [];
     MODULAR_ADDONS.forEach((addon) => {
@@ -169,7 +170,7 @@ export default function Pricing() {
                 Modular pricing built around your project.
               </h2>
               <p className="mt-5 text-lg leading-8 text-white/65">
-                Start with a base website at €750, then add only the features you need.
+                Start with a base website at €{getEffectiveCustomBasePriceEur()}, then add only the features you need.
                 Describe your project and we&apos;ll suggest relevant add-ons—no AI, just simple matching.
               </p>
             </div>
@@ -185,7 +186,11 @@ export default function Pricing() {
               </p>
               <h3 className="mt-2 text-2xl font-semibold text-white">Base Website</h3>
               <p className="mt-1 text-4xl font-semibold tracking-tight text-white">
-                €{MODULAR_BASE_PRICE_EUR}
+                {getEffectiveCustomBasePriceEur() < MODULAR_BASE_PRICE_EUR ? (
+                  <>€<span className="line-through opacity-60">750</span> €{getEffectiveCustomBasePriceEur()}</>
+                ) : (
+                  <>€{MODULAR_BASE_PRICE_EUR}</>
+                )}
               </p>
               <ul className="mt-6 space-y-2">
                 {MODULAR_BASE_INCLUDES.map((inc) => (

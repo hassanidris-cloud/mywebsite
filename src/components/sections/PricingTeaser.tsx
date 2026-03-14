@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Check, Plus, ChevronRight } from "lucide-react"
 import {
   MODULAR_BASE_PRICE_EUR,
+  getEffectiveCustomBasePriceEur,
   MODULAR_ADDONS,
   WEBSITE_TYPES,
   getSuggestedAddonIdsForWebsiteType,
@@ -38,7 +39,8 @@ export default function PricingTeaser() {
     const addon = MODULAR_ADDONS.find((a) => a.id === id)
     return sum + (addon?.price ?? 0)
   }, 0)
-  const total = MODULAR_BASE_PRICE_EUR + addonsTotal
+  const basePrice = getEffectiveCustomBasePriceEur()
+  const total = basePrice + addonsTotal
 
   const toggleAddon = (id: string) => {
     setSelectedAddons((prev) => {
@@ -127,7 +129,11 @@ export default function PricingTeaser() {
               className="font-heading font-bold text-xl shrink-0"
               style={{ color: "var(--color-text-light)" }}
             >
-              €{MODULAR_BASE_PRICE_EUR}
+              {basePrice < MODULAR_BASE_PRICE_EUR ? (
+                <>€<span className="line-through opacity-60">750</span> €{basePrice}</>
+              ) : (
+                <>€{basePrice}</>
+              )}
             </span>
           </div>
 
@@ -264,7 +270,7 @@ export default function PricingTeaser() {
                 </motion.p>
                 {addonsTotal > 0 && (
                   <p className="text-xs mt-1" style={{ color: "var(--color-text-dim)" }}>
-                    Base €{MODULAR_BASE_PRICE_EUR} + €{addonsTotal} in add-ons
+                    Base €{basePrice}{basePrice < MODULAR_BASE_PRICE_EUR && " (40% off)"} + €{addonsTotal} in add-ons
                   </p>
                 )}
               </div>
