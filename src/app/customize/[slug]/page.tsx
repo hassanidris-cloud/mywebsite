@@ -42,6 +42,10 @@ export default function CustomizeTemplatePage() {
     () => getTotalFromSelected(Array.from(selectedIds)),
     [selectedIds]
   );
+  const subtotal = useMemo(
+    () => getSubtotalFromSelected(Array.from(selectedIds)),
+    [selectedIds]
+  );
 
   const toggle = (id: string) => {
     const section = TEMPLATE_SECTION_OPTIONS.find((s) => s.id === id);
@@ -102,10 +106,6 @@ export default function CustomizeTemplatePage() {
   const addonsTotal = selectedList.reduce((sum, s) => sum + s.price, 0);
   const promoActive = isPromoActive();
   const effectiveBase = getEffectiveBasePriceEur();
-  const subtotal = useMemo(
-    () => getSubtotalFromSelected(Array.from(selectedIds)),
-    [selectedIds]
-  );
   const show20Off = promoActive && subtotal > 0 && total < subtotal;
 
   return (
