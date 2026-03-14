@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getStripe, isStripeConfigured } from "@/lib/stripe-server";
+import { isStripeConfigured } from "@/lib/stripe-server";
 import { sendPaymentReceivedNotification, isResendConfigured } from "@/lib/resend-notify";
 import type { PaymentReceivedMetadata } from "@/lib/resend-notify";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+/** Stripe requires the raw request body for signature verification. Do not parse as JSON. */
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   if (!webhookSecret || !isStripeConfigured()) {
@@ -17,8 +20,7 @@ export async function POST(request: Request) {
   }
   let event: Stripe.Event;
   try {
-    const stripe = getStripe();
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = Stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Invalid signature";
     return NextResponse.json({ error: message }, { status: 400 });

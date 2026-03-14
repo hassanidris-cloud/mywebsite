@@ -11,7 +11,11 @@ import {
   TEMPLATE_BASE_PRICE_EUR,
   TEMPLATE_SECTION_OPTIONS,
   getTotalFromSelected,
+  getSubtotalFromSelected,
   getSectionById,
+  isPromoActive,
+  getEffectiveBasePriceEur,
+  PROMO_LABEL,
 } from "@/data/template-customization";
 import { submitTemplateRequest } from "@/app/actions/template-request";
 
@@ -96,9 +100,24 @@ export default function CustomizeTemplatePage() {
     selectedIds.has(s.id)
   );
   const addonsTotal = selectedList.reduce((sum, s) => sum + s.price, 0);
+  const promoActive = isPromoActive();
+  const effectiveBase = getEffectiveBasePriceEur();
+  const subtotal = useMemo(
+    () => getSubtotalFromSelected(Array.from(selectedIds)),
+    [selectedIds]
+  );
+  const show20Off = promoActive && subtotal > 0 && total < subtotal;
 
   return (
     <main className="min-h-screen bg-neutral-950 text-white">
+      {/* Promo banner */}
+      {promoActive && (
+        <div className="bg-indigo-500/15 border-b border-indigo-400/30 px-6 py-3 text-center">
+          <p className="text-sm font-semibold text-indigo-200">
+            🎉 {PROMO_LABEL}
+          </p>
+        </div>
+      )}
       {/* Header */}
       <section className="border-b border-white/10 px-6 py-12 md:py-16">
         <div className="mx-auto max-w-5xl">
@@ -290,7 +309,23 @@ export default function CustomizeTemplatePage() {
                 </p>
                 {addonsTotal > 0 && (
                   <p className="mt-1 text-sm text-white/50">
-                    Base €{TEMPLATE_BASE_PRICE_EUR} + €{addonsTotal} add-ons
+                    {promoActive ? (
+                      <>
+                        Base <span className="line-through text-white/40">€{TEMPLATE_BASE_PRICE_EUR}</span> €{effectiveBase} + €{addonsTotal} add-ons
+                      </>
+                    ) : (
+                      <>Base €{TEMPLATE_BASE_PRICE_EUR} + €{addonsTotal} add-ons</>
+                    )}
+                  </p>
+                )}
+                {promoActive && addonsTotal === 0 && (
+                  <p className="mt-1 text-sm text-white/50">
+                    Base <span className="line-through text-white/40">€{TEMPLATE_BASE_PRICE_EUR}</span> €{effectiveBase} (40% off)
+                  </p>
+                )}
+                {show20Off && (
+                  <p className="mt-1 text-sm text-indigo-300/90">
+                    20% off template: €{subtotal} → €{total}
                   </p>
                 )}
                 <p className="mt-2 text-xs text-white/50">

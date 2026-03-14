@@ -5,6 +5,41 @@
 
 export const TEMPLATE_BASE_PRICE_EUR = 600;
 
+/** Promo until end of day April 15th (UTC): 40% off base + 20% off full template total. */
+const PROMO_END_DATE = new Date("2025-04-15T23:59:59.999Z");
+const PROMO_BASE_DISCOUNT_PERCENT = 40;
+/** 20% off entire template total (base + add-ons) when promo active. */
+const PROMO_TOTAL_DISCOUNT_PERCENT = 20;
+
+export function isPromoActive(): boolean {
+  return new Date() <= PROMO_END_DATE;
+}
+
+/** Base price after 40% off. Only applies when isPromoActive(). */
+export function getEffectiveBasePriceEur(): number {
+  if (!isPromoActive()) return TEMPLATE_BASE_PRICE_EUR;
+  const discounted = TEMPLATE_BASE_PRICE_EUR * (1 - PROMO_BASE_DISCOUNT_PERCENT / 100);
+  return Math.round(discounted);
+}
+
+/** Subtotal before the 20% template discount (effective base + add-ons). */
+export function getSubtotalFromSelected(selectedIds: string[]): number {
+  const base = getEffectiveBasePriceEur();
+  const addons = selectedIds.reduce((sum, id) => {
+    const section = getSectionById(id);
+    return sum + (section?.price ?? 0);
+  }, 0);
+  return base + addons;
+}
+
+export function getTotalFromSelected(selectedIds: string[]): number {
+  const subtotal = getSubtotalFromSelected(selectedIds);
+  if (!isPromoActive()) return subtotal;
+  return Math.round(subtotal * (1 - PROMO_TOTAL_DISCOUNT_PERCENT / 100));
+}
+
+export const PROMO_LABEL = `40% off base + 20% off all templates until April 15th`;
+
 export interface TemplateSectionOption {
   id: string;
   label: string;
@@ -34,13 +69,4 @@ export const TEMPLATE_SECTION_OPTIONS: TemplateSectionOption[] = [
 
 export function getSectionById(id: string): TemplateSectionOption | undefined {
   return TEMPLATE_SECTION_OPTIONS.find((s) => s.id === id);
-}
-
-export function getTotalFromSelected(selectedIds: string[]): number {
-  const base = TEMPLATE_BASE_PRICE_EUR;
-  const addons = selectedIds.reduce((sum, id) => {
-    const section = getSectionById(id);
-    return sum + (section?.price ?? 0);
-  }, 0);
-  return base + addons;
 }
