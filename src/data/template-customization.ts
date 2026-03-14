@@ -6,7 +6,7 @@
 export const TEMPLATE_BASE_PRICE_EUR = 600;
 
 /** Promo until end of day April 15th (UTC): 40% off base + 20% off full template total. */
-const PROMO_END_DATE = new Date("2025-04-15T23:59:59.999Z");
+const PROMO_END_DATE = new Date("2026-04-15T23:59:59.999Z");
 const PROMO_BASE_DISCOUNT_PERCENT = 40;
 /** 20% off entire template total (base + add-ons) when promo active. */
 const PROMO_TOTAL_DISCOUNT_PERCENT = 20;
