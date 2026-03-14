@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { ArrowRight, ExternalLink, Lock } from "lucide-react"
 import { templates, type AccentColor } from "@/data/work"
+import { isPromoActive, PROMO_LABEL } from "@/data/template-customization"
 import {
   ConceptBadge,
   ConceptExplanationSection,
@@ -70,6 +71,11 @@ export default function TemplatesShowcase() {
               >
                 Pre-built, polished templates you can make yours. Customize colors, content, and launch — no starting from scratch.
               </p>
+              {isPromoActive() && (
+                <p className="mt-3 text-sm font-semibold" style={{ color: "var(--color-primary-accent)" }}>
+                  🎉 {PROMO_LABEL}
+                </p>
+              )}
             </div>
             <Link
               href="/templates"
