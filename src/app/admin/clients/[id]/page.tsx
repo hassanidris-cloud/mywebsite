@@ -50,7 +50,7 @@ export default function AdminClientProfilePage({
   const [id, setId] = useState<string | null>(null);
   const [client, setClient] = useState<ClientRow | null>(null);
   const [projects, setProjects] = useState<ProjectWithStatus[]>([]);
-  const [files, setFiles] = useState<unknown[]>([]);
+  const [files, setFiles] = useState<{ id: string; file_name?: string; file_url?: string }[]>([]);
   const [payments, setPayments] = useState<PaymentRow[]>([]);
   const [notes, setNotes] = useState<ClientNoteRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,7 +69,7 @@ export default function AdminClientProfilePage({
       .then((data: {
         client?: ClientRow;
         projects?: ProjectRow[];
-        files?: unknown[];
+        files?: { id: string; file_name?: string; file_url?: string }[];
         payments?: PaymentRow[];
         notes?: ClientNoteRow[];
       }) => {
@@ -390,7 +390,7 @@ export default function AdminClientProfilePage({
               <p className="text-white/50 text-sm">No files uploaded yet.</p>
             ) : (
               <ul className="space-y-2">
-                {files.map((f: { id: string; file_name?: string; file_url?: string }, i: number) => (
+                {files.map((f, i) => (
                   <li key={f.id ?? i} className="text-sm text-white/80">
                     {f.file_url ? (
                       <a href={f.file_url} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:underline">
