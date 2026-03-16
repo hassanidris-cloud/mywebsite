@@ -5,6 +5,7 @@ const navigation = {
   Pages: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
+    { label: "Templates", href: "/templates" },
     { label: "Work", href: "/work" },
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" }

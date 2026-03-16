@@ -1,4 +1,4 @@
-const SITE_URL = "https://velorastudio.design";
+import { SITE_URL } from "@/lib/site";
 
 export function HomeStructuredData() {
   const webPage = {

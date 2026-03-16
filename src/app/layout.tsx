@@ -29,29 +29,32 @@ export const viewport = {
   themeColor: "#06060a",
 };
 
-const siteUrl = "https://velorastudio.design";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Velora Studio | Premium Web Design Agency",
+    default: "Velora Studio | Premium Web Design Agency — Websites That Convert",
     template: "%s | Velora Studio",
   },
   description:
-    "Velora Studio designs and builds modern high-performance websites for startups and growing businesses. Fixed price, 6–8 weeks, one point of contact. Conversion-focused, premium design.",
+    "Velora Studio is a premium web design agency. We build modern, high-performance websites for startups and growing businesses. Fixed price, 2–4 weeks. Conversion-focused design. Start your project with Velora Studio.",
   keywords: [
+    "Velora Studio",
+    "velora studio",
     "web design agency",
-    "website design",
+    "website design agency",
     "custom website",
     "startup website",
     "business website",
     "high-performance website",
-    "Velora Studio",
+    "premium web design",
+    "conversion-focused design",
   ],
-  authors: [{ name: "Velora Studio", url: siteUrl }],
+  authors: [{ name: "Velora Studio", url: SITE_URL }],
   creator: "Velora Studio",
   publisher: "Velora Studio",
-  alternates: { canonical: siteUrl },
+  alternates: { canonical: SITE_URL },
   robots: {
     index: true,
     follow: true,
@@ -64,44 +67,45 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Velora Studio | Premium Web Design Agency",
     description:
-      "Modern high-performance websites for startups and growing businesses. Fixed price, 6–8 weeks. Conversion-focused, premium design.",
-    url: siteUrl,
+      "Velora Studio builds modern, high-performance websites for startups and businesses. Fixed price, 2–4 weeks. Conversion-focused design.",
+    url: SITE_URL,
     siteName: "Velora Studio",
     type: "website",
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Velora Studio" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Velora Studio — Premium Web Design Agency" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Velora Studio | Premium Web Design Agency",
-    description: "Modern high-performance websites for startups and growing businesses.",
+    description: "Velora Studio — modern websites for startups and businesses. Fixed price, 2–4 weeks.",
   },
 };
 
 const jsonLdOrganization = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": `${siteUrl}#organization`,
+  "@id": `${SITE_URL}#organization`,
   name: "Velora Studio",
-  url: siteUrl,
+  url: SITE_URL,
   description:
-    "Velora Studio designs and builds modern high-performance websites for startups and growing businesses. Fixed price, 6–8 weeks, one point of contact.",
+    "Velora Studio is a premium web design agency. We build modern, high-performance websites for startups and growing businesses. Fixed price, 2–4 weeks.",
   sameAs: [],
 };
 
 const jsonLdWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": `${siteUrl}#website`,
+  "@id": `${SITE_URL}#website`,
   name: "Velora Studio",
-  url: siteUrl,
+  alternateName: "Velora Studio Web Design",
+  url: SITE_URL,
   description:
-    "Premium web design agency. Modern high-performance websites for startups and growing businesses. Fixed price, 6–8 weeks.",
-  publisher: { "@id": `${siteUrl}#organization` },
+    "Velora Studio — premium web design agency. Modern websites for startups and businesses. Fixed price, 2–4 weeks.",
+  publisher: { "@id": `${SITE_URL}#organization` },
   inLanguage: "en-US",
   potentialAction: {
     "@type": "ReadAction",
-    target: siteUrl,
+    target: SITE_URL,
   },
 };
 

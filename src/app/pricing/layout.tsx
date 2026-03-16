@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent pricing for modern websites: Starter, Business, and Premium tiers. Backend add-ons, hosting, and maintenance plans. Fixed scope, clear value.",
-  alternates: { canonical: "https://velorastudio.design/pricing" },
+    "Velora Studio pricing: transparent, fixed-price website packages. Base package plus add-ons. No surprises—see your estimate and start your project.",
+  alternates: { canonical: `${SITE_URL}/pricing` },
+  openGraph: { url: `${SITE_URL}/pricing`, title: "Pricing | Velora Studio", siteName: "Velora Studio" },
 };
 
 export default function PricingLayout({

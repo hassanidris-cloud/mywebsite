@@ -133,7 +133,10 @@ function StartProjectForm() {
                   <Input label="Name" name="name" placeholder="Your name" required />
                   <Input label="Email" name="email" type="email" placeholder="you@company.com" required />
                 </div>
-                <Input label="Company name" name="company" placeholder="Your company" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <Input label="Company name" name="company" placeholder="Your company" />
+                  <Input label="Phone (optional)" name="phone" type="tel" placeholder="+1 234 567 8900" />
+                </div>
                 <Input label="Website (optional)" name="website" type="url" placeholder="https://" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <Select label="Budget range" name="budget">

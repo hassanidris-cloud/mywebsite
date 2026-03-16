@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import ServicesSection from "./ServicesSection";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "What we offer: premium website design and development, responsive builds, SEO-ready structure, and conversion-focused pages. One clear package, fixed scope.",
-  alternates: { canonical: "https://velorastudio.design/services" },
+    "Velora Studio services: premium website design and development, responsive builds, SEO-ready structure, conversion-focused pages. One clear package, fixed scope.",
+  alternates: { canonical: `${SITE_URL}/services` },
+  openGraph: { url: `${SITE_URL}/services`, title: "Services | Velora Studio", siteName: "Velora Studio" },
 };
 
 export default function ServicesPage() {

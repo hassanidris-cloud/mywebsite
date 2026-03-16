@@ -3,6 +3,7 @@
 import { getServerSupabase, isSupabaseConfigured } from "@/lib/supabase-server";
 import { sendLeadNotification, isResendConfigured } from "@/lib/resend-notify";
 import { createCustomDepositCheckout, isStripeConfigured } from "@/lib/stripe-server";
+import { getOrCreateClient, createProject } from "@/lib/clients-projects";
 
 export type InquiryPayload = {
   name: string;
@@ -28,6 +29,19 @@ function isHighValueBudget(budget: string): boolean {
   return budget === "7k-15k" || budget === "15k-plus";
 }
 
+function mapBudgetToPrice(budget: string): number | null {
+  const map: Record<string, number> = { "1k-3k": 2000, "3k-7k": 5000, "7k-15k": 11000, "15k-plus": 20000 };
+  return map[budget] ?? null;
+}
+
+function mapTimelineToDeadline(timeline: string): string | null {
+  const d = new Date();
+  if (timeline === "1-2-months") { d.setMonth(d.getMonth() + 2); return d.toISOString().slice(0, 10); }
+  if (timeline === "2-3-months") { d.setMonth(d.getMonth() + 3); return d.toISOString().slice(0, 10); }
+  if (timeline === "3-plus-months") { d.setMonth(d.getMonth() + 4); return d.toISOString().slice(0, 10); }
+  return null;
+}
+
 export async function submitInquiry(formData: FormData): Promise<{ ok: boolean; error?: string; redirect?: string; checkoutUrl?: string }> {
   const name = getFormString(formData, "name");
   const email = getFormString(formData, "email");
@@ -48,7 +62,41 @@ export async function submitInquiry(formData: FormData): Promise<{ ok: boolean; 
   const budget = getFormString(formData, "budget");
   const timeline = getFormString(formData, "timeline");
   const projectType = getFormString(formData, "project_type");
+  const company = getFormString(formData, "company");
+  const phone = getFormString(formData, "phone");
   const depositEur = depositEurStr ? Math.max(0, parseInt(depositEurStr, 10)) : 0;
+
+  const templateSlug = getFormString(formData, "template_slug");
+  const templateTotal = getFormString(formData, "template_total");
+  const templateAddons = getFormString(formData, "template_addons");
+  const descriptionWithTemplate =
+    templateSlug && templateTotal
+      ? `${description}\n\n[Template: ${templateSlug}. Estimated total: €${templateTotal}${templateAddons ? `. Selected sections: ${templateAddons}` : ""}.]`
+      : description;
+
+  // Client + project intake: get or create client, then create project (optional if clients table exists)
+  try {
+    const clientResult = await getOrCreateClient({ email, name, company: company || null, phone: phone || null });
+    if (clientResult && "client" in clientResult) {
+      const projectName = projectType ? `${projectType.replace(/-/g, " ")} – ${name}` : `Project – ${name}`;
+      const deadlineStr = timeline === "asap" ? null : timeline ? mapTimelineToDeadline(timeline) : null;
+      const priceFromBudget = budget ? mapBudgetToPrice(budget) : null;
+      const createResult = await createProject({
+        clientId: clientResult.client.id,
+        projectName,
+        projectType: projectType || null,
+        description: descriptionWithTemplate,
+        status: "inquiry",
+        price: priceFromBudget,
+        deadline: deadlineStr,
+      });
+      if (createResult && "error" in createResult) {
+        console.error("[Velora Inquiry] createProject error:", createResult.error);
+      }
+    }
+  } catch (err) {
+    console.error("[Velora Inquiry] Client/project intake error:", err);
+  }
 
   // If 20% deposit selected and Stripe configured, create checkout and return URL
   if (depositEur > 0 && isStripeConfigured()) {
@@ -67,14 +115,6 @@ export async function submitInquiry(formData: FormData): Promise<{ ok: boolean; 
     }
     return { ok: true, checkoutUrl: result.url };
   }
-
-  const templateSlug = getFormString(formData, "template_slug");
-  const templateTotal = getFormString(formData, "template_total");
-  const templateAddons = getFormString(formData, "template_addons");
-  const descriptionWithTemplate =
-    templateSlug && templateTotal
-      ? `${description}\n\n[Template: ${templateSlug}. Estimated total: €${templateTotal}${templateAddons ? `. Selected sections: ${templateAddons}` : ""}.]`
-      : description;
 
   const payload: InquiryPayload = {
     name,
