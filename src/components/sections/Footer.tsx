@@ -1,6 +1,7 @@
 import Link from "next/link"
 import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal"
 import { getSocialLinks } from "@/lib/social"
+import { SITE_URL } from "@/lib/site"
 
 const navigation = {
   Pages: [
@@ -29,8 +30,14 @@ export default function Footer() {
           <div className="max-w-xl">
             <VeloraLogoHorizontal variant="dark" showWordmark={true} wordmarkInline={true} iconSize={28} className="inline-flex" />
             <p className="mt-5 text-white/60 leading-7">
-              Premium websites for modern brands that want stronger trust,
+              <strong className="font-semibold text-white/80">Velora Studio</strong> builds premium websites for modern brands that want stronger trust,
               sharper positioning and better conversion.
+            </p>
+            <p className="mt-3 text-sm text-white/45">
+              Official site:{" "}
+              <a href={SITE_URL} className="text-white/70 underline-offset-2 hover:text-white hover:underline">
+                {SITE_URL.replace(/^https:\/\//, "")}
+              </a>
             </p>
             <div className="mt-6 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/55">
               Design. Structure. Conversion.

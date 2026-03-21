@@ -35,6 +35,7 @@ import {
   SEO_DEFAULT_DESCRIPTION,
   SEO_KEYWORDS,
   SEO_OG_DESCRIPTION,
+  SEO_ORGANIZATION_ALTERNATE_NAMES,
   SITE_EMAIL,
 } from "@/lib/seo";
 
@@ -81,7 +82,13 @@ const jsonLdOrganization = {
   "@type": "Organization",
   "@id": `${SITE_URL}#organization`,
   name: "Velora Studio",
+  legalName: "Velora Studio",
+  alternateName: [...SEO_ORGANIZATION_ALTERNATE_NAMES],
   url: SITE_URL,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/icon.svg`,
+  },
   description: SEO_DEFAULT_DESCRIPTION,
   email: SITE_EMAIL,
   contactPoint: [
@@ -110,7 +117,13 @@ const jsonLdWebSite = {
   "@type": "WebSite",
   "@id": `${SITE_URL}#website`,
   name: "Velora Studio",
-  alternateName: ["Velora Studio Web Design", "Velora Studio Agency"],
+  alternateName: Array.from(
+    new Set([
+      "Velora Studio Web Design",
+      "Velora Studio Agency",
+      ...SEO_ORGANIZATION_ALTERNATE_NAMES,
+    ])
+  ),
   url: SITE_URL,
   description: SEO_OG_DESCRIPTION,
   publisher: { "@id": `${SITE_URL}#organization` },

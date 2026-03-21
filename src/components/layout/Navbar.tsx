@@ -27,7 +27,14 @@ export default function Navbar() {
       className="fixed inset-x-0 top-0 z-50 px-4 py-4"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-neutral-950/75 px-5 py-3 backdrop-blur-xl">
-        <VeloraLogoHorizontal variant="dark" showWordmark={true} wordmarkInline={true} iconSize={32} className="shrink-0" />
+        <Link
+          href="/"
+          className="shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg"
+          aria-label="Velora Studio — home"
+          title="Velora Studio"
+        >
+          <VeloraLogoHorizontal variant="dark" showWordmark={true} wordmarkInline={true} iconSize={32} />
+        </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
           {links.map((link) => {

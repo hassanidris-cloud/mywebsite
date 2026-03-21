@@ -135,12 +135,29 @@ export default function Hero() {
             className="font-heading font-bold tracking-tight"
             style={{ fontSize: "var(--text-hero)", lineHeight: "0.92" }}
           >
+            {/* Line 0: brand in H1 for branded search (Velora Studio, velorastudio, etc.) */}
+            <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.08em" }}>
+              <motion.span
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
+                style={{
+                  display: "block",
+                  fontSize: "clamp(1.75rem, 4.2vw, 3rem)",
+                  letterSpacing: "-0.02em",
+                  color: "var(--color-cream)",
+                }}
+              >
+                Velora Studio
+              </motion.span>
+            </span>
+
             {/* Line 1: "We build" */}
             <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.06em" }}>
               <motion.span
                 initial={{ y: "110%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
-                transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
+                transition={{ duration: 0.9, delay: 0.36, ease: EASE }}
                 style={{ display: "block", color: "var(--color-text-light)" }}
               >
                 We build
@@ -163,7 +180,7 @@ export default function Hero() {
                   initial={{ y: "110%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
                   exit={{ y: "-110%", opacity: 0 }}
-                  transition={{ duration: wordIndex === 0 ? 0.9 : 0.55, delay: wordIndex === 0 ? 0.43 : 0, ease: EASE }}
+                  transition={{ duration: wordIndex === 0 ? 0.9 : 0.55, delay: wordIndex === 0 ? 0.49 : 0, ease: EASE }}
                   style={{ display: "block" }}
                 >
                   {WORDS[wordIndex]}
@@ -176,7 +193,7 @@ export default function Hero() {
               <motion.span
                 initial={{ y: "110%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
-                transition={{ duration: 0.9, delay: 0.56, ease: EASE }}
+                transition={{ duration: 0.9, delay: 0.62, ease: EASE }}
                 style={{ display: "block", color: "var(--color-text-light)" }}
               >
                 that feel
@@ -188,7 +205,7 @@ export default function Hero() {
               <motion.span
                 initial={{ y: "110%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
-                transition={{ duration: 0.9, delay: 0.69, ease: EASE }}
+                transition={{ duration: 0.9, delay: 0.75, ease: EASE }}
                 style={{ display: "block", color: "var(--color-text-light)" }}
               >
                 different.
@@ -200,7 +217,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.0, ease: EASE }}
+            transition={{ duration: 0.7, delay: 1.06, ease: EASE }}
             className="mt-8 max-w-md leading-relaxed"
             style={{ fontSize: "var(--text-body)", color: "var(--color-text-muted)" }}
           >
