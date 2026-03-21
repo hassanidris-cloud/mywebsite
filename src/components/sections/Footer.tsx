@@ -1,5 +1,6 @@
 import Link from "next/link"
 import VeloraLogoHorizontal from "@/components/brand/VeloraLogoHorizontal"
+import { getSocialLinks } from "@/lib/social"
 
 const navigation = {
   Pages: [
@@ -19,6 +20,7 @@ const navigation = {
 }
 
 export default function Footer() {
+  const socialLinks = getSocialLinks()
   return (
     <footer className="relative border-t border-white/10 bg-neutral-950 px-6 pb-10 pt-16 text-white">
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
@@ -33,6 +35,25 @@ export default function Footer() {
             <div className="mt-6 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/55">
               Design. Structure. Conversion.
             </div>
+            {socialLinks.length > 0 && (
+              <div className="mt-6">
+                <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/40">Follow us</p>
+                <ul className="mt-3 flex flex-wrap gap-4">
+                  {socialLinks.map((item) => (
+                    <li key={item.label}>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white/65 transition hover:text-white hover:underline underline-offset-2"
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="grid gap-10 sm:grid-cols-2">
             {Object.entries(navigation).map(([title, links]) => (

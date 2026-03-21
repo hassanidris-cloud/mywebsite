@@ -8,8 +8,9 @@ const EMAIL = "hello@velorastudio.com";
 const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || process.env.NEXT_PUBLIC_CAL_COM_URL || "";
 
 const socialLinks = [
-  { label: "Twitter", href: process.env.NEXT_PUBLIC_TWITTER_URL },
+  { label: "Instagram", href: process.env.NEXT_PUBLIC_INSTAGRAM_URL },
   { label: "LinkedIn", href: process.env.NEXT_PUBLIC_LINKEDIN_URL },
+  { label: "X", href: process.env.NEXT_PUBLIC_TWITTER_URL },
   { label: "GitHub", href: process.env.NEXT_PUBLIC_GITHUB_URL },
 ].filter((item): item is { label: string; href: string } => Boolean(item.href));
 

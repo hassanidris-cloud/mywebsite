@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, Suspense } from "react";
+import { useState, useRef, Suspense, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -38,13 +38,19 @@ const PROJECT_TYPE_OPTIONS = [
   { value: "custom-project", label: "Custom Project" },
 ];
 
-const DEPOSIT_OPTIONS = [
-  { value: "", label: "No deposit — just inquire" },
-  { value: "150", label: "€150 (20% of ~€750)" },
-  { value: "200", label: "€200 (20% of ~€1,000)" },
-  { value: "300", label: "€300 (20% of ~€1,500)" },
-  { value: "400", label: "€400 (20% of ~€2,000)" },
-];
+/** 20% deposit tiers; first tier tracks current effective foundation price (promo-aware). */
+function useDepositOptions() {
+  return useMemo(() => {
+    const impliedTotals = [getEffectiveCustomBasePriceEur(), 1000, 1500, 2000];
+    return [
+      { value: "", label: "No deposit — just inquire" },
+      ...impliedTotals.map((total) => {
+        const eur = Math.round(total * 0.2);
+        return { value: String(eur), label: `€${eur} (20% of ~€${total})` };
+      }),
+    ];
+  }, []);
+}
 
 function getHeadingByIntent(intent: string | null) {
   switch (intent) {
@@ -65,6 +71,7 @@ function StartProjectForm() {
   const templateTotal = searchParams.get("total");
   const templateAddons = searchParams.get("addons"); // comma-separated
   const { title, subtitle } = getHeadingByIntent(intent);
+  const depositOptions = useDepositOptions();
 
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -156,10 +163,11 @@ function StartProjectForm() {
                   ))}
                 </Select>
                 <Select label="Pay 20% deposit to start (optional)" name="deposit_eur">
-                  {DEPOSIT_OPTIONS.map((o) => {
-                    const label = o.value === "150" ? `€150 (20% of ~€${getEffectiveCustomBasePriceEur()})` : o.label;
-                    return <option key={o.value || "empty"} value={o.value}>{label}</option>;
-                  })}
+                  {depositOptions.map((o) => (
+                    <option key={o.value || "empty"} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
                 </Select>
                 <Textarea
                   label="Project description"

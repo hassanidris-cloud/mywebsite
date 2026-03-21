@@ -187,7 +187,10 @@ export default function Pricing() {
               <h3 className="mt-2 text-2xl font-semibold text-white">Base Website</h3>
               <p className="mt-1 text-4xl font-semibold tracking-tight text-white">
                 {getEffectiveCustomBasePriceEur() < MODULAR_BASE_PRICE_EUR ? (
-                  <>€<span className="line-through opacity-60">750</span> €{getEffectiveCustomBasePriceEur()}</>
+                  <>
+                    €<span className="line-through opacity-60">{MODULAR_BASE_PRICE_EUR}</span>{" "}
+                    €{getEffectiveCustomBasePriceEur()}
+                  </>
                 ) : (
                   <>€{MODULAR_BASE_PRICE_EUR}</>
                 )}

@@ -147,7 +147,9 @@ export default function AdminDashboardPage() {
             className="rounded-2xl border border-white/10 bg-white/[0.02] p-12 text-center"
           >
             <p className="text-white/50">No clients yet.</p>
-            <p className="text-sm text-white/40 mt-1">New project requests will create clients here.</p>
+            <p className="text-sm text-white/40 mt-1 max-w-md mx-auto">
+              When you connect Supabase and run <code className="text-white/50 bg-white/5 px-1.5 py-0.5 rounded">supabase-clients-projects.sql</code>, new project requests will automatically create clients and projects here. Until then, forms and emails work as usual.
+            </p>
           </motion.div>
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

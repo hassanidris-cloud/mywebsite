@@ -7,7 +7,7 @@ export async function GET() {
   if (auth) return auth;
   const supabase = getServerSupabase();
   if (!supabase) {
-    return NextResponse.json({ clients: [], projectCounts: {} });
+    return NextResponse.json({ clients: [], projectCounts: {}, projectStatuses: {} });
   }
   const { data: clients, error: clientsError } = await supabase
     .from("clients")

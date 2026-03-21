@@ -3,7 +3,10 @@
  * Users pick which sections to include; total = base + sum of selected section prices.
  */
 
-export const TEMPLATE_BASE_PRICE_EUR = 600;
+import { LIST_BASE_PRICE_EUR } from "@/data/pricing-core";
+
+/** Aligned with custom site foundation list price (see pricing-core.ts). */
+export const TEMPLATE_BASE_PRICE_EUR = LIST_BASE_PRICE_EUR;
 
 /** Promo until end of day April 15th (UTC): 20% off full template total. */
 const PROMO_END_DATE = new Date("2026-04-15T23:59:59.999Z");

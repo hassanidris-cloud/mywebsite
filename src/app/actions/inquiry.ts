@@ -74,7 +74,7 @@ export async function submitInquiry(formData: FormData): Promise<{ ok: boolean; 
       ? `${description}\n\n[Template: ${templateSlug}. Estimated total: €${templateTotal}${templateAddons ? `. Selected sections: ${templateAddons}` : ""}.]`
       : description;
 
-  // Client + project intake: get or create client, then create project (optional if clients table exists)
+  // Client + project intake (runs only when Supabase is configured and clients/projects tables exist)
   try {
     const clientResult = await getOrCreateClient({ email, name, company: company || null, phone: phone || null });
     if (clientResult && "client" in clientResult) {

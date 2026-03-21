@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { ArrowRight, Sparkles } from "lucide-react"
 import FAQAccordion from "@/components/sections/FAQAccordion"
+import { FAQPageStructuredData } from "@/components/StructuredData"
 
 export default function FAQPage() {
   return (
     <main className="bg-neutral-950 px-6 pb-24 pt-32 text-white">
+      <FAQPageStructuredData />
       <section className="mx-auto max-w-5xl">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75">

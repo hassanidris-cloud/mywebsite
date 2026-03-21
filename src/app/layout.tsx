@@ -30,6 +30,13 @@ export const viewport = {
 };
 
 import { SITE_URL } from "@/lib/site";
+import { getSocialSameAs } from "@/lib/social";
+import {
+  SEO_DEFAULT_DESCRIPTION,
+  SEO_KEYWORDS,
+  SEO_OG_DESCRIPTION,
+  SITE_EMAIL,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,20 +44,8 @@ export const metadata: Metadata = {
     default: "Velora Studio | Premium Web Design Agency — Websites That Convert",
     template: "%s | Velora Studio",
   },
-  description:
-    "Velora Studio is a premium web design agency. We build modern, high-performance websites for startups and growing businesses. Fixed price, 2–4 weeks. Conversion-focused design. Start your project with Velora Studio.",
-  keywords: [
-    "Velora Studio",
-    "velora studio",
-    "web design agency",
-    "website design agency",
-    "custom website",
-    "startup website",
-    "business website",
-    "high-performance website",
-    "premium web design",
-    "conversion-focused design",
-  ],
+  description: SEO_DEFAULT_DESCRIPTION,
+  keywords: [...SEO_KEYWORDS],
   authors: [{ name: "Velora Studio", url: SITE_URL }],
   creator: "Velora Studio",
   publisher: "Velora Studio",
@@ -65,9 +60,8 @@ export const metadata: Metadata = {
     apple: [{ url: "/icon.svg", type: "image/svg+xml", sizes: "any" }],
   },
   openGraph: {
-    title: "Velora Studio | Premium Web Design Agency",
-    description:
-      "Velora Studio builds modern, high-performance websites for startups and businesses. Fixed price, 2–4 weeks. Conversion-focused design.",
+    title: "Velora Studio | Premium Web Design Agency — Websites That Convert",
+    description: SEO_OG_DESCRIPTION,
     url: SITE_URL,
     siteName: "Velora Studio",
     type: "website",
@@ -77,7 +71,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Velora Studio | Premium Web Design Agency",
-    description: "Velora Studio — modern websites for startups and businesses. Fixed price, 2–4 weeks.",
+    description: SEO_OG_DESCRIPTION,
+    images: ["/og.png"],
   },
 };
 
@@ -87,9 +82,27 @@ const jsonLdOrganization = {
   "@id": `${SITE_URL}#organization`,
   name: "Velora Studio",
   url: SITE_URL,
-  description:
-    "Velora Studio is a premium web design agency. We build modern, high-performance websites for startups and growing businesses. Fixed price, 2–4 weeks.",
-  sameAs: [],
+  description: SEO_DEFAULT_DESCRIPTION,
+  email: SITE_EMAIL,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: SITE_EMAIL,
+      url: `${SITE_URL}/contact`,
+      availableLanguage: ["English"],
+    },
+  ],
+  knowsAbout: [
+    "Web design",
+    "Website development",
+    "Landing page design",
+    "Website redesign",
+    "Conversion rate optimization",
+    "Responsive design",
+    "Mobile-first web design",
+  ],
+  sameAs: getSocialSameAs(),
 };
 
 const jsonLdWebSite = {
@@ -97,15 +110,42 @@ const jsonLdWebSite = {
   "@type": "WebSite",
   "@id": `${SITE_URL}#website`,
   name: "Velora Studio",
-  alternateName: "Velora Studio Web Design",
+  alternateName: ["Velora Studio Web Design", "Velora Studio Agency"],
   url: SITE_URL,
-  description:
-    "Velora Studio — premium web design agency. Modern websites for startups and businesses. Fixed price, 2–4 weeks.",
+  description: SEO_OG_DESCRIPTION,
   publisher: { "@id": `${SITE_URL}#organization` },
   inLanguage: "en-US",
-  potentialAction: {
-    "@type": "ReadAction",
-    target: SITE_URL,
+  potentialAction: [
+    {
+      "@type": "ReadAction",
+      target: SITE_URL,
+    },
+    {
+      "@type": "ContactAction",
+      name: "Start a website project",
+      target: `${SITE_URL}/start-project`,
+    },
+  ],
+};
+
+const jsonLdProfessionalService = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${SITE_URL}#professional-service`,
+  name: "Velora Studio — Web design services",
+  url: SITE_URL,
+  image: `${SITE_URL}/og.png`,
+  description: SEO_OG_DESCRIPTION,
+  provider: { "@id": `${SITE_URL}#organization` },
+  serviceType: [
+    "Custom website design",
+    "Business website development",
+    "Landing page design",
+    "Website templates",
+  ],
+  areaServed: {
+    "@type": "Place",
+    name: "Worldwide",
   },
 };
 
@@ -132,6 +172,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProfessionalService) }}
         />
         <a
           href="#main-content"

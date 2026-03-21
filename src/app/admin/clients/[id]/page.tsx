@@ -62,17 +62,28 @@ export default function AdminClientProfilePage({
   const [newNote, setNewNote] = useState("");
   const [saving, setSaving] = useState(false);
 
+  const [dbUnavailable, setDbUnavailable] = useState(false);
+
   const load = useCallback(() => {
     if (!id) return;
+    setDbUnavailable(false);
     fetch(`/api/admin/clients/${id}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (r.status === 503) {
+          setDbUnavailable(true);
+          setLoading(false);
+          return;
+        }
+        return r.json();
+      })
       .then((data: {
         client?: ClientRow;
         projects?: ProjectRow[];
         files?: { id: string; file_name?: string; file_url?: string }[];
         payments?: PaymentRow[];
         notes?: ClientNoteRow[];
-      }) => {
+      } | undefined) => {
+        if (data == null) return;
         setClient(data.client ?? null);
         setProjects((data.projects ?? []) as ProjectWithStatus[]);
         setFiles(data.files ?? []);
@@ -164,6 +175,22 @@ export default function AdminClientProfilePage({
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
         <Link href="/admin" className="text-indigo-400 hover:underline">Go to admin login</Link>
+      </div>
+    );
+  }
+
+  if (dbUnavailable) {
+    return (
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <p className="text-white/80 font-medium">Database not set up yet</p>
+          <p className="mt-2 text-sm text-white/50">
+            Connect Supabase and run the client/project schema to use the dashboard. Until then, project requests still work and you’ll get emails as usual.
+          </p>
+          <Link href="/admin" className="mt-6 inline-block text-indigo-400 hover:text-indigo-300 text-sm font-medium">
+            ← Back to dashboard
+          </Link>
+        </div>
       </div>
     );
   }

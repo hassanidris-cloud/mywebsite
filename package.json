@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:turbo": "next dev --turbopack",
+    "dev": "node scripts/free-next-dev.cjs && node scripts/launch-next-dev.cjs",
+    "dev:turbo": "node scripts/free-next-dev.cjs && node scripts/launch-next-dev.cjs --turbopack",
+    "prebuild": "node scripts/free-next-dev.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

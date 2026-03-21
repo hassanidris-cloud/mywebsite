@@ -1,11 +1,13 @@
 /**
  * Velora Studio – modular pricing estimator.
- * Base €750 + add-ons by category. Keyword matching suggests add-ons from project description.
+ * Base list price + add-ons by category. Keyword matching suggests add-ons from project description.
  */
 
+import { LIST_BASE_PRICE_EUR } from "@/data/pricing-core";
 import { isPromoActive } from "@/data/template-customization";
 
-export const BASE_PRICE_EUR = 750;
+export { LIST_BASE_PRICE_EUR };
+export const BASE_PRICE_EUR = LIST_BASE_PRICE_EUR;
 
 /** 40% off custom base when promo active (same as template promo until April 15th). */
 export function getEffectiveCustomBasePriceEur(): number {
@@ -231,11 +233,12 @@ export function getSuggestedAddonIds(description: string): AddOnId[] {
 }
 
 // ---------------------------------------------------------------------------
-// Modular pricing (beginner-friendly, €750 base + simple add-ons)
+// Modular pricing (beginner-friendly, list base + simple add-ons)
 // Used by the pricing section with keyword-based suggestions.
 // ---------------------------------------------------------------------------
 
-export const MODULAR_BASE_PRICE_EUR = 750;
+/** Same as list foundation price (shown when promo is off). */
+export const MODULAR_BASE_PRICE_EUR = LIST_BASE_PRICE_EUR;
 
 export const MODULAR_BASE_INCLUDES = [
   "Responsive website",

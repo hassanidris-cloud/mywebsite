@@ -1,7 +1,8 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useMemo } from "react"
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion"
+import { getEffectiveCustomBasePriceEur } from "@/data/pricing"
 
 interface StatItem {
   countTo?: number
@@ -13,38 +14,44 @@ interface StatItem {
   color: string
 }
 
-const stats: StatItem[] = [
-  {
-    prefix: "+",
-    countTo: 38,
-    suffix: "%",
-    label: "Average uplift in lead quality",
-    note: "Across client projects",
-    color: "var(--color-warm)",
-  },
-  {
-    display: "2–4w",
-    label: "Typical launch timeline",
-    note: "Strategy to live",
-    color: "var(--color-cool)",
-  },
-  {
-    prefix: "",
-    countTo: 90,
-    suffix: "+",
-    label: "Lighthouse performance score",
-    note: "Fast by default",
-    color: "var(--color-primary-accent)",
-  },
-  {
-    prefix: "€",
-    countTo: 750,
-    suffix: "",
-    label: "Starting price — no surprises",
-    note: "Fully transparent pricing",
-    color: "var(--color-rose)",
-  },
-]
+function useResultsStats(): StatItem[] {
+  const startingPrice = getEffectiveCustomBasePriceEur()
+  return useMemo(
+    () => [
+      {
+        prefix: "+",
+        countTo: 38,
+        suffix: "%",
+        label: "Average uplift in lead quality",
+        note: "Across client projects",
+        color: "var(--color-warm)",
+      },
+      {
+        display: "2–4w",
+        label: "Typical launch timeline",
+        note: "Strategy to live",
+        color: "var(--color-cool)",
+      },
+      {
+        prefix: "",
+        countTo: 90,
+        suffix: "+",
+        label: "Lighthouse performance score",
+        note: "Fast by default",
+        color: "var(--color-primary-accent)",
+      },
+      {
+        prefix: "€",
+        countTo: startingPrice,
+        suffix: "",
+        label: "Starting price — no surprises",
+        note: "Fully transparent pricing",
+        color: "var(--color-rose)",
+      },
+    ],
+    [startingPrice]
+  )
+}
 
 function StatCard({ stat, index }: { stat: StatItem; index: number }) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -122,6 +129,7 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
 }
 
 export default function Results() {
+  const stats = useResultsStats()
   return (
     <section
       className="relative overflow-hidden"

@@ -130,7 +130,9 @@ export default function PricingTeaser() {
               style={{ color: "var(--color-text-light)" }}
             >
               {basePrice < MODULAR_BASE_PRICE_EUR ? (
-                <>€<span className="line-through opacity-60">750</span> €{basePrice}</>
+                <>
+                  €<span className="line-through opacity-60">{MODULAR_BASE_PRICE_EUR}</span> €{basePrice}
+                </>
               ) : (
                 <>€{basePrice}</>
               )}
