@@ -1,3 +1,5 @@
+{% raw %}
+
 # Velora Studio – Important Files for ChatGPT
 
 Copy everything below this line into ChatGPT when you need help with this project.
@@ -898,3 +900,5 @@ velora-studio/
 - `SUPABASE_SERVICE_ROLE_KEY`
 
 Run the `pricing_quotes` part of `supabase-schema.sql` in Supabase SQL Editor so quote submissions work.
+
+{% endraw %}

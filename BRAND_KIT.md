@@ -1,3 +1,5 @@
+{% raw %}
+
 # Velora Studio — Brand Kit & Design System
 
 ## 1. Brand Identity
@@ -87,3 +89,5 @@
 - **Framer Motion**
 
 All components are in `src/components/`; sections in `src/components/sections/`; brand assets in `src/components/brand/`.
+
+{% endraw %}
