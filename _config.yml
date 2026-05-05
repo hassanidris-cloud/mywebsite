@@ -1,0 +1,5 @@
+# GitHub Pages runs Jekyll for this repository. These files contain JSX
+# examples with double-curly props that Liquid would otherwise parse.
+exclude:
+  - BRAND_KIT.md
+  - FILES_FOR_CHATGPT.md
