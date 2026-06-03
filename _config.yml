@@ -1,0 +1,23 @@
+# GitHub Pages runs Jekyll for this repository. The app/docs contain JSX
+# examples that look like Liquid tags, so keep Pages focused on static assets.
+exclude:
+  - BRAND_KIT.md
+  - DEPLOY.md
+  - FILES_FOR_CHATGPT.md
+  - README.md
+  - docs
+  - src
+  - scripts
+  - node_modules
+  - .next
+  - package.json
+  - package-lock.json
+  - next.config.mjs
+  - next.config.ts
+  - postcss.config.mjs
+  - tailwind.config.ts
+  - tsconfig.json
+  - tsconfig.tsbuildinfo
+  - supabase-clients-projects.sql
+  - supabase-schema.sql
+  - vercel.json
